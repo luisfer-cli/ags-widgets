@@ -2,8 +2,6 @@ import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import Clock from "./dashboard/Clock"
 
-
-
 export default function Dashboard(monitor = 0) {
     return (
         <window
@@ -11,19 +9,21 @@ export default function Dashboard(monitor = 0) {
             monitor={monitor}
             visible={true}
             class="dashboard"
-            width-request={300}
-            height-request={200}
+            width-request={400}
+            height-request={220}
         >
             <box
-                class="centered-box"
+                orientation={Gtk.Orientation.HORIZONTAL}
                 hexpand={true}
                 vexpand={true}
                 halign={Gtk.Align.CENTER}
                 valign={Gtk.Align.CENTER}
+                spacing={40}
             >
+                {Clock()}
                 {Clock()}
             </box>
         </window>
-    );
+    )
 }
 

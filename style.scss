@@ -1,10 +1,13 @@
 .dashboard {
   background-color: #2e3440;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
 
   color: #d8dee9;
   font-family: 'Courier New', monospace;
   font-weight: bold;
   font-size: 24px;
+
+  /* Puedes usar márgenes y paddings */
+  padding: 10px;
 }

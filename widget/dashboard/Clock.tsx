@@ -7,6 +7,6 @@ export default function Clock() {
         return new Date().toLocaleTimeString();
     });
 
-    return <label label={time} />;
+    return <label class="clock" label={time} />;
 }
 

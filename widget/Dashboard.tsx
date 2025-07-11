@@ -1,6 +1,7 @@
 import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import Clock from "./dashboard/Clock"
+import WpmCounter from "./dashboard/WpmCounter"
 
 export default function Dashboard(monitor = 0) {
     return (
@@ -21,7 +22,7 @@ export default function Dashboard(monitor = 0) {
                 spacing={40}
             >
                 {Clock()}
-                {Clock()}
+                {WpmCounter()}
             </box>
         </window>
     )

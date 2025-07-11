@@ -1,5 +1,5 @@
 .dashboard {
-  background-color: #2e3440;
+  background-color: transparent;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
 
@@ -10,4 +10,8 @@
 
   /* Puedes usar márgenes y paddings */
   padding: 10px;
+}
+
+.clock {
+  background-color: #2e3440;
 }

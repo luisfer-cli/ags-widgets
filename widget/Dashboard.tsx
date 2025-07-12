@@ -2,6 +2,7 @@ import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import Clock from "./dashboard/Clock"
 import WpmCounter from "./dashboard/WpmCounter"
+import ChessTracking from "./dashboard/ChessTracking"
 
 export default function Dashboard(monitor = 0) {
     return (
@@ -23,6 +24,7 @@ export default function Dashboard(monitor = 0) {
             >
                 {Clock()}
                 {WpmCounter()}
+                {ChessTracking()}
             </box>
         </window>
     )

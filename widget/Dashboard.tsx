@@ -1,4 +1,3 @@
-import app from "ags/gtk4/app"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import Clock from "./dashboard/Clock"
 import WpmCounter from "./dashboard/WpmCounter"
@@ -24,8 +23,15 @@ export default function Dashboard(monitor = 0) {
                 valign={Gtk.Align.CENTER}
                 spacing={40}
             >
-                {Clock()}
-                {WpmCounter()}
+                <box
+                    orientation={Gtk.Orientation.VERTICAL}
+                    spacing={20}
+                    halign={Gtk.Align.CENTER}
+                    valign={Gtk.Align.CENTER}
+                >
+                    {Clock()}
+                    {WpmCounter()}
+                </box>
                 {ChessTracking()}
                 {Monitoring()}
                 {Programming()}

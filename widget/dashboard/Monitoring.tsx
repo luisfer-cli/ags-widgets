@@ -15,5 +15,9 @@ export default function Monitoring() {
         }
     })
 
-    return <label class="monitoring" label={data} />;
+    return (
+        <box class="widget monitor">
+            <label label={data} />
+        </box>
+    )
 }

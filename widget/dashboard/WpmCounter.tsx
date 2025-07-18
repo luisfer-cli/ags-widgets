@@ -10,6 +10,10 @@ export default function WpmCounter() {
         }
     });
 
-    return <label class="wpm-counter" label={wpm} />;
+    return (
+        <box class="widget wpm">
+            <label label={wpm} />
+        </box>
+    )
 }
 

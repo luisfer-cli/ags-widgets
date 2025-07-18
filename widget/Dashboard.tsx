@@ -4,6 +4,7 @@ import WpmCounter from "./dashboard/WpmCounter"
 import ChessTracking from "./dashboard/ChessTracking"
 import Programming from "./dashboard/Programming"
 import Monitoring from "./dashboard/Monitoring"
+import Media from "./dashboard/Media"
 
 export default function Dashboard(monitor = 0) {
     return (
@@ -12,29 +13,49 @@ export default function Dashboard(monitor = 0) {
             monitor={monitor}
             visible={true}
             class="dashboard"
-            width-request={400}
-            height-request={220}
+            width-request={480}
+            height-request={280}
         >
             <box
                 orientation={Gtk.Orientation.HORIZONTAL}
-                hexpand={true}
-                vexpand={true}
+                spacing={30}
                 halign={Gtk.Align.CENTER}
                 valign={Gtk.Align.CENTER}
-                spacing={40}
+                hexpand={true}
+                vexpand={true}
             >
+                {/* Columna izquierda: compacta */}
+                <box
+                    orientation={Gtk.Orientation.VERTICAL}
+                    spacing={16}
+                    halign={Gtk.Align.CENTER}
+                    valign={Gtk.Align.START}
+                >
+                    {Clock()}
+                    {WpmCounter()}
+                </box>
+
+                {/* Centro con más peso visual */}
                 <box
                     orientation={Gtk.Orientation.VERTICAL}
                     spacing={20}
                     halign={Gtk.Align.CENTER}
                     valign={Gtk.Align.CENTER}
                 >
-                    {Clock()}
-                    {WpmCounter()}
+                    {ChessTracking()}
+                    {Monitoring()}
                 </box>
-                {ChessTracking()}
-                {Monitoring()}
-                {Programming()}
+
+                {/* Columna derecha con bloques más pequeños */}
+                <box
+                    orientation={Gtk.Orientation.VERTICAL}
+                    spacing={16}
+                    halign={Gtk.Align.CENTER}
+                    valign={Gtk.Align.END}
+                >
+                    {Programming()}
+                    {Media()}
+                </box>
             </box>
         </window>
     )

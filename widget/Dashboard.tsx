@@ -4,6 +4,7 @@ import Clock from "./dashboard/Clock"
 import WpmCounter from "./dashboard/WpmCounter"
 import ChessTracking from "./dashboard/ChessTracking"
 import Programming from "./dashboard/Programming"
+import Monitoring from "./dashboard/Monitoring"
 
 export default function Dashboard(monitor = 0) {
     return (
@@ -26,6 +27,7 @@ export default function Dashboard(monitor = 0) {
                 {Clock()}
                 {WpmCounter()}
                 {ChessTracking()}
+                {Monitoring()}
                 {Programming()}
             </box>
         </window>

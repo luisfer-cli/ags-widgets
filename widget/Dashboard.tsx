@@ -4,7 +4,7 @@ import WpmCounter from "./dashboard/WpmCounter"
 import ChessTracking from "./dashboard/ChessTracking"
 import Programming from "./dashboard/Programming"
 import Monitoring from "./dashboard/Monitoring"
-import Media from "./dashboard/Media"
+import Zk from "./dashboard/Zk"
 
 export default function Dashboard(monitor = 0) {
     return (
@@ -26,9 +26,9 @@ export default function Dashboard(monitor = 0) {
 
                 {/* Fila 2 */}
                 <box orientation={Gtk.Orientation.HORIZONTAL} spacing={20}>
-                    <box orientation={Gtk.Orientation.VERTICAL} width_request={200} spacing={10}>
+                    <box orientation={Gtk.Orientation.VERTICAL} spacing={10}>
                         <box class="widget">{Programming()}</box>
-                        <box class="widget">{Media()}</box>
+                        <box class="widget">{Zk()}</box>
                     </box>
                     <box class="widget">{Monitoring()}</box>
                 </box>

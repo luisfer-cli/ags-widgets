@@ -6,6 +6,7 @@ import Dashboard from "./widget/Dashboard";
 app.start({
   css: style,
   main() {
-    return [Dashboard()];
+    Bar(0);
+    Dashboard(0);
   },
 });

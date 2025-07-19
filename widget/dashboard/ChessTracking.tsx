@@ -16,7 +16,7 @@ export default function ChessTracking() {
     })
 
     return (
-        <box class="widget chesstrack">
+        <box class="chesstrack">
             <label label={chessStatus} />
         </box>
     )

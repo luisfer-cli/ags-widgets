@@ -7,4 +7,9 @@ mes=$(date +%m)
 dia=$(date +%d)
 archivo="$ano-$mes-$dia.md"
 
-[ -f "$carpeta/$archivo" ] && echo true || echo false
+if [ -f "$carpeta/$archivo" ]; then
+    exit 0
+else
+    exit 1
+fi
+

@@ -16,7 +16,7 @@ export default function Programming() {
     })
 
     return (
-        <box class="widget programming">
+        <box class="programming">
             <label label={flowmodoro} />
         </box>
     )

@@ -8,9 +8,13 @@ if playerctl status 2>/dev/null | grep -q "Playing"; then
     album=$(playerctl metadata album 2>/dev/null)
     player=$(playerctl metadata --format '{{playerName}}' 2>/dev/null)
 
+    # Limitar title a máximo 20 caracteres con "..." si se recorta
+    if [ ${#title} -gt 20 ]; then
+        title="${title:0:17}..."
+    fi
+
     # Imprimir JSON
     printf '{ "player": "%s", "artist": "%s", "title": "%s", "album": "%s" }\n' \
         "$player" "$artist" "$title" "$album"
 fi
-
 

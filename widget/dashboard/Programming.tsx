@@ -1,4 +1,4 @@
-import { exec, execAsync } from "ags/process";
+import { execAsync } from "ags/process";
 import { createPoll } from "ags/time";
 import GLib from "gi://GLib";
 

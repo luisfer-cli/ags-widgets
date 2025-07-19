@@ -10,7 +10,7 @@ export default function Clock() {
     });
 
     return (
-        <box class="widget clock">
+        <box>
             <label label={time} />
         </box>
     )

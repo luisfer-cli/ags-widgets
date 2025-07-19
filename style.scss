@@ -1,23 +1,19 @@
 :root {
   --nord0: #2e3440;
-  /* polar night */
   --nord1: #3b4252;
   --nord2: #434c5e;
   --nord3: #4c566a;
 
   --nord4: #d8dee9;
-  /* snow storm */
   --nord5: #e5e9f0;
   --nord6: #eceff4;
 
   --nord7: #8fbcbb;
-  /* frost */
   --nord8: #88c0d0;
   --nord9: #81a1c1;
   --nord10: #5e81ac;
 
   --nord11: #bf616a;
-  /* aurora */
   --nord12: #d08770;
   --nord13: #ebcb8b;
   --nord14: #a3be8c;
@@ -26,15 +22,78 @@
 
 .dashboard {
   background-color: transparent;
-  border-radius: 12px;
   color: var(--nord4);
-  font-family: 'Poppins', monospace;
+  font-family: "Poppins", monospace;
   font-size: 24px;
   padding: 10px;
+  border-radius: 12px;
+}
+
+
+.nerdfont {
+  font-family: "jetbrains-mono", "Nerd Font", "Nerd Font Mono", "Nerd Font Propo", "JetBrains Mono", monospace;
 }
 
 .widget {
+  background-color: var(--nord1);
+  padding: 16px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--nord2);
+    transform: translateY(-2px);
+  }
+}
+
+
+.clock {
+  border-radius: 50%;
+}
+
+.monitor {
+  padding: 12px;
+  border-radius: 12px;
   background-color: var(--nord0);
-  padding: 20px;
-  border-radius: 8px;
+  color: var(--nord6);
+  min-width: 250px;
+}
+
+.monitor-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: var(--nord5);
+}
+
+.monitor-label {
+  min-width: 40px;
+  font-weight: 600;
+  color: var(--nord4);
+}
+
+.monitor-value {
+  font-weight: 600;
+  color: var(--nord6);
+}
+
+.monitor-bar {
+  min-height: 10px;
+  min-width: 100px;
+  border-radius: 6px;
+  background-color: var(--nord3);
+}
+
+.monitor-bar-fill {
+  border-radius: 6px;
+  transition: width 0.3s ease-in-out;
+}
+
+.monitor-bar.ram .monitor-bar-fill {
+  background-color: var(--nord10);
+}
+
+.monitor-bar.cpu .monitor-bar-fill {
+  background-color: var(--nord11);
 }

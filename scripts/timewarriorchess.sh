@@ -15,7 +15,12 @@ if [[ "$currentTask" == "There is no active time tracking." ]]; then
     if [ "$win" -eq 1 ]; then
         echo "{ \"current\": \"Ajedrez\", \"alt\": \"done\", \"time\":\"$currentChessTime\"}"
     else
-        echo "{ \"current\": \"Ajedrez\", \"alt\": \"pending\", \"time\":\"$currentChessTime\"}"
+        if ["$currentChessTime" == ""]; then
+            echo "{ \"current\": \"Ajedrez\", \"alt\": \"pending\", \"time\":\"00:00:00\"}"
+        else
+            echo "{ \"current\": \"Ajedrez\", \"alt\": \"progress\", \"time\":\"$currentChessTime\"}"
+            
+        fi
     fi
 elif [[ "$task" == "\"+ajedrez\"" ]]; then
     if [ "$win" -eq 1 ]; then

@@ -9,17 +9,14 @@ if [ "$current" = "No session" ]; then
     task=$(echo "$currentTask" | awk '{print $2}' | head -n 1)
 
     if [[ "$currentTask" == "There is no active time tracking." ]]; then
-        echo "{ \"current\": \"programacion\", \"alt\": \"pending\", \"time\":\"$currentChessTime\"}"
-    elif [[ "$task" == "\"+programación\"" ]]; then
-        if [ "$win" -eq 1 ]; then
-            echo "{ \"current\": \"programacion+\", \"alt\": \"done\", \"time\":\"$currentChessTime\"}"
+        if [[ $currentChessTime == "" ]]; then
+            echo "{ \"current\": \"programacion\", \"alt\": \"pending\", \"time\":\"00:00:00\"}"
         else
             echo "{ \"current\": \"programacion\", \"alt\": \"progress\", \"time\":\"$currentChessTime\"}"
         fi
     else
         echo "{ \"current\": \"programacion\", \"alt\": \"pending\", \"time\":\"$currentChessTime\"}"
     fi
-
 else
     mode=$(echo "$current" | awk -F '=' '/^mode=/{ print $2 }')
     if [ "$mode" = "work" ]; then

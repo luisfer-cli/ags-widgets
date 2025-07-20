@@ -37,8 +37,7 @@ export default function ChessTracking() {
                 >
                     {status && (
                         <>
-                            <label hexpand label={``} />
-                            <label hexpand label={`${status.time}`} />
+                            <label hexpand label={`    ${status.time}`} />
                         </>
                     )}
                 </box>

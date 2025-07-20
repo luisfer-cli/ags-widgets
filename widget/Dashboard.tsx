@@ -21,14 +21,14 @@ export default function Dashboard(monitor = 0) {
                 <box orientation={Gtk.Orientation.HORIZONTAL} spacing={20}>
                     <box class="widget clock">{Clock()}</box>
                     <box class="widget">{WpmCounter()}</box>
-                    <box>{ChessTracking()}</box>
+                    <box class="widget">{Zk()}</box>
                 </box>
 
                 {/* Fila 2 */}
                 <box orientation={Gtk.Orientation.HORIZONTAL} spacing={20}>
                     <box orientation={Gtk.Orientation.VERTICAL} spacing={10}>
+                        <box>{ChessTracking()}</box>
                         <box class="widget">{Programming()}</box>
-                        <box class="widget">{Zk()}</box>
                     </box>
                     <box class="widget">{Monitoring()}</box>
                 </box>

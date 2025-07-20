@@ -1,24 +1,62 @@
+import { With } from "ags";
 import { execAsync } from "ags/process";
 import { createPoll } from "ags/time";
 import GLib from "gi://GLib";
+import { Gtk } from "ags/gtk4";
+
+type FlowmodoroStatus = { alt: string; current: string; time: string } | null;
+
+function getIcon(status: string) {
+    switch (status) {
+        case "pending":
+            return "󰒲";
+        case "done":
+            return "✅";
+        case "progress":
+            return "🔄";
+        case "w":
+            return "";
+        case "b":
+            return "";
+        default:
+            return "❔";
+    }
+}
 
 export default function Programming() {
     const scriptPath = `${GLib.get_home_dir()}/.config/ags/scripts/flowmodoro.sh`;
 
-    const flowmodoro = createPoll("programming-tracking", 100, async () => {
-        try {
-            const output = await execAsync(scriptPath);
-            const json = JSON.parse(output);
-            return `${json.current} (${json.alt}) ${json.time}`;
-        } catch (e) {
-            return "❌ Error ejecutando script";
-        }
-    })
+    const flowmodoroStatus = createPoll<FlowmodoroStatus>(
+        null,
+        1000,
+        () =>
+            execAsync(scriptPath)
+                .then((output) => {
+                    const json = JSON.parse(output);
+                    return {
+                        alt: json.alt ?? "",
+                        current: json.current ?? "",
+                        time: json.time ?? "",
+                    };
+                })
+                .catch(() => null)
+    );
 
     return (
-        <box class="programming">
-            <label label={flowmodoro} />
-        </box>
-    )
+        <With value={flowmodoroStatus}>
+            {(status) => (
+                <box class="programming" orientation={Gtk.Orientation.HORIZONTAL} spacing={6} hexpand>
+                    {status ? (
+                        <>
+                            <label label={getIcon(status.alt)} />
+                            <label label={` ${status.time}`} hexpand />
+                        </>
+                    ) : (
+                        <label label="❌ Error ejecutando script" hexpand />
+                    )}
+                </box>
+            )}
+        </With>
+    );
 }
 

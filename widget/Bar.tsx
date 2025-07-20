@@ -12,7 +12,6 @@ export default function Bar(monitor = 0) {
         app: string
     }
 
-    // ✅ Single poll que junta ambos
     const barStatus = createPoll<BarStatus>(
         { workspace: 1, app: "Loading..." },
         500,
@@ -32,7 +31,6 @@ export default function Bar(monitor = 0) {
         }
     );
 
-    // Generador de labels
     const workspaceLabels = (ids: number[], current: number) =>
         ids.map(id => {
             const visibleLabel = id === 10 ? "0" : id.toString();

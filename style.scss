@@ -1,4 +1,5 @@
 :root {
+  /* Paleta completa Nord */
   --nord0: #2e3440;
   --nord1: #3b4252;
   --nord2: #434c5e;
@@ -20,51 +21,90 @@
   --nord15: #b48ead;
 }
 
+
+/* ======================
+   Dashboard global
+   ====================== */
+
 .dashboard {
   background-color: transparent;
   color: var(--nord4);
   font-family: "Poppins", monospace;
-  font-size: 24px;
+  font-size: 30px;
   padding: 10px;
-  border-radius: 12px;
 }
 
 
-.nerdfont {
-  font-family: "jetbrains-mono", "Nerd Font", "Nerd Font Mono", "Nerd Font Propo", "JetBrains Mono", monospace;
-}
+/* ======================
+   Widget base
+   ====================== */
 
 .widget {
-  background-color: var(--nord1);
-  padding: 16px 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  /* Fondo semi-opaco para asegurar legibilidad */
+  background-color: rgba(46, 52, 64, 0.6);
+  /* nord1 + más opacidad */
+  padding: 12px 16px;
+  border-radius: 12px;
+
+  /* Borde sobrio */
+  border: 2px solid rgba(59, 66, 82, 0.8);
+  /* nord2 */
+
+  /* Glow suave */
+  box-shadow:
+    inset 0 0 4px rgba(0, 0, 0, 0.3),
+    /* inner shadow para contraste */
+    0 0 6px rgba(136, 192, 208, 0.3);
+  /* glow cian */
+
   transition: all 0.2s ease-in-out;
 
-  &:hover {
-    background-color: var(--nord2);
-    transform: translateY(-2px);
-  }
+  letter-spacing: 0.5px;
+
+  /* Texto con sombra para fondo claro */
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+}
+
+.widget:hover {
+  /* Fondo ligeramente más opaco y escala */
+  background-color: rgba(59, 66, 82, 0.7);
+  /* nord2 */
+  transform: translateY(-2px) scale(1.02);
 }
 
 
-.clock {
-  border-radius: 50%;
+/* ======================
+   Estados: true / false
+   ====================== */
+
+.true {
+  /* Borde cian brillante */
+  border-color: rgba(136, 192, 208, 0.8);
+  /* nord8 */
+  box-shadow: 0 0 4px rgba(136, 192, 208, 0.4);
 }
+
+.false {
+  /* Borde gris más tenue */
+  border-color: rgba(76, 86, 106, 0.6);
+  /* nord3 */
+}
+
+
+/* ======================
+   Monitor panel
+   ====================== */
 
 .monitor {
   padding: 12px;
   border-radius: 12px;
-  background-color: var(--nord0);
+  background-color: rgba(46, 52, 64, 0.7);
+  /* nord0 con opacidad */
   color: var(--nord6);
   min-width: 250px;
-}
 
-.monitor-title {
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-bottom: 8px;
-  color: var(--nord5);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+  /* para legibilidad */
 }
 
 .monitor-label {
@@ -73,27 +113,11 @@
   color: var(--nord4);
 }
 
-.monitor-value {
-  font-weight: 600;
-  color: var(--nord6);
-}
 
-.monitor-bar {
-  min-height: 10px;
-  min-width: 100px;
-  border-radius: 6px;
-  background-color: var(--nord3);
-}
+/* ======================
+   Reloj redondo
+   ====================== */
 
-.monitor-bar-fill {
-  border-radius: 6px;
-  transition: width 0.3s ease-in-out;
-}
-
-.monitor-bar.ram .monitor-bar-fill {
-  background-color: var(--nord10);
-}
-
-.monitor-bar.cpu .monitor-bar-fill {
-  background-color: var(--nord11);
+.clock {
+  border-radius: 50%;
 }

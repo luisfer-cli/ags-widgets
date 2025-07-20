@@ -21,7 +21,7 @@ export default function Dashboard(monitor = 0) {
                 <box orientation={Gtk.Orientation.HORIZONTAL} spacing={20}>
                     <box class="widget clock">{Clock()}</box>
                     <box class="widget">{WpmCounter()}</box>
-                    <box class="widget">{Zk()}</box>
+                    <box hexpand>{Zk()}</box>
                 </box>
 
                 {/* Fila 2 */}

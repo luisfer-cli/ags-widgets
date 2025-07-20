@@ -9,15 +9,15 @@ type FlowmodoroStatus = { alt: string; current: string; time: string } | null;
 function getIcon(status: string) {
     switch (status) {
         case "pending":
-            return "󰒲";
+            return "󰒲   ";
         case "done":
             return "✅";
         case "progress":
             return "🔄";
         case "w":
-            return "";
+            return "   ";
         case "b":
-            return "";
+            return "   ";
         default:
             return "❔";
     }
@@ -48,8 +48,7 @@ export default function Programming() {
                 <box class="programming" orientation={Gtk.Orientation.HORIZONTAL} spacing={6} hexpand>
                     {status ? (
                         <>
-                            <label label={getIcon(status.alt)} />
-                            <label label={` ${status.time}`} hexpand />
+                            <label hexpand label={`${getIcon(status.alt)}${status.time}`} />
                         </>
                     ) : (
                         <label label="❌ Error ejecutando script" hexpand />

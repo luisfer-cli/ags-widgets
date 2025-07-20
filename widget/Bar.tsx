@@ -14,7 +14,7 @@ export default function Bar(monitor = 0) {
 
     const barStatus = createPoll<BarStatus>(
         { workspace: 1, app: "Loading..." },
-        500,
+        100,
         async () => {
             const [wsRaw, appRaw] = await Promise.all([
                 execAsync("hyprctl activeworkspace -j").catch(() => "{}"),
@@ -37,7 +37,7 @@ export default function Bar(monitor = 0) {
             return (
                 <label
                     label={visibleLabel}
-                    class={`bar-title-text${id === current ? " current" : ""}`}
+                    class={`workspace${id === current ? " current" : ""}`}
                 />
             );
         });
@@ -46,7 +46,7 @@ export default function Bar(monitor = 0) {
         <window
             visible
             name="bar"
-            class="Bar"
+            class="bar"
             monitor={monitor}
             exclusivity={Astal.Exclusivity.EXCLUSIVE}
             anchor={TOP | LEFT | RIGHT}
@@ -59,11 +59,10 @@ export default function Bar(monitor = 0) {
                         valign={Gtk.Align.CENTER}
                         hexpand
                         visible
-                        class="bar"
                     >
                         <box
                             hexpand
-                            class="bar-title"
+                            class="workspace-bar"
                             halign={Gtk.Align.CENTER}
                             spacing={30}
                         >
@@ -73,16 +72,16 @@ export default function Bar(monitor = 0) {
                         <box
                             halign={Gtk.Align.CENTER}
                             hexpand
-                            class="bar-title"
+                            class="current-app"
                         >
                             <label label={app} class="bar-title-text" />
                         </box>
 
                         <box
                             halign={Gtk.Align.CENTER}
+                            class="workspace-bar"
                             spacing={30}
                             hexpand
-                            class="bar-title"
                         >
                             {workspaceLabels([6, 7, 8, 9, 10], workspace)}
                         </box>

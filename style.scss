@@ -171,3 +171,71 @@
 .clock {
   border-radius: 50%;
 }
+
+.botbar {
+  background-color: rgba(46, 52, 64, 0.4);
+  padding: 4px 16px;
+  color: #ECEFF4;
+}
+
+
+.botbar-label {
+  color: #ECEFF4;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* OSD window base */
+.osd-window {
+  background-color: rgba(46, 52, 64, 0.8);
+  /* nord0 con opacidad */
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: 2px solid var(--nord2);
+  color: var(--nord4);
+  font-family: "Poppins", monospace, sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  /* transición para suavizar aparición/desaparición */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Icono */
+.osd-icon {
+  font-size: 28px;
+  color: var(--nord4);
+  text-shadow:
+    0 0 4px rgba(136, 192, 208, 0.8);
+}
+
+/* Nivel barra */
+.osd-bar {
+  border-radius: 8px;
+  background-color: var(--nord2);
+}
+
+/* Para modificar la barra interna (llena), usa pseudo-elementos si posible o la clase nativa del LevelBar */
+/* Si no se puede, ajusta el valor y color vía código */
+
+/* Etiqueta de porcentaje */
+.osd-label {
+  font-feature-settings: "tnum";
+  color: var(--nord6);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+}
+
+.osd-bar {
+  color: var(--nord4);
+  background-color: var(--nord2);
+  /* Fondo barra */
+  border-radius: 8px;
+}
+
+/* La parte "filled" del LevelBar GTK suele tener la clase interna .levelbar__value */
+.osd-bar levelbar__value {
+  background-color: var(--nord8);
+  border-radius: 8px;
+}

@@ -1,4 +1,3 @@
-import app from "ags/gtk4/app"
 import { Astal, Gtk } from "ags/gtk4"
 import { execAsync } from "ags/process"
 import { createPoll } from "ags/time"
@@ -26,7 +25,7 @@ export default function Bar(monitor = 0) {
 
             return {
                 workspace: wsJson.id ?? 1,
-                app: appJson.class ?? "Unknown",
+                app: appJson.class ?? "Luisfer",
             };
         }
     );

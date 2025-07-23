@@ -35,8 +35,10 @@
 }
 
 .bar {
-  background-color: rgba(46, 52, 64, 0.6); // nord0 con transparencias
-  border-bottom: 1px solid rgba(59, 66, 82, 0.4); // nord1
+  background-color: rgba(46, 52, 64, 0.85);
+  /* nord0 más opaco */
+  border-bottom: 1px solid rgba(67, 76, 94, 0.5);
+  /* nord2 */
   color: var(--nord4);
   padding: 8px 16px;
   font-family: "Poppins", sans-serif;
@@ -46,27 +48,29 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
 .workspace-bar label {
-  background-color: rgba(59, 66, 82, 0.4); // nord1 translúcido
+  background-color: rgba(67, 76, 94, 0.5);
+  /* nord2 translúcido */
   color: var(--nord4);
   padding: 4px 10px;
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
-  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 1px rgba(136, 192, 208, 0.2);
 }
 
 .workspace-bar label.current {
-  background-color: rgba(136, 192, 208, 0.3); // nord8 translúcido
-  color: var(--nord4); // no nord0 para que no sea tan fuerte
+  background-color: rgba(94, 129, 172, 0.4);
+  /* nord10 translúcido */
+  color: var(--nord4);
   font-weight: 600;
-  box-shadow: 0 0 6px rgba(136, 192, 208, 0.4);
+  box-shadow: 0 0 6px rgba(94, 129, 172, 0.5);
   transform: scale(1.05);
 }
 
 .current-app {
-  background-color: rgba(59, 66, 82, 0.5); // nord1
+  background-color: rgba(59, 66, 82, 0.6);
+  /* nord1 */
   padding: 4px 12px;
   border-radius: 10px;
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
@@ -85,35 +89,26 @@
    ====================== */
 
 .widget {
-  /* Fondo semi-opaco para asegurar legibilidad */
-  background-color: rgba(46, 52, 64, 0.6);
-  /* nord1 + más opacidad */
+  background-color: rgba(46, 52, 64, 0.85);
+  /* nord0 */
   padding: 12px 16px;
   border-radius: 12px;
-
-  /* Borde sobrio */
-  border: 2px solid rgba(59, 66, 82, 0.8);
+  border: 2px solid rgba(67, 76, 94, 0.9);
   /* nord2 */
 
-  /* Glow suave */
   box-shadow:
-    inset 0 0 4px rgba(0, 0, 0, 0.3),
-    /* inner shadow para contraste */
-    0 0 6px rgba(136, 192, 208, 0.3);
-  /* glow cian */
+    inset 0 0 3px rgba(0, 0, 0, 0.4),
+    0 0 6px rgba(94, 129, 172, 0.3);
+  /* glow frío */
 
   transition: all 0.2s ease-in-out;
-
   letter-spacing: 0.5px;
-
-  /* Texto con sombra para fondo claro */
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
 }
 
 .widget:hover {
-  /* Fondo ligeramente más opaco y escala */
-  background-color: rgba(59, 66, 82, 0.7);
-  /* nord2 */
+  background-color: rgba(59, 66, 82, 0.85);
+  /* nord1 */
   transform: translateY(-2px) scale(1.02);
 }
 
@@ -123,15 +118,13 @@
    ====================== */
 
 .true {
-  /* Borde cian brillante */
-  border-color: rgba(136, 192, 208, 0.8);
-  /* nord8 */
-  box-shadow: 0 0 4px rgba(136, 192, 208, 0.4);
+  border-color: rgba(94, 129, 172, 0.8);
+  /* nord10 */
+  box-shadow: 0 0 4px rgba(94, 129, 172, 0.5);
 }
 
 .false {
-  /* Borde gris más tenue */
-  border-color: rgba(76, 86, 106, 0.6);
+  border-color: rgba(76, 86, 106, 0.5);
   /* nord3 */
 }
 
@@ -143,13 +136,11 @@
 .monitor {
   padding: 12px;
   border-radius: 12px;
-  background-color: rgba(46, 52, 64, 0.7);
-  /* nord0 con opacidad */
+  background-color: rgba(46, 52, 64, 0.9);
+  /* nord0 */
   color: var(--nord6);
   min-width: 250px;
-
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
-  /* para legibilidad */
 }
 
 .monitor-label {
@@ -172,33 +163,42 @@
   border-radius: 50%;
 }
 
+
+/* ======================
+   Botbar
+   ====================== */
+
 .botbar {
-  background-color: rgba(46, 52, 64, 0.4);
+  background-color: rgba(46, 52, 64, 0.6);
+  /* nord0 */
   padding: 4px 16px;
-  color: #ECEFF4;
+  color: var(--nord6);
 }
 
-
 .botbar-label {
-  color: #ECEFF4;
+  color: var(--nord5);
   font-weight: 300;
   font-size: 16px;
   letter-spacing: 0.5px;
 }
 
-/* OSD window base */
+
+/* ======================
+   OSD window
+   ====================== */
+
 .osd-window {
-  background-color: rgba(46, 52, 64, 0.8);
-  /* nord0 con opacidad */
+  background-color: rgba(46, 52, 64, 0.9);
+  /* nord0 */
   padding: 12px 24px;
   border-radius: 14px;
-  border: 2px solid var(--nord2);
+  border: 2px solid var(--nord9);
+  /* azul frío */
   color: var(--nord4);
   font-family: "Poppins", monospace, sans-serif;
   font-weight: 600;
   font-size: 20px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
-  /* transición para suavizar aparición/desaparición */
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -207,35 +207,27 @@
 .osd-icon {
   font-size: 28px;
   color: var(--nord4);
-  text-shadow:
-    0 0 4px rgba(136, 192, 208, 0.8);
+  text-shadow: 0 0 4px rgba(136, 192, 208, 0.8);
 }
+
 
 /* Nivel barra */
 .osd-bar {
   border-radius: 8px;
   background-color: var(--nord2);
+  color: var(--nord4);
 }
 
-/* Para modificar la barra interna (llena), usa pseudo-elementos si posible o la clase nativa del LevelBar */
-/* Si no se puede, ajusta el valor y color vía código */
+.osd-bar levelbar__value {
+  background-color: var(--nord10);
+  /* azul frío */
+  border-radius: 8px;
+}
+
 
 /* Etiqueta de porcentaje */
 .osd-label {
   font-feature-settings: "tnum";
   color: var(--nord6);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
-}
-
-.osd-bar {
-  color: var(--nord4);
-  background-color: var(--nord2);
-  /* Fondo barra */
-  border-radius: 8px;
-}
-
-/* La parte "filled" del LevelBar GTK suele tener la clase interna .levelbar__value */
-.osd-bar levelbar__value {
-  background-color: var(--nord8);
-  border-radius: 8px;
 }

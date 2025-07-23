@@ -4,13 +4,15 @@ import Bar from "./widget/Bar";
 import Dashboard from "./widget/Dashboard";
 import Botbar from "./widget/Botbar";
 import Osd from "./widget/Osd";
+import NotificationManager from "./widget/Notification";
 
 app.start({
   css: style,
   main() {
     Bar(0);
     Dashboard(0);
-    app.get_monitors().map(Osd);
+    Osd();
     Botbar(0);
+    NotificationManager();
   },
 });

@@ -214,12 +214,9 @@
 /* Nivel barra */
 .osd-bar {
   border-radius: 8px;
-  background-color: var(--nord2);
-  color: var(--nord4);
 }
 
 .osd-bar levelbar__value {
-  background-color: var(--nord10);
   /* azul frío */
   border-radius: 8px;
 }
@@ -227,7 +224,5 @@
 
 /* Etiqueta de porcentaje */
 .osd-label {
-  font-feature-settings: "tnum";
-  color: var(--nord6);
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
 }

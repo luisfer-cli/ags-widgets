@@ -2,7 +2,7 @@
 
 current=$(/home/luisfer/.local/bin/flowmodoro.py status)
 
-if [ "$current" = "No session" ]; then
+if [ "$current" = "No active session." ]; then
     currentChessTime=$(timew summary +programación today | grep -Eo '[0-9]+:[0-9]{2}:[0-9]{2}$' | tail -n 1)
     
     currentTask=$(timew)

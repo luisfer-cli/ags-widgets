@@ -13,7 +13,7 @@ function getIcon(status: string) {
         case "done":
             return "✅";
         case "progress":
-            return "🔄";
+            return "󰒲   ";
         case "w":
             return "   ";
         case "b":

@@ -8,7 +8,7 @@ import { Gtk, Astal } from "ags/gtk4";
 import GLib from "gi://GLib";
 import Gio from "gi://Gio";
 import { ComponentProps } from "../../types";
-import { safeJsonParse, clamp } from "../../utils";
+import { safeJsonParse, clamp, getFocusedMonitor } from "../../utils";
 
 // Volume information interface
 interface VolumeInfo {
@@ -70,9 +70,7 @@ export default function Osd({}: ComponentProps = {}) {
             const icon = getVolumeIcon(volumeLevel);
 
             // Get focused monitor for display
-            const monitorsOutput = await execAsync(["hyprctl", "monitors", "-j"]);
-            const monitors = safeJsonParse(monitorsOutput, []);
-            const focusedMonitor = monitors.findIndex((m: any) => m.focused);
+            const focusedMonitor = await getFocusedMonitor();
 
             // Update OSD state
             setOsdState({
@@ -82,7 +80,7 @@ export default function Osd({}: ComponentProps = {}) {
                     icon, 
                     value: clamp(volumeLevel, 0, 100) 
                 },
-                monitor: Math.max(0, focusedMonitor)
+                monitor: focusedMonitor
             });
 
             // Reset hide timer

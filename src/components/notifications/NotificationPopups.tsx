@@ -7,6 +7,7 @@ import { Astal, Gtk } from "ags/gtk4";
 import AstalNotifd from "gi://AstalNotifd";
 import Notification from "./Notification";
 import { createBinding, For, createState, onCleanup } from "ags";
+import { getFocusedMonitor } from "../../utils";
 import GLib from "gi://GLib";
 
 /**
@@ -15,16 +16,32 @@ import GLib from "gi://GLib";
  * @returns JSX For component managing notification windows
  */
 export default function NotificationPopups() {
-    // Monitor binding for multi-monitor support
-    const monitors = createBinding(app, "monitors");
-
     // Notification daemon instance
     const notifd = AstalNotifd.get_default();
 
-    // State management for active notifications
+    // State management for active notifications and focused monitor
     const [notifications, setNotifications] = createState(
         new Array<AstalNotifd.Notification>()
     );
+    const [focusedMonitor, setFocusedMonitor] = createState(0);
+
+    // Update focused monitor periodically
+    const updateFocusedMonitor = async () => {
+        const monitor = await getFocusedMonitor();
+        setFocusedMonitor(monitor);
+    };
+
+    // Update focused monitor immediately and every 500ms
+    updateFocusedMonitor();
+    const monitorUpdateInterval = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
+        updateFocusedMonitor();
+        return GLib.SOURCE_CONTINUE;
+    });
+
+    // Cleanup interval on component unmount
+    onCleanup(() => {
+        GLib.Source.remove(monitorUpdateInterval);
+    });
 
     /**
      * Handle new notifications
@@ -65,32 +82,29 @@ export default function NotificationPopups() {
     onCleanup(() => {
         notifd.disconnect(notifiedHandler);
         notifd.disconnect(resolvedHandler);
+        GLib.Source.remove(monitorUpdateInterval);
     });
 
     return (
-        <For each={monitors} cleanup={(win) => (win as Gtk.Window).destroy()}>
-            {(monitor) => (
-                <window
-                    class="NotificationPopups"
-                    gdkmonitor={monitor}
-                    visible={notifications((ns) => ns.length > 0)}
-                    anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}
-                >
-                    <box orientation={Gtk.Orientation.VERTICAL}>
-                        <For each={notifications}>
-                            {(notification) =>
-                                Notification({
-                                    notification,
-                                    onHoverLost: () =>
-                                        setNotifications((ns) =>
-                                            ns.filter((n) => n.id !== notification.id)
-                                        )
-                                })
-                            }
-                        </For>
-                    </box>
-                </window>
-            )}
-        </For>
+        <window
+            class="NotificationPopups"
+            monitor={focusedMonitor}
+            visible={notifications((ns) => ns.length > 0)}
+            anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT}
+        >
+            <box orientation={Gtk.Orientation.VERTICAL}>
+                <For each={notifications}>
+                    {(notification) =>
+                        Notification({
+                            notification,
+                            onHoverLost: () =>
+                                setNotifications((ns) =>
+                                    ns.filter((n) => n.id !== notification.id)
+                                )
+                        })
+                    }
+                </For>
+            </box>
+        </window>
     );
 }

@@ -72,3 +72,19 @@ export function clamp(value: number, min: number, max: number): number {
 export function formatPercentage(value: number): string {
     return `${Math.round(clamp(value, 0, 100))}%`;
 }
+
+/**
+ * Get the currently focused monitor index
+ * @returns Promise<number> The index of the focused monitor, or 0 if none found
+ */
+export async function getFocusedMonitor(): Promise<number> {
+    try {
+        const monitorsOutput = await execAsync(["hyprctl", "monitors", "-j"]);
+        const monitors = safeJsonParse(monitorsOutput, []);
+        const focusedMonitor = monitors.findIndex((m: any) => m.focused);
+        return Math.max(0, focusedMonitor);
+    } catch (error) {
+        console.error("Error getting focused monitor:", error);
+        return 0;
+    }
+}

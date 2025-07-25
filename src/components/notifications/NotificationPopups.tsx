@@ -17,7 +17,7 @@ import GLib from "gi://GLib";
 export default function NotificationPopups() {
     // Monitor binding for multi-monitor support
     const monitors = createBinding(app, "monitors");
-    
+
     // Notification daemon instance
     const notifd = AstalNotifd.get_default();
 
@@ -35,7 +35,7 @@ export default function NotificationPopups() {
 
         if (replaced && notifications.get().some(n => n.id === id)) {
             // Replace existing notification
-            setNotifications((ns) => 
+            setNotifications((ns) =>
                 ns.map((n) => (n.id === id ? notification : n))
             );
         } else {

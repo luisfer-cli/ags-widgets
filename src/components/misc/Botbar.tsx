@@ -35,7 +35,7 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
                 if (artistOutput.trim() && titleOutput.trim()) {
                     return `${artist} – ${title}`;
                 }
-                
+
                 return "";
             } catch (error) {
                 console.error("Error getting track info:", error);
@@ -75,7 +75,7 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
                                     label="󰝚" // nf-md-music
                                     class="botbar-icon"
                                 />
-                                
+
                                 {/* Track information */}
                                 <label
                                     label={track}

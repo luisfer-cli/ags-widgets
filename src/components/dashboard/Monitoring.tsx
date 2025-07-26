@@ -4,7 +4,7 @@
  */
 import { createPoll } from "ags/time";
 import { Gtk } from "ags/gtk4";
-import { executeScript, formatPercentage } from "../../utils";
+import { executeScript } from "../../utils";
 
 // System monitoring data interface
 interface MonitoringData {
@@ -62,7 +62,7 @@ export default function Monitoring() {
                 valign={Gtk.Align.CENTER}
             >
                 <label
-                    label=""
+                    label="󰧑"
                     xalign={0}
                     class="monitor-label"
                 />

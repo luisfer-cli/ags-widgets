@@ -36,7 +36,7 @@ function formatTime(timestamp: number, format = "%H:%M"): string {
  */
 function getUrgencyClass(notification: AstalNotifd.Notification): string {
     const { LOW, NORMAL, CRITICAL } = AstalNotifd.Urgency;
-    
+
     switch (notification.urgency) {
         case LOW:
             return "low";
@@ -60,9 +60,9 @@ interface NotificationProps {
  * @param onHoverLost - Callback when mouse leaves notification
  * @returns JSX notification element
  */
-export default function Notification({ 
-    notification: n, 
-    onHoverLost 
+export default function Notification({
+    notification: n,
+    onHoverLost
 }: NotificationProps) {
     let dismissed = false;
 
@@ -94,7 +94,7 @@ export default function Notification({
                             iconName={n.appIcon || n.desktopEntry}
                         />
                     )}
-                    
+
                     {/* App name */}
                     <label
                         class="app-name"
@@ -102,7 +102,7 @@ export default function Notification({
                         ellipsize={Pango.EllipsizeMode.END}
                         label={n.appName || "Unknown"}
                     />
-                    
+
                     {/* Timestamp */}
                     <label
                         class="time"
@@ -110,9 +110,10 @@ export default function Notification({
                         halign={Gtk.Align.END}
                         label={formatTime(n.time)}
                     />
-                    
+
                     {/* Close button */}
                     <button
+                        class="close-button"
                         onClicked={() => {
                             dismissed = true;
                             n.dismiss(); // Triggers 'resolved' event
@@ -129,13 +130,13 @@ export default function Notification({
                 <box class="content">
                     {/* Image handling - file or icon */}
                     {n.image && fileExists(n.image) && (
-                        <image 
-                            valign={Gtk.Align.START} 
-                            class="image" 
-                            file={n.image} 
+                        <image
+                            valign={Gtk.Align.START}
+                            class="image"
+                            file={n.image}
                         />
                     )}
-                    
+
                     {n.image && isIcon(n.image) && (
                         <box valign={Gtk.Align.START} class="icon-image">
                             <image
@@ -156,7 +157,7 @@ export default function Notification({
                             label={n.summary}
                             ellipsize={Pango.EllipsizeMode.END}
                         />
-                        
+
                         {/* Body text */}
                         {n.body && (
                             <label
@@ -176,14 +177,14 @@ export default function Notification({
                 {n.actions.length > 0 && (
                     <box class="actions">
                         {n.actions.map(({ label, id }) => (
-                            <button 
-                                hexpand 
+                            <button
+                                hexpand
                                 onClicked={() => n.invoke(id)}
                             >
-                                <label 
-                                    label={label} 
-                                    halign={Gtk.Align.CENTER} 
-                                    hexpand 
+                                <label
+                                    label={label}
+                                    halign={Gtk.Align.CENTER}
+                                    hexpand
                                 />
                             </button>
                         ))}

@@ -17,28 +17,44 @@
 
 :root {
   /* Polar Night - Dark colors */
-  --nord0: #2e3440;   /* Base background */
-  --nord1: #3b4252;   /* Secondary background */
-  --nord2: #434c5e;   /* Tertiary background */
-  --nord3: #4c566a;   /* Comment color */
+  --nord0: #2e3440;
+  /* Base background */
+  --nord1: #3b4252;
+  /* Secondary background */
+  --nord2: #434c5e;
+  /* Tertiary background */
+  --nord3: #4c566a;
+  /* Comment color */
 
   /* Snow Storm - Light colors */
-  --nord4: #d8dee9;   /* Primary text */
-  --nord5: #e5e9f0;   /* Secondary text */
-  --nord6: #eceff4;   /* Bright text */
+  --nord4: #d8dee9;
+  /* Primary text */
+  --nord5: #e5e9f0;
+  /* Secondary text */
+  --nord6: #eceff4;
+  /* Bright text */
 
   /* Frost - Blue colors */
-  --nord7: #8fbcbb;   /* Frost cyan */
-  --nord8: #88c0d0;   /* Frost light blue */
-  --nord9: #81a1c1;   /* Frost blue */
-  --nord10: #5e81ac;  /* Frost dark blue */
+  --nord7: #8fbcbb;
+  /* Frost cyan */
+  --nord8: #88c0d0;
+  /* Frost light blue */
+  --nord9: #81a1c1;
+  /* Frost blue */
+  --nord10: #5e81ac;
+  /* Frost dark blue */
 
   /* Aurora - Accent colors */
-  --nord11: #bf616a;  /* Red */
-  --nord12: #d08770;  /* Orange */
-  --nord13: #ebcb8b;  /* Yellow */
-  --nord14: #a3be8c;  /* Green */
-  --nord15: #b48ead;  /* Purple */
+  --nord11: #bf616a;
+  /* Red */
+  --nord12: #d08770;
+  /* Orange */
+  --nord13: #ebcb8b;
+  /* Yellow */
+  --nord14: #a3be8c;
+  /* Green */
+  --nord15: #b48ead;
+  /* Purple */
 }
 
 /* ================================
@@ -46,23 +62,27 @@
    ================================ */
 
 .widget {
-  background-color: rgba(46, 52, 64, 0.85); /* nord0 with transparency */
+  background-color: rgba(46, 52, 64, 0.85);
+  /* nord0 with transparency */
   padding: 12px 16px;
   border-radius: 12px;
-  border: 2px solid rgba(67, 76, 94, 0.9); /* nord2 */
-  
+  border: 2px solid rgba(67, 76, 94, 0.9);
+  /* nord2 */
+
   /* Subtle glow effect */
   box-shadow:
     inset 0 0 3px rgba(0, 0, 0, 0.4),
-    0 0 6px rgba(94, 129, 172, 0.3); /* nord10 glow */
-  
+    0 0 6px rgba(94, 129, 172, 0.3);
+  /* nord10 glow */
+
   transition: all 0.2s ease-in-out;
   letter-spacing: 0.5px;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
 }
 
 .widget:hover {
-  background-color: rgba(59, 66, 82, 0.85); /* nord1 */
+  background-color: rgba(59, 66, 82, 0.85);
+  /* nord1 */
   transform: translateY(-2px) scale(1.02);
 }
 
@@ -83,8 +103,10 @@
    ================================ */
 
 .bar {
-  background-color: rgba(46, 52, 64, 0.85); /* nord0 */
-  border-bottom: 1px solid rgba(67, 76, 94, 0.5); /* nord2 */
+  background-color: rgba(46, 52, 64, 0.85);
+  /* nord0 */
+  border-bottom: 1px solid rgba(67, 76, 94, 0.5);
+  /* nord2 */
   color: var(--nord4);
   padding: 8px 16px;
   font-family: "Poppins", sans-serif;
@@ -96,26 +118,31 @@
 
 /* Workspace indicators */
 .workspace-bar label {
-  background-color: rgba(67, 76, 94, 0.5); /* nord2 translucent */
+  background-color: rgba(67, 76, 94, 0.5);
+  /* nord2 translucent */
   color: var(--nord4);
   padding: 4px 10px;
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
-  box-shadow: inset 0 0 1px rgba(136, 192, 208, 0.2); /* nord8 */
+  box-shadow: inset 0 0 1px rgba(136, 192, 208, 0.2);
+  /* nord8 */
 }
 
 .workspace-bar label.current {
-  background-color: rgba(94, 129, 172, 0.4); /* nord10 active */
+  background-color: rgba(94, 129, 172, 0.4);
+  /* nord10 active */
   color: var(--nord4);
   font-weight: 600;
-  box-shadow: 0 0 6px rgba(94, 129, 172, 0.5); /* nord10 glow */
+  box-shadow: 0 0 6px rgba(94, 129, 172, 0.5);
+  /* nord10 glow */
   transform: scale(1.05);
 }
 
 /* Current application display */
 .current-app {
-  background-color: rgba(59, 66, 82, 0.6); /* nord1 */
+  background-color: rgba(59, 66, 82, 0.6);
+  /* nord1 */
   padding: 4px 12px;
   border-radius: 10px;
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
@@ -133,7 +160,8 @@
    ================================ */
 
 .botbar {
-  background-color: rgba(46, 52, 64, 0.6); /* nord0 */
+  background-color: rgba(46, 52, 64, 0.6);
+  /* nord0 */
   padding: 4px 16px;
   color: var(--nord6);
 }
@@ -151,18 +179,21 @@
 
 /* Active/true state */
 .true {
-  border-color: rgba(94, 129, 172, 0.8); /* nord10 */
+  border-color: rgba(94, 129, 172, 0.8);
+  /* nord10 */
   box-shadow: 0 0 4px rgba(94, 129, 172, 0.5);
 }
 
 /* Inactive/false state */
 .false {
-  border-color: rgba(76, 86, 106, 0.5); /* nord3 */
+  border-color: rgba(76, 86, 106, 0.5);
+  /* nord3 */
 }
 
 /* Current/selected state */
 .current {
-  background-color: rgba(59, 66, 82, 0.8); /* nord1 */
+  background-color: rgba(59, 66, 82, 0.8);
+  /* nord1 */
   color: var(--nord6);
 }
 
@@ -173,7 +204,8 @@
 .monitor {
   padding: 12px;
   border-radius: 12px;
-  background-color: rgba(46, 52, 64, 0.9); /* nord0 */
+  background-color: rgba(46, 52, 64, 0.9);
+  /* nord0 */
   color: var(--nord6);
   min-width: 250px;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
@@ -198,10 +230,12 @@
    ================================ */
 
 .osd-window {
-  background-color: rgba(46, 52, 64, 0.9); /* nord0 */
+  background-color: rgba(46, 52, 64, 0.9);
+  /* nord0 */
   padding: 12px 24px;
   border-radius: 14px;
-  border: 2px solid var(--nord9); /* frost blue */
+  border: 2px solid var(--nord9);
+  /* frost blue */
   color: var(--nord4);
   font-family: "Poppins", monospace, sans-serif;
   font-weight: 600;
@@ -213,7 +247,8 @@
 .osd-icon {
   font-size: 28px;
   color: var(--nord4);
-  text-shadow: 0 0 4px rgba(136, 192, 208, 0.8); /* nord8 glow */
+  text-shadow: 0 0 4px rgba(136, 192, 208, 0.8);
+  /* nord8 glow */
 }
 
 .osd-bar {
@@ -238,8 +273,10 @@
 
 .Notification {
   /* Individual notification styles */
-  background-color: rgba(46, 52, 64, 0.95); /* nord0 */
-  border: 1px solid rgba(67, 76, 94, 0.7); /* nord2 */
+  background-color: rgba(46, 52, 64, 0.95);
+  /* nord0 */
+  border: 1px solid rgba(67, 76, 94, 0.7);
+  /* nord2 */
   border-radius: 8px;
   padding: 12px;
   margin: 4px;
@@ -247,14 +284,26 @@
 }
 
 .Notification.low {
-  border-left: 4px solid var(--nord14); /* green accent */
+  border-left: 4px solid var(--nord14);
+  /* green accent */
 }
 
 .Notification.normal {
-  border-left: 4px solid var(--nord9); /* blue accent */
+  border-left: 4px solid var(--nord9);
+  /* blue accent */
 }
 
 .Notification.critical {
-  border-left: 4px solid var(--nord11); /* red accent */
-  box-shadow: 0 0 8px rgba(191, 97, 106, 0.3); /* red glow */
+  border-left: 4px solid var(--nord11);
+  /* red accent */
+  box-shadow: 0 0 8px rgba(191, 97, 106, 0.3);
+  /* red glow */
+}
+
+.close-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.2s ease-in-out;
 }

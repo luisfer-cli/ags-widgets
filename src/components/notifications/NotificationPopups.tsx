@@ -60,14 +60,12 @@ export default function NotificationPopups() {
             setNotifications((ns) => [notification, ...ns]);
 
             // Auto-dismiss after 5 seconds (except critical notifications)
-            if (notification.urgency !== AstalNotifd.Urgency.CRITICAL) {
-                GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
-                    setNotifications((ns) =>
-                        ns.filter((n) => n.id !== notification.id)
-                    );
-                    return GLib.SOURCE_REMOVE;
-                });
-            }
+            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
+                setNotifications((ns) =>
+                    ns.filter((n) => n.id !== notification.id)
+                );
+                return GLib.SOURCE_REMOVE;
+            });
         }
     });
 

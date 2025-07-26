@@ -26,9 +26,9 @@ export default function ChessTracking() {
         1000,
         async (): Promise<ChessStatus | null> => {
             const data = await executeScript("timewarriorchess.sh");
-            
+
             if (!data) return null;
-            
+
             return {
                 alt: data.alt ?? "pending",
                 current: data.current ?? "",
@@ -47,9 +47,9 @@ export default function ChessTracking() {
                     hexpand
                 >
                     {status && (
-                        <label 
-                            hexpand 
-                            label={`    ${status.time}`} 
+                        <label
+                            hexpand
+                            label={`    ${status.time}`}
                         />
                     )}
                 </box>

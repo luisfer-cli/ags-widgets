@@ -1,7 +1,8 @@
 currentChessTime=$(timew summary +ajedrez today | grep -Eo '[0-9]+:[0-9]{2}:[0-9]{2}$' | tail -n 1)
 
 IFS=':' read -r hours minutes seconds <<<"$currentChessTime"
-seconds=$((hours * 3600 + minutes * 60 + seconds))
+# Force base 10 interpretation to avoid octal errors with leading zeros
+seconds=$((10#$hours * 3600 + 10#$minutes * 60 + 10#$seconds))
 if [ "$seconds" -gt 5400 ]; then
     win=1
 else
@@ -15,7 +16,7 @@ if [[ "$currentTask" == "There is no active time tracking." ]]; then
     if [ "$win" -eq 1 ]; then
         echo "{ \"current\": \"Ajedrez\", \"alt\": \"done\", \"time\":\"$currentChessTime\"}"
     else
-        if ["$currentChessTime" == ""]; then
+        if [ "$currentChessTime" == "" ]; then
             echo "{ \"current\": \"Ajedrez\", \"alt\": \"pending\", \"time\":\"00:00:00\"}"
         else
             echo "{ \"current\": \"Ajedrez\", \"alt\": \"progress\", \"time\":\"$currentChessTime\"}"

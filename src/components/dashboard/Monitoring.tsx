@@ -21,14 +21,14 @@ export default function Monitoring() {
     // Poll for system data every 2 seconds
     const monitoringData = createPoll("monitoring", 2000, async () => {
         const data = await executeScript("monitor.sh");
-        
+
         if (!data) {
             return "0:0"; // Fallback format
         }
-        
+
         const ramGb = data.ram_used_gb ?? 0;
         const cpuPercent = data.cpu_usage_percent ?? 0;
-        
+
         return `${ramGb}:${cpuPercent}`;
     });
 
@@ -49,43 +49,43 @@ export default function Monitoring() {
     };
 
     return (
-        <box 
-            orientation={Gtk.Orientation.VERTICAL} 
-            spacing={12} 
-            halign={Gtk.Align.CENTER} 
+        <box
+            orientation={Gtk.Orientation.VERTICAL}
+            spacing={12}
+            halign={Gtk.Align.CENTER}
             valign={Gtk.Align.CENTER}
         >
             {/* RAM Usage Display */}
-            <box 
-                orientation={Gtk.Orientation.HORIZONTAL} 
-                spacing={8} 
+            <box
+                orientation={Gtk.Orientation.HORIZONTAL}
+                spacing={8}
                 valign={Gtk.Align.CENTER}
             >
-                <label 
-                    label="󰧑" 
-                    xalign={0} 
-                    class="monitor-label" 
+                <label
+                    label=""
+                    xalign={0}
+                    class="monitor-label"
                 />
-                <label 
-                    label={monitoringData.as(val => `${getRamUsage(val).toFixed(1)} GB`)} 
-                    class="monitor-value" 
+                <label
+                    label={monitoringData.as(val => `${getRamUsage(val).toFixed(1)} GB`)}
+                    class="monitor-value"
                 />
             </box>
 
             {/* CPU Usage Display */}
-            <box 
-                orientation={Gtk.Orientation.HORIZONTAL} 
-                spacing={8} 
+            <box
+                orientation={Gtk.Orientation.HORIZONTAL}
+                spacing={8}
                 valign={Gtk.Align.CENTER}
             >
-                <label 
-                    label="" 
-                    xalign={0} 
-                    class="monitor-label" 
+                <label
+                    label=""
+                    xalign={0}
+                    class="monitor-label"
                 />
-                <label 
-                    label={monitoringData.as(val => `${getCpuUsage(val).toFixed(1)}%`)} 
-                    class="monitor-value" 
+                <label
+                    label={monitoringData.as(val => `${getCpuUsage(val).toFixed(1)}%`)}
+                    class="monitor-value"
                 />
             </box>
         </box>

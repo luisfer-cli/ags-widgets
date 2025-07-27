@@ -39,8 +39,8 @@ app.start({
     switch (argv[0]) {
       case "toggle":
         // Get focused monitor and update launcher position
-        getFocusedMonitor().then(focusedMonitor => {
-          const window = app.get_window("launcher") || launcherWindow;
+        getFocusedMonitor().then((focusedMonitor) => {
+          const window = launcherWindow;
           if (window) {
             // Update monitor before toggling visibility
             window.monitor = focusedMonitor;
@@ -49,8 +49,8 @@ app.start({
         });
         return res("ok");
       case "toggle-launcher":
-        getFocusedMonitor().then(focusedMonitor => {
-          const launcherWin = app.get_window("launcher") || launcherWindow;
+        getFocusedMonitor().then((focusedMonitor) => {
+          const launcherWin = launcherWindow;
           if (launcherWin) {
             launcherWin.monitor = focusedMonitor;
             launcherWin.set_visible(!launcherWin.visible);
@@ -59,7 +59,7 @@ app.start({
         return res("launcher toggled");
       case "toggle-shutdown":
         // Toggle shutdown popup using global function
-        if (typeof (globalThis as any).toggleShutdown === 'function') {
+        if (typeof (globalThis as any).toggleShutdown === "function") {
           (globalThis as any).toggleShutdown();
         }
         return res("shutdown toggled");
@@ -90,18 +90,17 @@ app.start({
     NotificationPopups();
 
     // Application launcher (initially hidden)
-    launcherWindow = Launcher({ 
+    launcherWindow = Launcher({
       monitor: primaryMonitor,
-      visible: false 
+      visible: false,
     });
 
     // Shutdown popup (initially hidden)
     shutdownWindow = ShutdownPopup({
       monitor: primaryMonitor,
-      visible: false
+      visible: false,
     });
 
     console.log("AGS Desktop Shell components initialized successfully");
   },
 });
-

@@ -17,9 +17,9 @@ export interface LauncherProps extends ComponentProps {
 /**
  * Application launcher with fuzzy search and keyboard navigation
  */
-export default function Launcher({ 
-    monitor = 0, 
-    className = "", 
+export default function Launcher({
+    monitor = 0,
+    className = "",
     visible = false,
     maxResults = 8
 }: LauncherProps = {}) {
@@ -81,7 +81,7 @@ export default function Launcher({
             $={(ref) => (win = ref)}
             class={`launcher ${className}`}
             name="launcher"
-            anchor={0.5}
+            anchor={1}
             exclusivity={Astal.Exclusivity.IGNORE}
             keymode={Astal.Keymode.EXCLUSIVE}
             visible={visible}
@@ -91,8 +91,8 @@ export default function Launcher({
 
                 if (visible) {
                     context?.remove_class("animate-in")
-                    context?.add_class("animate-in")
                     searchentry.grab_focus()
+                    setTimeout(() => context?.add_class("animate-in"), 100)
                 } else {
                     searchentry.set_text("")
                     setList([])
@@ -110,13 +110,17 @@ export default function Launcher({
                 halign={Gtk.Align.CENTER}
                 orientation={Gtk.Orientation.VERTICAL}
             >
-                <entry
-                    $={(ref) => (searchentry = ref)}
-                    onNotifyText={({ text }) => search(text)}
-                    onActivate={() => launch(list.get()[0])}
-                    hexpand
-                    placeholderText="Start typing to search applications..."
-                />
+                <box
+                    class="searchbox"
+                >
+                    <entry
+                        $={(ref) => (searchentry = ref)}
+                        onNotifyText={({ text }) => search(text)}
+                        onActivate={() => launch(list.get()[0])}
+                        hexpand
+                        placeholderText="Start typing to search applications..."
+                    />
+                </box>
                 <Gtk.Separator visible={list((l) => l.length > 0)} />
                 <box
                     orientation={Gtk.Orientation.VERTICAL}
@@ -131,8 +135,9 @@ export default function Launcher({
                                     $={(ref) => {
                                         button = ref
                                         // Add visible class with slight delay for animation
-                                        setTimeout(() => button.get_style_context()?.add_class("visible"), 100)
+                                        setTimeout(() => button.get_style_context()?.add_class("visible"), 10)
                                     }}
+                                    //#region
                                     onClicked={() => launch(app)}
                                 >
                                     <box>

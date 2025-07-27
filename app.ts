@@ -18,12 +18,14 @@ import { getFocusedMonitor } from "./src/utils";
 import Bar from "./src/components/bar/Bar";
 import Dashboard from "./src/components/dashboard/Dashboard";
 import Botbar from "./src/components/misc/Botbar";
+import ShutdownPopup from "./src/components/misc/Shutdown";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
 import { Launcher } from "./src/components/launcher";
 
 // Global launcher window reference for toggle functionality
 let launcherWindow: any;
+let shutdownWindow: any;
 
 /**
  * Application startup configuration with request handler for launcher toggle
@@ -55,6 +57,12 @@ app.start({
           }
         });
         return res("launcher toggled");
+      case "toggle-shutdown":
+        // Toggle shutdown popup using global function
+        if (typeof (globalThis as any).toggleShutdown === 'function') {
+          (globalThis as any).toggleShutdown();
+        }
+        return res("shutdown toggled");
       default:
         return res("unknown command");
     }
@@ -85,6 +93,12 @@ app.start({
     launcherWindow = Launcher({ 
       monitor: primaryMonitor,
       visible: false 
+    });
+
+    // Shutdown popup (initially hidden)
+    shutdownWindow = ShutdownPopup({
+      monitor: primaryMonitor,
+      visible: false
     });
 
     console.log("AGS Desktop Shell components initialized successfully");

@@ -1,72 +1,167 @@
 /**
  * Shutdown popup component with power management options
- * Provides circular menu for power off, reboot, and suspend
+ * Elegant icon-only design with keyboard navigation
  */
 import { createState } from "ags";
 import { execAsync } from "ags/process";
-import { Gtk, Astal } from "ags/gtk4";
+import { Gtk, Astal, Gdk } from "ags/gtk4";
 import { ComponentProps } from "../../types";
+import { getFocusedMonitor } from "../../utils";
 
 // Power management option interface
 interface PowerOption {
     label: string;
+    text: string;
     command: string;
-    angle: number;
+    key: string;
 }
 
-// Available power options with their icons and system commands
+// Available power options with their icons, text, and system commands
 const POWER_OPTIONS: PowerOption[] = [
-    { label: "󰐥", command: "systemctl poweroff", angle: 270 },  // Power off
-    { label: "󰜉", command: "systemctl reboot", angle: 30 },    // Reboot
-    { label: "󰤄", command: "systemctl suspend", angle: 150 },  // Suspend
+    { label: "󰐥", text: "Apagar", command: "systemctl poweroff", key: "a" },
+    { label: "󰜉", text: "Reiniciar", command: "systemctl reboot", key: "r" },
+    { label: "󰤄", text: "Suspender", command: "systemctl suspend", key: "s" },
 ];
 
 /**
- * Shutdown popup with circular power options
- * @returns JSX window element for shutdown menu
+ * Shutdown popup with keyboard navigation and power options
  */
-export default function ShutdownPopup({}: ComponentProps = {}) {
-    const [visible, setVisible] = createState(true);
+export default function ShutdownPopup({ 
+    monitor = 0, 
+    visible = false 
+}: ComponentProps & { visible?: boolean } = {}) {
+    let win: Astal.Window;
+    const [selectedIndex, setSelectedIndex] = createState(0);
+    const [currentMonitor, setCurrentMonitor] = createState(monitor);
 
     /**
      * Handle power option selection
-     * @param optionIndex - Index of selected power option
      */
     function handlePowerAction(optionIndex: number): void {
         const option = POWER_OPTIONS[optionIndex];
         
         if (option) {
             try {
-                // Execute system command
                 execAsync(["bash", "-c", option.command]);
-                
-                // Hide popup after selection
-                setVisible(false);
+                win.visible = false;
             } catch (error) {
                 console.error(`Error executing power command: ${option.command}`, error);
             }
         }
     }
 
+    /**
+     * Handle keyboard navigation and actions
+     */
+    function onKey(
+        _e: Gtk.EventControllerKey,
+        keyval: number,
+        _: number,
+        mod: number,
+    ) {
+        const keyname = Gdk.keyval_name(keyval) || "";
+        
+        switch (keyname) {
+            case "Escape":
+                win.visible = false;
+                return;
+                
+            case "Left":
+                setSelectedIndex((prev) => (prev - 1 + POWER_OPTIONS.length) % POWER_OPTIONS.length);
+                return;
+                
+            case "Right":
+                setSelectedIndex((prev) => (prev + 1) % POWER_OPTIONS.length);
+                return;
+                
+            case "Return":
+            case "space":
+                handlePowerAction(selectedIndex);
+                return;
+                
+            default:
+                // Check for hotkeys (a, r, s)
+                const optionIndex = POWER_OPTIONS.findIndex(option => 
+                    option.key.toLowerCase() === keyname.toLowerCase()
+                );
+                if (optionIndex !== -1) {
+                    setSelectedIndex(optionIndex);
+                    handlePowerAction(optionIndex);
+                }
+                return;
+        }
+    }
+
+    // Expose toggle function globally
+    (globalThis as any).toggleShutdown = async () => {
+        console.log("Toggling shutdown popup. Current visible:", win.visible);
+        
+        if (!win.visible) {
+            // Get focused monitor before showing
+            const focusedMonitor = await getFocusedMonitor();
+            setCurrentMonitor(focusedMonitor);
+            win.monitor = focusedMonitor;
+            console.log("Setting popup to monitor:", focusedMonitor);
+        }
+        
+        win.visible = !win.visible;
+        
+        if (win.visible) {
+            setSelectedIndex(0);
+        }
+        
+        console.log("New visible state:", win.visible);
+    };
+
     return (
         <window
+            $={(ref) => (win = ref)}
             name="shutdown-popup"
             visible={visible}
-            monitor={0}
-            anchor={Astal.WindowAnchor.TOP}
+            monitor={currentMonitor}
+            anchor={0.5}
             layer={Astal.Layer.OVERLAY}
-            exclusivity={0}
+            exclusivity={Astal.Exclusivity.IGNORE}
+            keymode={Astal.Keymode.EXCLUSIVE}
             class="shutdown-popup"
+            onNotifyVisible={({ visible }) => {
+                if (visible) {
+                    setSelectedIndex(0);
+                    console.log("Shutdown popup is now visible on monitor", currentMonitor);
+                } else {
+                    console.log("Shutdown popup is now hidden");
+                }
+            }}
         >
-            <box class="circle-container">
-                {POWER_OPTIONS.map((option, index) => (
-                    <button
-                        onClicked={() => handlePowerAction(index)}
-                        class={`circle-button angle-${index}`}
-                    >
-                        <label label={option.label} />
-                    </button>
-                ))}
+            <Gtk.EventControllerKey onKeyPressed={onKey} />
+            <box 
+                class="shutdown-container" 
+                orientation={Gtk.Orientation.VERTICAL}
+                valign={Gtk.Align.CENTER}
+                halign={Gtk.Align.CENTER}
+            >
+                <label class="shutdown-title" label="Opciones de energía" />
+                
+                {/* Icon row */}
+                <box class="shutdown-icons-row" orientation={Gtk.Orientation.HORIZONTAL}>
+                    {POWER_OPTIONS.map((option, index) => (
+                        <box
+                            class={`shutdown-icon-container ${selectedIndex === index ? 'selected' : ''}`}
+                            orientation={Gtk.Orientation.VERTICAL}
+                        >
+                            <button
+                                onClicked={() => handlePowerAction(index)}
+                                class={`shutdown-icon-button ${selectedIndex === index ? 'selected' : ''}`}
+                            >
+                                <label class="shutdown-icon" label={option.label} />
+                            </button>
+                            <label class="shutdown-label" label={option.text} />
+                            <label class="shutdown-key" label={option.key.toUpperCase()} />
+                        </box>
+                    ))}
+                </box>
+                
+                <label class="shutdown-hint" label="← → para navegar • Enter para seleccionar • Escape para cancelar" />
             </box>
         </window>
     );

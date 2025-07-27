@@ -1,45 +1,30 @@
 # AGENTS.md - AGS Desktop Shell Configuration
 
-## Project Structure
-```
-src/
-├── components/          # React-like components
-│   ├── bar/            # Top bar components  
-│   ├── dashboard/      # Dashboard widgets
-│   ├── notifications/  # Notification system
-│   ├── osd/           # On-screen display
-│   └── misc/          # Miscellaneous components
-├── types/             # TypeScript type definitions
-├── utils/             # Utility functions and helpers
-└── styles/            # SCSS stylesheets
-```
-
 ## Build/Test Commands
-This is an AGS (Aylur's GTK Shell) configuration project - no traditional build/lint/test commands.
-AGS handles compilation and execution directly via `ags` command.
+- `ags` - Run AGS shell with this configuration
+- No traditional build/lint/test commands - AGS handles compilation directly
 
 ## Code Style Guidelines
 
-### TypeScript Configuration
-- Strict mode enabled with ES2022 modules and ES2020 target
-- JSX with React syntax using "ags/gtk4" as jsxImportSource
-- Comprehensive type definitions in `src/types/index.ts`
-
-### Import Conventions
+### TypeScript & Imports
+- Use strict mode with ES2022 modules, ES2020 target, bundler resolution
 - AGS framework: `import { Astal, Gtk } from "ags/gtk4"`
-- Utilities: `import { execAsync } from "ags/process"`, `import { createPoll } from "ags/time"`
-- Local types: `import { ComponentProps, BarStatus } from "../types"`
-- Local utils: `import { formatTime, safeJsonParse } from "../utils"`
-- Components: Use barrel exports from index files
+- Process/time: `import { execAsync } from "ags/process"`, `import { createPoll } from "ags/time"`
+- Local: `import { ComponentProps } from "../types"`, `import { formatTime } from "../utils"`
 
-### Component Structure
-- Components accept props interface extending `ComponentProps`
-- All components have comprehensive JSDoc comments
-- Default export pattern: `export default function ComponentName({ props }: PropsInterface = {})`
-- Components use AGS custom elements (`<window>`, `<box>`, `<label>`, etc.)
+### Components & Types
+- Default export: `export default function ComponentName({ prop }: Props = {})`
+- Props extend `ComponentProps` interface with optional `monitor`, `className`, `visible`
+- Use AGS elements: `<window>`, `<box>`, `<label>`, `<button>` etc.
+- Component state via polling: `createPoll(interval, callback)`
 
-### Documentation Standards
-- JSDoc comments for all functions and components
+### Naming & Documentation
+- camelCase for variables/functions, PascalCase for components/types
+- Comprehensive JSDoc for all functions: purpose, params, returns
+- File headers explaining component purpose and features
 - Interface documentation for complex types
-- Inline comments for business logic
-- File header comments explaining component purpose
+
+### Error Handling & Utils
+- Use `safeJsonParse(json, fallback)` for JSON parsing
+- Async script execution via `executeScript(scriptName)` helper
+- Console.error for debugging, graceful fallbacks for failures

@@ -7,9 +7,12 @@
  * - Bottom bar with media information
  * - OSD for volume feedback
  * - Notification system
+ * - Application launcher
  */
 import app from "ags/gtk4/app";
 import style from "./src/styles/style.scss";
+import GLib from "gi://GLib";
+import { getFocusedMonitor } from "./src/utils";
 
 // Import all components
 import Bar from "./src/components/bar/Bar";
@@ -17,12 +20,45 @@ import Dashboard from "./src/components/dashboard/Dashboard";
 import Botbar from "./src/components/misc/Botbar";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
+import { Launcher } from "./src/components/launcher";
+
+// Global launcher window reference for toggle functionality
+let launcherWindow: any;
 
 /**
- * Application startup configuration
+ * Application startup configuration with request handler for launcher toggle
  */
 app.start({
   css: style,
+  requestHandler(request, res) {
+    const [, argv] = GLib.shell_parse_argv(request);
+    if (!argv) return res("argv parse error");
+
+    switch (argv[0]) {
+      case "toggle":
+        // Get focused monitor and update launcher position
+        getFocusedMonitor().then(focusedMonitor => {
+          const window = app.get_window("launcher") || launcherWindow;
+          if (window) {
+            // Update monitor before toggling visibility
+            window.monitor = focusedMonitor;
+            window.set_visible(!window.visible);
+          }
+        });
+        return res("ok");
+      case "toggle-launcher":
+        getFocusedMonitor().then(focusedMonitor => {
+          const launcherWin = app.get_window("launcher") || launcherWindow;
+          if (launcherWin) {
+            launcherWin.monitor = focusedMonitor;
+            launcherWin.set_visible(!launcherWin.visible);
+          }
+        });
+        return res("launcher toggled");
+      default:
+        return res("unknown command");
+    }
+  },
   main() {
     // Log current GTK theme for debugging
     console.log("AGS Desktop Shell starting with theme:", app.get_gtk_theme());
@@ -44,6 +80,12 @@ app.start({
 
     // Notification popup system
     NotificationPopups();
+
+    // Application launcher (initially hidden)
+    launcherWindow = Launcher({ 
+      monitor: primaryMonitor,
+      visible: false 
+    });
 
     console.log("AGS Desktop Shell components initialized successfully");
   },

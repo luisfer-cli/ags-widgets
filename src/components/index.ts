@@ -6,3 +6,4 @@ export * from './dashboard';
 export * from './notifications';
 export * from './osd';
 export * from './misc';
+export * from './launcher';

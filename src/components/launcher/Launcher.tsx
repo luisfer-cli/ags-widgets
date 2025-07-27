@@ -1,9 +1,28 @@
+/**
+ * Application Launcher Component
+ * 
+ * Provides fuzzy search functionality for system applications with keyboard navigation.
+ * Integrated from standalone picker into the main AGS system.
+ */
 import { For, createState } from "ags"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
 import AstalApps from "gi://AstalApps"
 import Graphene from "gi://Graphene"
+import { ComponentProps } from "../../types"
 
-export default function Launcher() {
+export interface LauncherProps extends ComponentProps {
+    maxResults?: number;
+}
+
+/**
+ * Application launcher with fuzzy search and keyboard navigation
+ */
+export default function Launcher({ 
+    monitor = 0, 
+    className = "", 
+    visible = false,
+    maxResults = 8
+}: LauncherProps = {}) {
     let contentbox: Gtk.Box
     let searchentry: Gtk.Entry
     let win: Astal.Window
@@ -11,11 +30,17 @@ export default function Launcher() {
     const apps = new AstalApps.Apps()
     const [list, setList] = createState(new Array<AstalApps.Application>())
 
+    /**
+     * Search applications using fuzzy matching
+     */
     function search(text: string) {
         if (text === "") setList([])
-        else setList(apps.fuzzy_query(text).slice(0, 8))
+        else setList(apps.fuzzy_query(text).slice(0, maxResults))
     }
 
+    /**
+     * Launch selected application and hide launcher
+     */
     function launch(app?: AstalApps.Application) {
         if (app) {
             win.hide()
@@ -23,8 +48,9 @@ export default function Launcher() {
         }
     }
 
-    // close on ESC
-    // handle alt + number key
+    /**
+     * Handle keyboard events - ESC to close, Enter to launch first result
+     */
     function onKey(
         _e: Gtk.EventControllerKey,
         keyval: number,
@@ -35,10 +61,11 @@ export default function Launcher() {
             win.visible = false
             return
         }
-
     }
 
-    // close on clickaway
+    /**
+     * Close launcher when clicking outside content area
+     */
     function onClick(_e: Gtk.GestureClick, _: number, x: number, y: number) {
         const [, rect] = contentbox.compute_bounds(win)
         const position = new Graphene.Point({ x, y })
@@ -52,11 +79,13 @@ export default function Launcher() {
     return (
         <window
             $={(ref) => (win = ref)}
-            class="launcher"
+            class={`launcher ${className}`}
             name="launcher"
             anchor={0.5}
             exclusivity={Astal.Exclusivity.IGNORE}
             keymode={Astal.Keymode.EXCLUSIVE}
+            visible={visible}
+            monitor={monitor}
             onNotifyVisible={({ visible }) => {
                 const context = contentbox.get_style_context()
 
@@ -66,6 +95,7 @@ export default function Launcher() {
                     searchentry.grab_focus()
                 } else {
                     searchentry.set_text("")
+                    setList([])
                 }
             }}
         >
@@ -85,7 +115,7 @@ export default function Launcher() {
                     onNotifyText={({ text }) => search(text)}
                     onActivate={() => launch(list.get()[0])}
                     hexpand
-                    placeholderText="Start typing to search"
+                    placeholderText="Start typing to search applications..."
                 />
                 <Gtk.Separator visible={list((l) => l.length > 0)} />
                 <box
@@ -100,7 +130,7 @@ export default function Launcher() {
                                     class="app"
                                     $={(ref) => {
                                         button = ref
-                                        // Espera unos milisegundos antes de aplicar la clase visible
+                                        // Add visible class with slight delay for animation
                                         setTimeout(() => button.get_style_context()?.add_class("visible"), 100)
                                     }}
                                     onClicked={() => launch(app)}

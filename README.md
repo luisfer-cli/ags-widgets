@@ -28,6 +28,13 @@ A feature-rich, productivity-focused desktop shell built with [AGS (Aylur's GTK 
 - **Popup Notifications** - Clean, non-intrusive notifications
 - **Custom Styling** - Themed to match your desktop
 
+### 🚀 **Application Launcher**
+
+- **Fuzzy Search** - Quick application search and launch
+- **Keyboard Navigation** - ESC to close, Enter to launch
+- **Modern UI** - Smooth animations and Nord theme integration
+- **Toggle Support** - Configurable hotkey activation
+
 ### 🖥️ **Window Management**
 
 - **Top Bar** - Workspace indicators and current application
@@ -43,6 +50,7 @@ src/
 │   ├── dashboard/      # Main productivity widgets
 │   ├── notifications/  # Notification popup system
 │   ├── osd/           # On-screen display overlays
+│   ├── launcher/      # Application launcher with fuzzy search
 │   └── misc/          # Additional UI components
 ├── types/             # TypeScript definitions
 ├── utils/             # Helper functions and utilities
@@ -87,6 +95,7 @@ The shell will automatically initialize with:
 - ✅ Media controls in bottom bar
 - ✅ Notification system enabled
 - ✅ Volume OSD ready
+- ✅ Application launcher configured
 
 ## ⚙️ Configuration
 
@@ -124,6 +133,7 @@ Productivity scripts in `/scripts/`:
 - `get_wpm.sh` - Typing speed calculation
 - `timewarriorchess.sh` - Chess session tracking
 - `monitor.sh` - System monitoring data
+- `launcher-toggle.sh` - Application launcher toggle
 
 ## 🎨 Theming
 
@@ -190,6 +200,16 @@ Automatically adapts to your GTK theme while maintaining custom styling for enha
 - **CPU Usage**: Real-time percentage with load average
 - **Memory**: RAM usage with swap information
 - **System Stats**: Uptime, processes, and performance metrics
+
+### 🚀 Application Launcher
+
+- **Fuzzy Search**: Type to find applications instantly
+- **Keyboard Shortcuts**: 
+  - `ESC` - Close launcher
+  - `Enter` - Launch selected application
+  - `Typing` - Filter results dynamically
+- **Visual Design**: Nord theme with smooth animations
+- **Toggle Access**: Use `scripts/launcher-toggle.sh` or bind to hotkey
 
 ## 🔧 Advanced Usage
 

@@ -307,3 +307,91 @@
   font-size: 16px;
   transition: color 0.2s ease-in-out;
 }
+
+/* ================================
+   LAUNCHER COMPONENT STYLES
+   ================================ */
+
+.launcher {
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 300ms ease-in-out;
+}
+
+#launcher-content {
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 24px;
+  transform: scale(0.95);
+  transition: transform 200ms ease-out;
+}
+
+.launcher .animate-in {
+  transform: scale(1) !important;
+}
+
+.launcher entry {
+  background-color: rgba(59, 66, 82, 0.6);
+  /* nord1 */
+  color: var(--nord6);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: none;
+  transition: all 200ms ease-in-out;
+}
+
+.launcher entry:focus {
+  border: 2px solid var(--nord9);
+  /* frost blue */
+  box-shadow: 0 0 8px rgba(129, 161, 193, 0.3);
+}
+
+.launcher separator {
+  margin: 12px 0;
+  background-color: rgba(67, 76, 94, 0.5);
+  /* nord2 */
+}
+
+.launcher button.app {
+  background-color: rgba(67, 76, 94, 0.8);
+  /* nord2 */
+  color: var(--nord4);
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 200ms ease-in-out;
+}
+
+.launcher button.app.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.launcher button.app:hover {
+  background-color: rgba(129, 161, 193, 0.3);
+  /* nord9 */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.launcher button.app box {
+  spacing: 12px;
+}
+
+.launcher button.app label {
+  font-size: 14px;
+  color: var(--nord4);
+  font-weight: 500;
+}
+
+.launcher button.app image {
+  padding-right: 8px;
+  min-width: 24px;
+  min-height: 24px;
+}

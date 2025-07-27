@@ -59,3 +59,8 @@ export interface ComponentProps {
     className?: string;
     visible?: boolean;
 }
+
+// Launcher component types
+export interface LauncherProps extends ComponentProps {
+    maxResults?: number;
+}

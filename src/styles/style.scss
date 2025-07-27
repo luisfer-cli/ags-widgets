@@ -83,7 +83,6 @@
 .widget:hover {
   background-color: rgba(59, 66, 82, 0.85);
   /* nord1 */
-  transform: translateY(-2px) scale(1.02);
 }
 
 /* ================================
@@ -303,7 +302,6 @@
 .close-button {
   background-color: transparent;
   border: none;
-  cursor: pointer;
   font-size: 16px;
   transition: color 0.2s ease-in-out;
 }
@@ -323,12 +321,11 @@
   background-color: transparent;
   border-radius: 20px;
   padding: 24px;
-  transform: scale(0.95);
   transition: transform 200ms ease-out;
 }
 
 .launcher .animate-in {
-  transform: scale(1) !important;
+  /* Transform animations handled by GTK */
 }
 
 .launcher entry {
@@ -364,24 +361,21 @@
   margin-bottom: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: translateY(-20px);
   transition: all 200ms ease-in-out;
 }
 
 .launcher button.app.visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .launcher button.app:hover {
   background-color: rgba(129, 161, 193, 0.3);
   /* nord9 */
-  transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .launcher button.app box {
-  spacing: 12px;
+  /* GTK handles box spacing through properties */
 }
 
 .launcher button.app label {
@@ -406,16 +400,9 @@
 
 .shutdown-container {
   padding: 60px 80px;
-  background: linear-gradient(135deg, 
-    rgba(46, 52, 64, 0.98) 0%, 
-    rgba(59, 66, 82, 0.95) 100%);
+  background: transparent;
   border-radius: 24px;
   border: 1px solid rgba(129, 161, 193, 0.3);
-  box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
 }
 
 .shutdown-title {
@@ -441,12 +428,11 @@
 }
 
 .shutdown-icon-container.selected {
-  background: linear-gradient(135deg, 
-    rgba(129, 161, 193, 0.25) 0%, 
-    rgba(143, 188, 187, 0.2) 100%);
+  background: linear-gradient(135deg,
+      rgba(129, 161, 193, 0.25) 0%,
+      rgba(143, 188, 187, 0.2) 100%);
   border-color: rgba(129, 161, 193, 0.6);
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(129, 161, 193, 0.2),
     0 0 20px rgba(129, 161, 193, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -465,7 +451,6 @@
 
 .shutdown-icon-button:hover {
   background: rgba(129, 161, 193, 0.1);
-  transform: scale(1.1);
 }
 
 .shutdown-icon-button.selected {
@@ -481,10 +466,9 @@
 
 .shutdown-icon-container.selected .shutdown-icon {
   color: var(--nord8);
-  text-shadow: 
+  text-shadow:
     0 0 20px rgba(136, 192, 208, 0.6),
     0 2px 8px rgba(0, 0, 0, 0.3);
-  transform: scale(1.1);
 }
 
 .shutdown-label {
@@ -531,13 +515,16 @@
 
 /* Subtle animations */
 @keyframes glow {
-  0%, 100% { 
-    box-shadow: 
+
+  0%,
+  100% {
+    box-shadow:
       0 20px 40px rgba(129, 161, 193, 0.2),
       0 0 20px rgba(129, 161, 193, 0.1);
   }
-  50% { 
-    box-shadow: 
+
+  50% {
+    box-shadow:
       0 20px 40px rgba(129, 161, 193, 0.3),
       0 0 30px rgba(129, 161, 193, 0.2);
   }

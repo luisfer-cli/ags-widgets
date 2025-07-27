@@ -19,7 +19,7 @@ interface MonitoringData {
  */
 export default function Monitoring() {
     // Poll for system data every 2 seconds
-    const monitoringData = createPoll("monitoring", 2000, async () => {
+    const monitoringData = createPoll("0:0", 2000, async () => {
         const data = await executeScript("monitor.sh");
 
         if (!data) {

@@ -41,7 +41,14 @@ export async function executeScript(scriptName: string): Promise<any> {
     
     try {
         const output = await execAsync(scriptPath);
-        return JSON.parse(output);
+        
+        // Try to parse as JSON first
+        try {
+            return JSON.parse(output);
+        } catch {
+            // If not JSON, return as plain text
+            return { text: output.trim() };
+        }
     } catch (error) {
         console.error(`Error executing script ${scriptName}:`, error);
         return null;

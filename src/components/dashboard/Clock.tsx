@@ -14,7 +14,7 @@ export default function Clock() {
     let seconds = 0;
 
     // Poll for current time every second
-    const time = createPoll("clock", 1000, () => {
+    const time = createPoll(formatTime(), 1000, () => {
         const now = new Date();
         seconds = now.getSeconds();
         return formatTime(now);

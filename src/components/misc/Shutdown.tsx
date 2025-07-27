@@ -26,9 +26,9 @@ const POWER_OPTIONS: PowerOption[] = [
 /**
  * Shutdown popup with keyboard navigation and power options
  */
-export default function ShutdownPopup({ 
-    monitor = 0, 
-    visible = false 
+export default function ShutdownPopup({
+    monitor = 0,
+    visible = false
 }: ComponentProps & { visible?: boolean } = {}) {
     let win: Astal.Window;
     const [selectedIndex, setSelectedIndex] = createState(0);
@@ -39,7 +39,7 @@ export default function ShutdownPopup({
      */
     function handlePowerAction(optionIndex: number): void {
         const option = POWER_OPTIONS[optionIndex];
-        
+
         if (option) {
             try {
                 execAsync(["bash", "-c", option.command]);
@@ -60,28 +60,28 @@ export default function ShutdownPopup({
         mod: number,
     ) {
         const keyname = Gdk.keyval_name(keyval) || "";
-        
+
         switch (keyname) {
             case "Escape":
                 win.visible = false;
                 return;
-                
+
             case "Left":
                 setSelectedIndex((prev) => (prev - 1 + POWER_OPTIONS.length) % POWER_OPTIONS.length);
                 return;
-                
+
             case "Right":
                 setSelectedIndex((prev) => (prev + 1) % POWER_OPTIONS.length);
                 return;
-                
+
             case "Return":
             case "space":
-                handlePowerAction(selectedIndex);
+                handlePowerAction(selectedIndex(Number).get());
                 return;
-                
+
             default:
                 // Check for hotkeys (a, r, s)
-                const optionIndex = POWER_OPTIONS.findIndex(option => 
+                const optionIndex = POWER_OPTIONS.findIndex(option =>
                     option.key.toLowerCase() === keyname.toLowerCase()
                 );
                 if (optionIndex !== -1) {
@@ -95,7 +95,7 @@ export default function ShutdownPopup({
     // Expose toggle function globally
     (globalThis as any).toggleShutdown = async () => {
         console.log("Toggling shutdown popup. Current visible:", win.visible);
-        
+
         if (!win.visible) {
             // Get focused monitor before showing
             const focusedMonitor = await getFocusedMonitor();
@@ -103,13 +103,13 @@ export default function ShutdownPopup({
             win.monitor = focusedMonitor;
             console.log("Setting popup to monitor:", focusedMonitor);
         }
-        
+
         win.visible = !win.visible;
-        
+
         if (win.visible) {
             setSelectedIndex(0);
         }
-        
+
         console.log("New visible state:", win.visible);
     };
 
@@ -134,24 +134,24 @@ export default function ShutdownPopup({
             }}
         >
             <Gtk.EventControllerKey onKeyPressed={onKey} />
-            <box 
-                class="shutdown-container" 
+            <box
+                class="shutdown-container"
                 orientation={Gtk.Orientation.VERTICAL}
                 valign={Gtk.Align.CENTER}
                 halign={Gtk.Align.CENTER}
             >
                 <label class="shutdown-title" label="Opciones de energía" />
-                
+
                 {/* Icon row */}
                 <box class="shutdown-icons-row" orientation={Gtk.Orientation.HORIZONTAL}>
                     {POWER_OPTIONS.map((option, index) => (
                         <box
-                            class={`shutdown-icon-container ${selectedIndex === index ? 'selected' : ''}`}
+                            class={`shutdown-icon-container ${selectedIndex(Number).get() === index ? 'selected' : ''}`}
                             orientation={Gtk.Orientation.VERTICAL}
                         >
                             <button
                                 onClicked={() => handlePowerAction(index)}
-                                class={`shutdown-icon-button ${selectedIndex === index ? 'selected' : ''}`}
+                                class={`shutdown-icon-button ${selectedIndex(Number).get() === index ? 'selected' : ''}`}
                             >
                                 <label class="shutdown-icon" label={option.label} />
                             </button>
@@ -160,7 +160,7 @@ export default function ShutdownPopup({
                         </box>
                     ))}
                 </box>
-                
+
                 <label class="shutdown-hint" label="← → para navegar • Enter para seleccionar • Escape para cancelar" />
             </box>
         </window>

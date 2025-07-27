@@ -17,13 +17,13 @@ export default function Zk() {
     const scriptPath = `${GLib.get_home_dir()}/.config/ags/scripts/checkDay.sh`;
 
     // Poll for daily note status every 3 seconds
-    const dayChecked = createPoll("check-day", 3000, async (): Promise<string> => {
+    const dayChecked = createPoll("false", 3000, async (): Promise<string> => {
         try {
             // Script execution success means day is checked
-            await execAsync(scriptPath);
+            await execAsync([scriptPath]);
             return "true";
         } catch (error) {
-            console.error("Day check script failed:", error);
+            // Script returns exit code 1 when file doesn't exist - this is normal
             return "false";
         }
     });

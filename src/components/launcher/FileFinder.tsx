@@ -51,7 +51,7 @@ export default function FileFinder({
     const [homeDir, setHomeDir] = createState("")
 
     // Initialize home directory on component mount
-    if (!searchPath && homeDir === "") {
+    if (!searchPath && homeDir(String).get() === "") {
         getUserHome().then(setHomeDir)
     }
 

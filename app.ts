@@ -8,6 +8,7 @@
  * - OSD for volume feedback
  * - Notification system
  * - Application launcher
+ * - File finder
  */
 import app from "ags/gtk4/app";
 import style from "./src/styles/style.scss";
@@ -21,10 +22,11 @@ import Botbar from "./src/components/misc/Botbar";
 import ShutdownPopup from "./src/components/misc/Shutdown";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
-import { Launcher } from "./src/components/launcher";
+import { Launcher, FileFinder } from "./src/components/launcher";
 
-// Global launcher window reference for toggle functionality
+// Global window references for toggle functionality
 let launcherWindow: any;
+let fileFinderWindow: any;
 let shutdownWindow: any;
 
 /**
@@ -57,6 +59,15 @@ app.start({
           }
         });
         return res("launcher toggled");
+      case "toggle-filefinder":
+        getFocusedMonitor().then((focusedMonitor) => {
+          const fileFinderWin = fileFinderWindow;
+          if (fileFinderWin) {
+            fileFinderWin.monitor = focusedMonitor;
+            fileFinderWin.set_visible(!fileFinderWin.visible);
+          }
+        });
+        return res("filefinder toggled");
       case "toggle-shutdown":
         // Toggle shutdown popup using global function
         if (typeof (globalThis as any).toggleShutdown === "function") {
@@ -91,6 +102,12 @@ app.start({
 
     // Application launcher (initially hidden)
     launcherWindow = Launcher({
+      monitor: primaryMonitor,
+      visible: false,
+    });
+
+    // File finder (initially hidden)
+    fileFinderWindow = FileFinder({
       monitor: primaryMonitor,
       visible: false,
     });

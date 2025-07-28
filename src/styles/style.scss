@@ -400,6 +400,93 @@
 }
 
 /* ================================
+   FILE FINDER STYLES
+   ================================ */
+
+.filefinder {
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 300ms ease-in-out;
+}
+
+#filefinder-content {
+  background-color: transparent;
+  opacity: 0;
+  transform: translateY(-300px);
+  border-radius: 20px;
+  padding: 24px;
+  transition: transform 200ms ease-out;
+}
+
+#filefinder-content.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.filefinder entry {
+  background-color: rgba(59, 66, 82, 0.6);
+  color: var(--nord6);
+  border-radius: 7px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: none;
+  transition: all 200ms ease-in-out;
+}
+
+.filefinder entry:focus {
+  border: 2px solid var(--nord10);
+  box-shadow: 0 0 8px rgba(94, 129, 172, 0.3);
+}
+
+.filefinder separator {
+  margin: 12px 0;
+  background-color: rgba(67, 76, 94, 0.5);
+}
+
+.filefinder button.file {
+  background-color: rgba(67, 76, 94, 0.8);
+  color: var(--nord4);
+  border: none;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-200px);
+  opacity: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.filefinder button.file.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.filefinder button.file:hover {
+  background-color: rgba(94, 129, 172, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.filefinder button.file label {
+  font-size: 14px;
+  color: var(--nord4);
+  font-weight: 500;
+}
+
+.filefinder button.file label.file-path {
+  font-size: 11px;
+  color: var(--nord3);
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.filefinder button.file image {
+  padding-right: 8px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+/* ================================
    SHUTDOWN POPUP STYLES
    ================================ */
 

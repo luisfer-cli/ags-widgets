@@ -7,31 +7,9 @@
  * - Real-time updates via polling
  */
 import { Astal, Gtk } from "ags/gtk4";
-import { execAsync } from "ags/process";
-import { createPoll } from "ags/time";
 import { With } from "ags";
-import { BarStatus, ComponentProps } from "../../types";
-import { safeJsonParse } from "../../utils";
-
-/**
- * Creates workspace indicator labels
- * @param ids - Array of workspace IDs to display
- * @param current - Currently active workspace ID
- * @returns JSX elements for workspace indicators
- */
-function createWorkspaceLabels(ids: number[], current: number) {
-    return ids.map(id => {
-        // Display workspace 10 as "0" for better UX
-        const visibleLabel = id === 10 ? "0" : id.toString();
-        
-        return (
-            <label
-                label={visibleLabel}
-                class={`workspace${id === current ? " current" : ""}`}
-            />
-        );
-    });
-}
+import { BarStatus, ComponentProps, HyprlandWorkspace, HyprlandWindow } from "../../types";
+import { useJsonScript } from "../../utils/hooks";
 
 /**
  * Top bar component showing workspaces and current app
@@ -41,30 +19,18 @@ function createWorkspaceLabels(ids: number[], current: number) {
 export default function Bar({ monitor = 0 }: ComponentProps = {}) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor;
 
-    // Poll for workspace and application status every 100ms
-    const barStatus = createPoll<BarStatus>(
-        { workspace: 1, app: "Loading..." },
-        100,
-        async (): Promise<BarStatus> => {
-            try {
-                // Fetch workspace and window data in parallel
-                const [wsRaw, appRaw] = await Promise.all([
-                    execAsync("hyprctl activeworkspace -j").catch(() => "{}"),
-                    execAsync("hyprctl activewindow -j").catch(() => "{}")
-                ]);
+    // Poll for workspace status every 500ms
+    const workspaceStatus = useJsonScript<HyprlandWorkspace>(
+        "hyprctl-workspace.sh",
+        500,
+        { id: 1 } as HyprlandWorkspace
+    );
 
-                const wsJson = safeJsonParse(wsRaw);
-                const appJson = safeJsonParse(appRaw);
-
-                return {
-                    workspace: wsJson.id ?? 1,
-                    app: appJson.class ?? "Luisfer"
-                };
-            } catch (error) {
-                console.error("Error fetching bar status:", error);
-                return { workspace: 1, app: "Error" };
-            }
-        }
+    // Poll for active window status every 500ms  
+    const windowStatus = useJsonScript<HyprlandWindow>(
+        "hyprctl-window.sh", 
+        500,
+        { class: "Luisfer" } as HyprlandWindow
     );
 
     return (
@@ -76,46 +42,83 @@ export default function Bar({ monitor = 0 }: ComponentProps = {}) {
             exclusivity={Astal.Exclusivity.EXCLUSIVE}
             anchor={TOP | LEFT | RIGHT}
         >
-            <With value={barStatus}>
-                {({ workspace, app }) => (
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        halign={Gtk.Align.FILL}
-                        valign={Gtk.Align.CENTER}
-                        hexpand
-                        visible
-                    >
-                        {/* Left workspace indicators (1-5) */}
-                        <box
-                            hexpand
-                            class="workspace-bar"
-                            halign={Gtk.Align.CENTER}
-                            spacing={30}
-                        >
-                            {createWorkspaceLabels([1, 2, 3, 4, 5], workspace)}
-                        </box>
+            <box
+                orientation={Gtk.Orientation.HORIZONTAL}
+                halign={Gtk.Align.FILL}
+                valign={Gtk.Align.CENTER}
+                hexpand
+                visible
+            >
+                {/* Left workspace indicators (1-5) */}
+                <box
+                    hexpand
+                    class="workspace-bar"
+                    halign={Gtk.Align.CENTER}
+                    spacing={30}
+                >
+                    <label
+                        label="1"
+                        class={`workspace${workspaceStatus?.id === 1 ? " current" : ""}`}
+                    />
+                    <label
+                        label="2"
+                        class={`workspace${workspaceStatus?.id === 2 ? " current" : ""}`}
+                    />
+                    <label
+                        label="3"
+                        class={`workspace${workspaceStatus?.id === 3 ? " current" : ""}`}
+                    />
+                    <label
+                        label="4"
+                        class={`workspace${workspaceStatus?.id === 4 ? " current" : ""}`}
+                    />
+                    <label
+                        label="5"
+                        class={`workspace${workspaceStatus?.id === 5 ? " current" : ""}`}
+                    />
+                </box>
 
-                        {/* Center: Current application display */}
-                        <box
-                            halign={Gtk.Align.CENTER}
-                            hexpand
-                            class="current-app"
-                        >
-                            <label label={app} class="bar-title-text" />
-                        </box>
+                {/* Center: Current application display */}
+                <box
+                    halign={Gtk.Align.CENTER}
+                    hexpand
+                    class="current-app"
+                >
+                    <label 
+                        label={windowStatus?.class || "Luisfer"} 
+                        class="bar-title-text" 
+                    />
+                </box>
 
-                        {/* Right workspace indicators (6-10) */}
-                        <box
-                            halign={Gtk.Align.CENTER}
-                            class="workspace-bar"
-                            spacing={30}
-                            hexpand
-                        >
-                            {createWorkspaceLabels([6, 7, 8, 9, 10], workspace)}
-                        </box>
-                    </box>
-                )}
-            </With>
+                {/* Right workspace indicators (6-10) */}
+                <box
+                    halign={Gtk.Align.CENTER}
+                    class="workspace-bar"
+                    spacing={30}
+                    hexpand
+                >
+                    <label
+                        label="6"
+                        class={`workspace${workspaceStatus?.id === 6 ? " current" : ""}`}
+                    />
+                    <label
+                        label="7"
+                        class={`workspace${workspaceStatus?.id === 7 ? " current" : ""}`}
+                    />
+                    <label
+                        label="8"
+                        class={`workspace${workspaceStatus?.id === 8 ? " current" : ""}`}
+                    />
+                    <label
+                        label="9"
+                        class={`workspace${workspaceStatus?.id === 9 ? " current" : ""}`}
+                    />
+                    <label
+                        label="0"
+                        class={`workspace${workspaceStatus?.id === 10 ? " current" : ""}`}
+                    />
+                </box>
+            </box>
         </window>
     );
 }

@@ -3,10 +3,9 @@
  * Shows artist and track information from media players
  */
 import { Astal, Gtk } from "ags/gtk4";
-import { createPoll } from "ags/time";
-import { execAsync } from "ags/process";
 import { With } from "ags";
-import { ComponentProps } from "../../types";
+import { ComponentProps, MediaPlayerStatus } from "../../types";
+import { useScript } from "../../utils/hooks";
 
 /**
  * Bottom bar component for media display
@@ -16,32 +15,11 @@ import { ComponentProps } from "../../types";
 export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
     const { BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
 
-    // Poll for current track information every second
-    const currentTrack = createPoll<string>(
-        "",
-        1000,
-        async (): Promise<string> => {
-            try {
-                // Get artist and title from playerctl
-                const [artistOutput, titleOutput] = await Promise.all([
-                    execAsync("playerctl metadata artist").catch(() => ""),
-                    execAsync("playerctl metadata title").catch(() => "")
-                ]);
-
-                const artist = artistOutput.trim() || "Unknown Artist";
-                const title = titleOutput.trim() || "Unknown Title";
-
-                // Return formatted track info if we have valid data
-                if (artistOutput.trim() && titleOutput.trim()) {
-                    return `${artist} – ${title}`;
-                }
-
-                return "";
-            } catch (error) {
-                console.error("Error getting track info:", error);
-                return "";
-            }
-        }
+    // Poll for current track information every 2 seconds
+    const mediaStatus = useScript<MediaPlayerStatus>(
+        "media-player.sh",
+        2000,
+        { artist: "", title: "", status: "Stopped" }
     );
 
     return (
@@ -61,9 +39,14 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
                 class="botbar-box"
                 spacing={8}
             >
-                <With value={currentTrack}>
-                    {(track) =>
-                        track ? (
+                <With value={mediaStatus}>
+                    {(media) => {
+                        const hasTrack = media?.artist && media?.title && media?.status !== "Stopped";
+                        const trackText = hasTrack 
+                            ? `${media.artist} – ${media.title}` 
+                            : "";
+
+                        return trackText ? (
                             <box
                                 orientation={Gtk.Orientation.HORIZONTAL}
                                 spacing={6}
@@ -78,14 +61,20 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
 
                                 {/* Track information */}
                                 <label
-                                    label={track}
+                                    label={trackText}
                                     class="botbar-label"
                                     xalign={0.5}
                                     hexpand
                                 />
+                                
+                                {/* Status indicator */}
+                                <label
+                                    label={media?.status === "Playing" ? "▶" : "⏸"}
+                                    class="botbar-status"
+                                />
                             </box>
-                        ) : null
-                    }
+                        ) : null;
+                    }}
                 </With>
             </box>
         </window>

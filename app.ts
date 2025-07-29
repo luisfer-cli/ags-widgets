@@ -101,9 +101,6 @@ app.start({
     }
   },
   main() {
-    // Log current GTK theme for debugging
-    console.log("AGS Desktop Shell starting with theme:", app.get_gtk_theme());
-
     // Initialize all components on primary monitor
     const primaryMonitor = 0;
 
@@ -151,7 +148,5 @@ app.start({
       monitor: primaryMonitor,
       visible: false,
     });
-
-    console.log("AGS Desktop Shell components initialized successfully");
   },
 });

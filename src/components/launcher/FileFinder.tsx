@@ -7,31 +7,25 @@
  */
 import { For, createState } from "ags"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
-import { execAsync } from "ags/process"
 import Graphene from "gi://Graphene"
-import { ComponentProps } from "../../types"
-
-/**
- * Get the current user's home directory - works on any machine
- */
-async function getUserHome(): Promise<string> {
-    try {
-        const homeDir = await execAsync(["sh", "-c", "echo $HOME"])
-        return homeDir.trim() + "/"
-    } catch {
-        return "/home/user/"
-    }
-}
+import { ComponentProps, FileSearchResult } from "../../types"
+import { executeScript } from "../../utils"
 
 export interface FileFinderProps extends ComponentProps {
     maxResults?: number;
     searchPath?: string;
 }
 
-interface FileResult {
-    name: string;
-    path: string;
-    isDirectory: boolean;
+/**
+ * Get the current user's home directory - works on any machine
+ */
+async function getUserHome(): Promise<string> {
+    try {
+        const result = await executeScript("system-utils.sh", "get-home");
+        return result?.text?.trim() + "/" || "/home/user/";
+    } catch {
+        return "/home/user/";
+    }
 }
 
 /**
@@ -48,7 +42,7 @@ export default function FileFinder({
     let searchentry: Gtk.Entry
     let win: Astal.Window
 
-    const [list, setList] = createState(new Array<FileResult>())
+    const [list, setList] = createState(new Array<FileSearchResult>())
     const [homeDir, setHomeDir] = createState("")
 
     // Initialize home directory on component mount
@@ -90,46 +84,32 @@ export default function FileFinder({
             const userHome = await getUserHome()
             const searchDir = searchPath || userHome.replace(/\/$/, '') // Remove trailing slash
 
-            // Use fd for ultra-fast searching - only files, no directories
-            let output: string = ""
+            // Use file finder script
+            const searchType = searchPath?.includes('/.config') ? 'config' : 'home';
+            const result = await executeScript("file-finder.sh", text, searchType);
             
-            try {
-                // fd with --type f to only show files, limited results for performance
-                output = await execAsync([
-                    "fd",
-                    text,
-                    searchDir,
-                    "--type", "f", // Only files, no directories
-                    "--max-results", "50", // Much smaller limit since we only show ~10
-                    "--hidden", // Include hidden files
-                    "--no-ignore", // Don't respect .gitignore
-                    "-i" // Case insensitive
-                ])
-            } catch {
-                // Fallback to find if fd is not available - also only files
-                output = await execAsync([
-                    "sh", 
-                    "-c",
-                    `find "${searchDir}" -type f -iname "*${text}*" 2>/dev/null | head -50`
-                ])
+            if (!result?.text) {
+                setList([]);
+                return;
             }
 
-            const lines = output.split('\n').filter(line => line.trim() !== '')
-            const files: FileResult[] = []
+            const lines = result.text.split('\n').filter(line => line.trim() !== '')
+            const files: FileSearchResult[] = []
 
             for (const path of lines) {
-                // Ensure it's in home directory
+                // Ensure it's in search directory
                 if (!path.startsWith(searchDir)) continue
 
                 const name = path.split('/').pop() || path
                 const score = fuzzyMatch(text, name)
 
                 if (score > 0 && files.length < maxResults * 2) {
-                    // Since we're only getting files with --type f, no need to check if it's a directory
                     files.push({
                         name,
                         path,
-                        isDirectory: false // Always false since we only search files
+                        type: 'file', // Always file since we only search files
+                        size: 0, // Could be enhanced with stat info
+                        modified: new Date() // Could be enhanced with stat info
                     })
                 }
             }
@@ -150,12 +130,11 @@ export default function FileFinder({
     /**
      * Open selected file with default application
      */
-    async function openFile(file?: FileResult) {
+    async function openFile(file?: FileSearchResult) {
         if (file) {
             win.hide()
             try {
-                // Since we only show files now, always use xdg-open for files
-                await execAsync(["xdg-open", file.path])
+                await executeScript("system-utils.sh", "open-file", file.path);
             } catch (error) {
                 console.error("Failed to open file:", error)
             }
@@ -193,7 +172,7 @@ export default function FileFinder({
     /**
      * Get appropriate icon for file type (files only)
      */
-    function getFileIcon(file: FileResult): string {
+    function getFileIcon(file: FileSearchResult): string {
         const ext = file.name.split('.').pop()?.toLowerCase()
 
         switch (ext) {
@@ -248,7 +227,6 @@ export default function FileFinder({
                 if (visible) {
                     searchentry.grab_focus()
                 } else {
-                    searchentry.set_text("")
                     setList([])
                 }
             }}

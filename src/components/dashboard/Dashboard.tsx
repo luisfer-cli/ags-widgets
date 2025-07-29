@@ -7,6 +7,7 @@
  */
 import { Gtk } from "ags/gtk4";
 import { ComponentProps } from "../../types";
+import { WINDOW_DIMENSIONS } from "../../config/constants";
 import Clock from "./Clock";
 import WpmCounter from "./WpmCounter";
 import ChessTracking from "./ChessTracking";
@@ -26,17 +27,22 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
             monitor={monitor}
             visible={true}
             class="dashboard"
-            width-request={480}
-            height-request={280}
+            width-request={WINDOW_DIMENSIONS.DASHBOARD.width}
+            height-request={WINDOW_DIMENSIONS.DASHBOARD.height}
         >
             <box 
                 orientation={Gtk.Orientation.VERTICAL} 
                 spacing={20} 
                 halign={Gtk.Align.CENTER} 
                 valign={Gtk.Align.CENTER}
+                class="dashboard-container"
             >
                 {/* Top row: Clock, WPM, Zettelkasten */}
-                <box orientation={Gtk.Orientation.HORIZONTAL} spacing={20}>
+                <box 
+                    orientation={Gtk.Orientation.HORIZONTAL} 
+                    spacing={20}
+                    class="dashboard-row"
+                >
                     <box class="widget clock">
                         <Clock />
                     </box>
@@ -49,8 +55,16 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                 </box>
 
                 {/* Bottom row: Chess/Programming column, Monitoring */}
-                <box orientation={Gtk.Orientation.HORIZONTAL} spacing={20}>
-                    <box orientation={Gtk.Orientation.VERTICAL} spacing={10}>
+                <box 
+                    orientation={Gtk.Orientation.HORIZONTAL} 
+                    spacing={20}
+                    class="dashboard-row"
+                >
+                    <box 
+                        orientation={Gtk.Orientation.VERTICAL} 
+                        spacing={10}
+                        class="dashboard-column"
+                    >
                         <box>
                             <ChessTracking />
                         </box>

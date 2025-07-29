@@ -4,15 +4,10 @@
  */
 import { With } from "ags";
 import { Gtk } from "ags/gtk4";
-import { createPoll } from "ags/time";
-import { executeScript } from "../../utils";
-
-// Chess tracking status interface
-interface ChessStatus {
-    alt: "pending" | "done" | "progress";
-    current: string;
-    time: string;
-}
+import { ChessStatus } from "../../types";
+import { useScript } from "../../utils/hooks";
+import { getStatusIcon } from "../../utils";
+import { POLL_INTERVALS, SCRIPTS, CSS_CLASSES } from "../../config/constants";
 
 /**
  * Chess time tracking widget
@@ -21,35 +16,32 @@ interface ChessStatus {
  */
 export default function ChessTracking() {
     // Poll for chess tracking status every second
-    const chessStatus = createPoll<ChessStatus | null>(
-        { alt: "pending", current: "", time: "" },
-        1000,
-        async (): Promise<ChessStatus | null> => {
-            const data = await executeScript("timewarriorchess.sh");
-
-            if (!data) return null;
-
-            return {
-                alt: data.alt ?? "pending",
-                current: data.current ?? "",
-                time: data.time ?? ""
-            };
-        }
+    const chessStatus = useScript<ChessStatus>(
+        SCRIPTS.CHESS_TRACKING,
+        POLL_INTERVALS.NORMAL,
+        { alt: "pending", current: "", time: "" }
     );
 
     return (
         <With value={chessStatus}>
             {(status) => (
                 <box
-                    class={`widget ${status?.alt ?? "pending"}`}
+                    class={`${CSS_CLASSES.WIDGET} ${status?.alt ?? "pending"}`}
                     orientation={Gtk.Orientation.HORIZONTAL}
                     spacing={6}
                     hexpand
                 >
-                    {status && (
+                    {status ? (
                         <label
                             hexpand
-                            label={`    ${status.time}`}
+                            label={`${getStatusIcon(status.alt)}${status.time}`}
+                            class="chess-tracking-label"
+                        />
+                    ) : (
+                        <label
+                            hexpand
+                            label="❌ Chess tracking error"
+                            class="chess-tracking-error"
                         />
                     )}
                 </box>

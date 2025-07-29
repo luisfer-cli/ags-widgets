@@ -1,16 +1,7 @@
 import { createState } from "ags";
-import { execAsync } from "ags/process";
 import { Gtk, Astal } from "ags/gtk4";
-import { ComponentProps } from "../../types";
-import { getFocusedMonitor } from "../../utils";
-
-// Audio device interface
-interface AudioDevice {
-    name: string;
-    index: string;
-    volume: number;
-    muted: boolean;
-}
+import { ComponentProps, AudioDevice } from "../../types";
+import { getFocusedMonitor, executeScript } from "../../utils";
 
 function getVolumeIcon(volume: number, muted: boolean): string {
     if (muted || volume === 0) return "󰝟";
@@ -44,7 +35,7 @@ export default function AudioConfig({ monitor = 0 }: ComponentProps = {}) {
             const indexMatch = lines[0].match(/^(\d+)/);
             if (!indexMatch) continue;
 
-            const device: Partial<AudioDevice> = { index: indexMatch[1] };
+            const device: Partial<AudioDevice> = { index: parseInt(indexMatch[1]) };
 
             for (const line of lines) {
                 const trimmed = line.trim();
@@ -66,10 +57,11 @@ export default function AudioConfig({ monitor = 0 }: ComponentProps = {}) {
                 }
             }
 
-            if (device.index && device.name) {
+            if (device.index !== undefined && device.name) {
                 devices.push({
                     index: device.index,
                     name: device.name,
+                    description: device.name,
                     volume: device.volume || 0,
                     muted: device.muted || false,
                 });
@@ -83,12 +75,12 @@ export default function AudioConfig({ monitor = 0 }: ComponentProps = {}) {
         setLoading(true);
         try {
             const [sinksOutput, sourcesOutput] = await Promise.all([
-                execAsync(["pactl", "list", "sinks"]),
-                execAsync(["pactl", "list", "sources"])
+                executeScript("audio-control.sh", "list-sinks"),
+                executeScript("audio-control.sh", "list-sources")
             ]);
 
-            const parsedSpeakers = parseDevices(sinksOutput, 'sink');
-            const parsedMicrophones = parseDevices(sourcesOutput, 'source')
+            const parsedSpeakers = parseDevices(sinksOutput?.text || "", 'sink');
+            const parsedMicrophones = parseDevices(sourcesOutput?.text || "", 'source')
                 .filter(src => !src.name.toLowerCase().includes('monitor'));
 
             setSpeakers(parsedSpeakers);
@@ -100,18 +92,18 @@ export default function AudioConfig({ monitor = 0 }: ComponentProps = {}) {
         }
     }
 
-    async function setVolume(type: 'sink' | 'source', index: string, volume: number): Promise<void> {
+    async function setVolume(type: 'sink' | 'source', index: number, volume: number): Promise<void> {
         try {
-            await execAsync(["pactl", "set-" + type + "-volume", index, `${volume}%`]);
+            await executeScript("audio-control.sh", "set-volume", type, index.toString(), `${volume}%`);
             await loadAudioDevices();
         } catch (error) {
             console.error(`Error setting ${type} volume:`, error);
         }
     }
 
-    async function toggleMute(type: 'sink' | 'source', index: string): Promise<void> {
+    async function toggleMute(type: 'sink' | 'source', index: number): Promise<void> {
         try {
-            await execAsync(["pactl", "set-" + type + "-mute", index, "toggle"]);
+            await executeScript("audio-control.sh", "toggle-mute", type, index.toString());
             await loadAudioDevices();
         } catch (error) {
             console.error(`Error toggling ${type} mute:`, error);

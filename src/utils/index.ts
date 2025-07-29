@@ -34,23 +34,37 @@ export function formatTime(date: Date = new Date()): string {
 }
 
 /**
- * Execute script safely with error handling
+ * Execute script with arguments safely
  */
-export async function executeScript(scriptName: string): Promise<any> {
+export async function executeScript(scriptName: string, ...args: string[]): Promise<any> {
     const scriptPath = `${GLib.get_home_dir()}/.config/ags/scripts/${scriptName}`;
     
     try {
-        const output = await execAsync(scriptPath);
+        const output = await execAsync([scriptPath, ...args]);
         
         // Try to parse as JSON first
         try {
             return JSON.parse(output);
         } catch {
-            // If not JSON, return as plain text
-            return { text: output.trim() };
+            // If not JSON, return as plain text or structured object
+            const trimmed = output.trim();
+            return trimmed ? { text: trimmed } : null;
         }
     } catch (error) {
-        console.error(`Error executing script ${scriptName}:`, error);
+        // Silently fail to avoid console spam
+        return null;
+    }
+}
+
+/**
+ * Execute script and expect JSON response
+ */
+export async function executeJsonScript<T = any>(scriptName: string, ...args: string[]): Promise<T | null> {
+    try {
+        const result = await executeScript(scriptName, ...args);
+        return (typeof result === 'object' && result !== null && !('text' in result)) ? result : null;
+    } catch (error) {
+        // Silently fail to avoid console spam
         return null;
     }
 }
@@ -86,12 +100,17 @@ export function formatPercentage(value: number): string {
  */
 export async function getFocusedMonitor(): Promise<number> {
     try {
-        const monitorsOutput = await execAsync(["hyprctl", "monitors", "-j"]);
-        const monitors = safeJsonParse(monitorsOutput, []);
-        const focusedMonitor = monitors.findIndex((m: any) => m.focused);
-        return Math.max(0, focusedMonitor);
+        const result = await executeJsonScript("hyprctl-monitors.sh");
+        if (result && Array.isArray(result)) {
+            const focusedMonitor = result.findIndex((m: any) => m.focused);
+            return Math.max(0, focusedMonitor);
+        }
+        return 0;
     } catch (error) {
-        console.error("Error getting focused monitor:", error);
+        // Silently fail to avoid console spam
         return 0;
     }
 }
+
+// Re-export hooks for convenience
+export { useScript, useJsonScript, useMultipleScripts } from './hooks';

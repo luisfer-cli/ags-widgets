@@ -20,6 +20,7 @@ import Bar from "./src/components/bar/Bar";
 import Dashboard from "./src/components/dashboard/Dashboard";
 import Botbar from "./src/components/misc/Botbar";
 import ShutdownPopup from "./src/components/misc/Shutdown";
+import Calculator from "./src/components/misc/Calculator";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
 import { Launcher, FileFinder } from "./src/components/launcher";
@@ -27,6 +28,7 @@ import { Launcher, FileFinder } from "./src/components/launcher";
 // Global window references for toggle functionality
 let launcherWindow: any;
 let fileFinderWindow: any;
+let calculatorWindow: any;
 let shutdownWindow: any;
 
 /**
@@ -68,6 +70,15 @@ app.start({
           }
         });
         return res("filefinder toggled");
+      case "toggle-calculator":
+        getFocusedMonitor().then((focusedMonitor) => {
+          const calculatorWin = calculatorWindow;
+          if (calculatorWin) {
+            calculatorWin.monitor = focusedMonitor;
+            calculatorWin.set_visible(!calculatorWin.visible);
+          }
+        });
+        return res("calculator toggled");
       case "toggle-shutdown":
         // Toggle shutdown popup using global function
         if (typeof (globalThis as any).toggleShutdown === "function") {
@@ -108,6 +119,12 @@ app.start({
 
     // File finder (initially hidden)
     fileFinderWindow = FileFinder({
+      monitor: primaryMonitor,
+      visible: false,
+    });
+
+    // Calculator (initially hidden)
+    calculatorWindow = Calculator({
       monitor: primaryMonitor,
       visible: false,
     });

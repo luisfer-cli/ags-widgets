@@ -21,6 +21,7 @@ import Dashboard from "./src/components/dashboard/Dashboard";
 import Botbar from "./src/components/misc/Botbar";
 import ShutdownPopup from "./src/components/misc/Shutdown";
 import Calculator from "./src/components/misc/Calculator";
+import OpenCode from "./src/components/misc/OpenCode";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
 import { Launcher, FileFinder } from "./src/components/launcher";
@@ -29,6 +30,7 @@ import { Launcher, FileFinder } from "./src/components/launcher";
 let launcherWindow: any;
 let fileFinderWindow: any;
 let calculatorWindow: any;
+let openCodeWindow: any;
 let shutdownWindow: any;
 
 /**
@@ -79,6 +81,15 @@ app.start({
           }
         });
         return res("calculator toggled");
+      case "toggle-opencode":
+        getFocusedMonitor().then((focusedMonitor) => {
+          const openCodeWin = openCodeWindow;
+          if (openCodeWin) {
+            openCodeWin.monitor = focusedMonitor;
+            openCodeWin.set_visible(!openCodeWin.visible);
+          }
+        });
+        return res("opencode toggled");
       case "toggle-shutdown":
         // Toggle shutdown popup using global function
         if (typeof (globalThis as any).toggleShutdown === "function") {
@@ -125,6 +136,12 @@ app.start({
 
     // Calculator (initially hidden)
     calculatorWindow = Calculator({
+      monitor: primaryMonitor,
+      visible: false,
+    });
+
+    // OpenCode chat widget (initially hidden)
+    openCodeWindow = OpenCode({
       monitor: primaryMonitor,
       visible: false,
     });

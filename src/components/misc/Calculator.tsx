@@ -204,7 +204,7 @@ export default function Calculator({
             await execAsync(["wl-copy", text])
         } catch {
             try {
-                await execAsync(["xclip", "-selection", "clipboard"], { input: text })
+                await execAsync(`echo "${text}" | xclip -selection clipboard`)
             } catch (error) {
                 console.error("Failed to copy to clipboard:", error)
             }

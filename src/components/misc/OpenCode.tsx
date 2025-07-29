@@ -56,7 +56,6 @@ export default function OpenCode({
     const [currentConversation, setCurrentConversation] = createState<Conversation | null>(null)
     const [isProcessing, setIsProcessing] = createState(false)
     const [statusMessage, setStatusMessage] = createState("")
-    const [streamingMessage, setStreamingMessage] = createState("")
 
     const homeDir = GLib.get_home_dir()
     const openCodeDir = `${homeDir}/opencode`
@@ -81,7 +80,7 @@ export default function OpenCode({
             await ensureOpenCodeDir()
             const content = await execAsync(["cat", conversationsFile])
             const parsed = JSON.parse(content)
-            
+
             // Convert date strings back to Date objects
             const loadedConversations = parsed.map((conv: any) => ({
                 ...conv,
@@ -92,7 +91,7 @@ export default function OpenCode({
                     timestamp: new Date(msg.timestamp)
                 }))
             }))
-            
+
             setConversations(loadedConversations)
             setStatusMessage("Conversations loaded")
         } catch (error) {
@@ -108,7 +107,7 @@ export default function OpenCode({
         try {
             await ensureOpenCodeDir()
             const conversationsData = JSON.stringify(conversations.get(), null, 2)
-            await execAsync(["tee", conversationsFile], { input: conversationsData })
+            await execAsync(`echo '${conversationsData}' > ${conversationsFile}`)
             setStatusMessage("Conversations saved")
         } catch (error) {
             console.error("Failed to save conversations:", error)
@@ -136,11 +135,11 @@ export default function OpenCode({
     function startNewConversation() {
         const newConv = createNewConversation()
         setCurrentConversation(newConv)
-        
+
         const allConversations = conversations.get()
         const updatedConversations = [newConv, ...allConversations].slice(0, maxConversations)
         setConversations(updatedConversations)
-        
+
         saveConversations()
         updateMessagesDisplay()
     }
@@ -186,11 +185,11 @@ export default function OpenCode({
         // Remove ANSI escape codes
         const ansiRegex = /\x1b\[[0-9;]*m/g
         let cleaned = response.replace(ansiRegex, '')
-        
+
         // Remove the ASCII art header and model info if present
         const lines = cleaned.split('\n')
         let startIndex = 0
-        
+
         // Skip ASCII art and empty lines at the beginning
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim()
@@ -199,7 +198,7 @@ export default function OpenCode({
                 break
             }
         }
-        
+
         return lines.slice(startIndex).join('\n').trim()
     }
 
@@ -252,7 +251,7 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
             ])
 
             const cleanedResponse = cleanOpenCodeResponse(response)
-            
+
             // Update the last message (assistant) with the actual response
             const finalMessages = [...updatedConversation.messages]
             finalMessages[finalMessages.length - 1] = {
@@ -280,18 +279,18 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
             saveConversations()
             updateMessagesDisplay()
             setStatusMessage("Message received")
-            
+
         } catch (error) {
             console.error("OpenCode error:", error)
             let errorMessage = "Error connecting to OpenCode"
-            
+
             // Try to extract meaningful error message
             if (typeof error === 'string') {
                 errorMessage = error
             } else if (error && typeof error === 'object' && 'message' in error) {
                 errorMessage = String(error.message)
             }
-            
+
             // Update the last message with error
             const finalMessages = [...updatedConversation.messages]
             finalMessages[finalMessages.length - 1] = {
@@ -434,7 +433,7 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
             >
                 {/* Header */}
                 <box class="opencode-header">
-                    <label 
+                    <label
                         label="OpenCode Chat Assistant"
                         class="opencode-title"
                     />
@@ -457,11 +456,11 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
                 </box>
 
                 {/* Status */}
-                <box 
+                <box
                     class="status-bar"
                     visible={statusMessage((msg) => msg !== "")}
                 >
-                    <label 
+                    <label
                         label={statusMessage}
                         class="status-text"
                     />
@@ -481,19 +480,19 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
                         orientation={Gtk.Orientation.VERTICAL}
                     >
                         <For each={currentConversation((conv) => conv?.messages || [])}>
-                            {(message) => (
+                            {(message: Message) => (
                                 <box class={`message message-${message.role} ${message.content.includes('⏳') ? 'message-thinking' : ''}`}>
                                     <box class="message-header">
-                                        <label 
+                                        <label
                                             label={message.role === 'user' ? 'You' : 'OpenCode'}
                                             class="message-sender"
                                         />
-                                        <label 
+                                        <label
                                             label={formatTime(message.timestamp)}
                                             class="message-time"
                                         />
                                     </box>
-                                    <label 
+                                    <label
                                         label={message.content}
                                         class={`message-content ${message.content.includes('⏳') ? 'thinking-dots' : ''}`}
                                         selectable
@@ -510,7 +509,7 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
 
                 {/* Input Area */}
                 <box class="input-area" orientation={Gtk.Orientation.VERTICAL}>
-                    <label 
+                    <label
                         label="Enter: Send | Ctrl+N: New conversation | Escape: Close"
                         class="input-help"
                     />
@@ -541,7 +540,7 @@ exec opencode run "${userMessage.trim().replace(/"/g, '\\"')}"
                             }}
                             sensitive={isProcessing((proc) => !proc)}
                         >
-                            <label 
+                            <label
                                 label={isProcessing((proc) => proc ? "Sending..." : "Send")}
                             />
                         </button>

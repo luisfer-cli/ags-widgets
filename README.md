@@ -28,11 +28,13 @@ A feature-rich, productivity-focused desktop shell built with [AGS (Aylur's GTK 
 - **Popup Notifications** - Clean, non-intrusive notifications
 - **Custom Styling** - Themed to match your desktop
 
-### 🚀 **Application Launcher**
+### 🚀 **Application Launcher & File Finder**
 
 - **Fuzzy Search** - Quick application search and launch
-- **Keyboard Navigation** - ESC to close, Enter to launch
+- **Ultra-Fast File Finder** - Search ALL files in home directory using `fd`
+- **Keyboard Navigation** - ESC to close, Enter to launch/open
 - **Modern UI** - Smooth animations and Nord theme integration
+- **Performance Optimized** - No animation lag, instant results
 - **Toggle Support** - Configurable hotkey activation
 
 ### 🖥️ **Window Management**
@@ -59,12 +61,33 @@ src/
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### External Dependencies
+
+Some widgets require external tools and repositories to function properly:
+
+#### Required External Repositories
+
+- **[Flowmodoro CLI](https://github.com/LuisFerRodVar/flowmodoro-cli)** - Powers the Flowmodoro time management widget
+  ```bash
+  git clone https://github.com/LuisFerRodVar/flowmodoro-cli.git
+  cd flowmodoro-cli
+  # Follow installation instructions in the repository
+  ```
+
+- **[Live WPM Tracker](https://github.com/LuisFerRodVar/live_wpm_tracker)** - Enables real-time typing speed monitoring
+  ```bash
+  git clone https://github.com/LuisFerRodVar/live_wpm_tracker.git
+  cd live_wpm_tracker
+  # Follow installation instructions in the repository
+  ```
+
+#### System Dependencies
 
 - **Linux Desktop** (Wayland/X11)
 - **AGS** - Install from [GitHub](https://github.com/Aylur/ags)
 - **Node.js** - For TypeScript compilation
 - **TimeWarrior** (optional) - For time tracking features
+- **fd** - For ultra-fast file searching in FileFinder
 
 ### Installation
 
@@ -129,8 +152,8 @@ timew start chess
 Productivity scripts in `/scripts/`:
 
 - `checkDay.sh` - Daily productivity metrics
-- `flowmodoro.sh` - Pomodoro timer integration
-- `get_wpm.sh` - Typing speed calculation
+- `flowmodoro.sh` - Flowmodoro timer integration (requires [flowmodoro-cli](https://github.com/LuisFerRodVar/flowmodoro-cli))
+- `get_wpm.sh` - Typing speed calculation (requires [live_wpm_tracker](https://github.com/LuisFerRodVar/live_wpm_tracker))
 - `timewarriorchess.sh` - Chess session tracking
 - `monitor.sh` - System monitoring data
 - `launcher-toggle.sh` - Application launcher toggle
@@ -201,8 +224,9 @@ Automatically adapts to your GTK theme while maintaining custom styling for enha
 - **Memory**: RAM usage with swap information
 - **System Stats**: Uptime, processes, and performance metrics
 
-### 🚀 Application Launcher
+### 🚀 Application Launcher & File Finder
 
+#### Application Launcher
 - **Fuzzy Search**: Type to find applications instantly
 - **Keyboard Shortcuts**: 
   - `ESC` - Close launcher
@@ -210,6 +234,18 @@ Automatically adapts to your GTK theme while maintaining custom styling for enha
   - `Typing` - Filter results dynamically
 - **Visual Design**: Nord theme with smooth animations
 - **Toggle Access**: Use `scripts/launcher-toggle.sh` or bind to hotkey
+
+#### File Finder
+- **Ultra-Fast Search**: Uses `fd` command for blazing-fast file discovery
+- **Home Directory Focus**: Searches ALL files within `/home/$user` recursively
+- **Performance Optimized**: No animations, instant results display
+- **File Type Icons**: Automatic file type detection and appropriate icons
+- **Direct File Opening**: Click or Enter to open files with default applications
+- **Hidden Files**: Includes hidden files and ignores .gitignore patterns
+- **Keyboard Shortcuts**:
+  - `ESC` - Close file finder
+  - `Enter` - Open selected file
+  - `Typing` - Real-time file filtering (minimum 2 characters)
 
 ## 🔧 Advanced Usage
 
@@ -250,8 +286,11 @@ export default function CustomWidget({ monitor = 0 }: ComponentProps) {
 The shell seamlessly integrates with:
 
 - **TimeWarrior** - Time tracking and productivity metrics
+- **[Flowmodoro CLI](https://github.com/LuisFerRodVar/flowmodoro-cli)** - Advanced Pomodoro technique implementation
+- **[Live WPM Tracker](https://github.com/LuisFerRodVar/live_wpm_tracker)** - Real-time typing speed monitoring
 - **Media Players** - MPRIS-compatible media control
 - **System Tools** - CPU, memory, and process monitoring
+- **fd** - Ultra-fast file searching for FileFinder
 - **Custom Scripts** - Extensible automation framework
 
 ## 🛠️ Development

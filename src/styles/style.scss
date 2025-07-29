@@ -412,11 +412,11 @@
 
 #filefinder-content {
   background-color: transparent;
-  opacity: 0;
-  transform: translateY(-300px);
+  opacity: 1;
+  transform: translateY(0);
   border-radius: 20px;
   padding: 24px;
-  transition: transform 200ms ease-out;
+  /* No animation transitions for better performance */
 }
 
 #filefinder-content.animate-in {
@@ -452,15 +452,12 @@
   padding: 12px;
   margin-bottom: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-200px);
-  opacity: 0;
-  transition: all 200ms ease-in-out;
-}
-
-.filefinder button.file.visible {
+  /* No animation - always visible */
   transform: translateY(0);
   opacity: 1;
 }
+
+/* Removed .filefinder button.file.visible rule - no longer needed */
 
 .filefinder button.file:hover {
   background-color: rgba(94, 129, 172, 0.3);

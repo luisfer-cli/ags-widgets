@@ -1,8 +1,9 @@
 /**
  * File Finder Component
  * 
- * Provides fuzzy search functionality for files in the user's home directory.
- * Uses the find command for fast file searching with keyboard navigation.
+ * Provides ultra-fast fuzzy search for FILES ONLY within the user's home directory
+ * using fd command. Searches through all subdirectories for files (no directories shown)
+ * including hidden files. Optimized for performance with limited results.
  */
 import { For, createState } from "ags"
 import { Astal, Gtk, Gdk } from "ags/gtk4"
@@ -11,7 +12,7 @@ import Graphene from "gi://Graphene"
 import { ComponentProps } from "../../types"
 
 /**
- * Get the current user's home directory
+ * Get the current user's home directory - works on any machine
  */
 async function getUserHome(): Promise<string> {
     try {
@@ -76,7 +77,7 @@ export default function FileFinder({
     }
 
     /**
-     * Search files using find command and fuzzy matching
+     * Search files using fd command for ultra-fast searching (files only, no directories)
      */
     async function search(text: string) {
         if (text === "" || text.length < 2) {
@@ -85,44 +86,54 @@ export default function FileFinder({
         }
 
         try {
-            // Get current search path, fallback to getting home directory if needed
-            let currentPath = searchPath
-            if (!currentPath) {
-                const currentHomeDir = homeDir.get()
-                if (currentHomeDir) {
-                    currentPath = currentHomeDir
-                } else {
-                    const home = await getUserHome()
-                    setHomeDir(home)
-                    currentPath = home
-                }
+            // Get user's home directory dynamically
+            const userHome = await getUserHome()
+            const searchDir = searchPath || userHome.replace(/\/$/, '') // Remove trailing slash
+
+            // Use fd for ultra-fast searching - only files, no directories
+            let output: string = ""
+            
+            try {
+                // fd with --type f to only show files, limited results for performance
+                output = await execAsync([
+                    "fd",
+                    text,
+                    searchDir,
+                    "--type", "f", // Only files, no directories
+                    "--max-results", "50", // Much smaller limit since we only show ~10
+                    "--hidden", // Include hidden files
+                    "--no-ignore", // Don't respect .gitignore
+                    "-i" // Case insensitive
+                ])
+            } catch {
+                // Fallback to find if fd is not available - also only files
+                output = await execAsync([
+                    "sh", 
+                    "-c",
+                    `find "${searchDir}" -type f -iname "*${text}*" 2>/dev/null | head -50`
+                ])
             }
 
-            // Use find command to search for files and directories
-            // -maxdepth 4 to limit search depth for performance
-            // -type f for files, -type d for directories
-            const output = await execAsync(`find "${currentPath}" -maxdepth 8 -name "*${text}*" -not -path "*/.*" -printf "%p|%y\\n"`)
-
-            const files: FileResult[] = []
             const lines = output.split('\n').filter(line => line.trim() !== '')
+            const files: FileResult[] = []
 
-            for (const line of lines) {
-                const [path, type] = line.split('|')
-                if (!path) continue
+            for (const path of lines) {
+                // Ensure it's in home directory
+                if (!path.startsWith(searchDir)) continue
 
                 const name = path.split('/').pop() || path
                 const score = fuzzyMatch(text, name)
 
-                if (score > 0 && files.length < maxResults * 2) { // Get more results to sort
+                if (score > 0 && files.length < maxResults * 2) {
+                    // Since we're only getting files with --type f, no need to check if it's a directory
                     files.push({
                         name,
                         path,
-                        isDirectory: type === 'd'
+                        isDirectory: false // Always false since we only search files
                     })
                 }
             }
 
-            // Sort by fuzzy match score and limit results
             files.sort((a, b) => {
                 const scoreA = fuzzyMatch(text, a.name)
                 const scoreB = fuzzyMatch(text, b.name)
@@ -131,7 +142,7 @@ export default function FileFinder({
 
             setList(files.slice(0, maxResults))
         } catch (error) {
-            console.error("File search error:", error)
+            console.warn("Error en búsqueda de archivos:", error)
             setList([])
         }
     }
@@ -143,11 +154,8 @@ export default function FileFinder({
         if (file) {
             win.hide()
             try {
-                if (file.isDirectory) {
-                    await execAsync(["xdg-open", file.path])
-                } else {
-                    await execAsync(["xdg-open", file.path])
-                }
+                // Since we only show files now, always use xdg-open for files
+                await execAsync(["xdg-open", file.path])
             } catch (error) {
                 console.error("Failed to open file:", error)
             }
@@ -183,11 +191,9 @@ export default function FileFinder({
     }
 
     /**
-     * Get appropriate icon for file type
+     * Get appropriate icon for file type (files only)
      */
     function getFileIcon(file: FileResult): string {
-        if (file.isDirectory) return "folder"
-
         const ext = file.name.split('.').pop()?.toLowerCase()
 
         switch (ext) {
@@ -239,12 +245,8 @@ export default function FileFinder({
             visible={visible}
             monitor={monitor}
             onNotifyVisible={({ visible }) => {
-                const context = contentbox.get_style_context()
-
                 if (visible) {
-                    context?.remove_class("animate-in")
                     searchentry.grab_focus()
-                    setTimeout(() => context?.add_class("animate-in"), 100)
                 } else {
                     searchentry.set_text("")
                     setList([])
@@ -286,8 +288,8 @@ export default function FileFinder({
                                     class="file"
                                     $={(ref) => {
                                         button = ref
-                                        // Add visible class with slight delay for animation
-                                        setTimeout(() => button.get_style_context()?.add_class("visible"), 10)
+                                        // No animation - add visible class immediately
+                                        button.get_style_context()?.add_class("visible")
                                     }}
                                     onClicked={() => openFile(file)}
                                 >

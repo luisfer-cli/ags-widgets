@@ -31,6 +31,19 @@ export default function Launcher({
     const [list, setList] = createState(new Array<AstalApps.Application>())
 
     /**
+     * Handle closing with animation
+     */
+    function closeWithAnimation() {
+        const context = contentbox.get_style_context()
+        context?.add_class("animate-out")
+        
+        setTimeout(() => {
+            win.visible = false
+            context?.remove_class("animate-out")
+        }, 300) // Match animation duration
+    }
+
+    /**
      * Search applications using fuzzy matching
      */
     function search(text: string) {
@@ -43,7 +56,7 @@ export default function Launcher({
      */
     function launch(app?: AstalApps.Application) {
         if (app) {
-            win.hide()
+            closeWithAnimation()
             app.launch()
         }
     }
@@ -58,7 +71,7 @@ export default function Launcher({
         mod: number,
     ) {
         if (keyval === Gdk.KEY_Escape) {
-            win.visible = false
+            closeWithAnimation()
             return
         }
     }
@@ -71,7 +84,7 @@ export default function Launcher({
         const position = new Graphene.Point({ x, y })
 
         if (!rect.contains_point(position)) {
-            win.visible = false
+            closeWithAnimation()
             return true
         }
     }
@@ -90,12 +103,16 @@ export default function Launcher({
                 const context = contentbox.get_style_context()
 
                 if (visible) {
+                    // Reset animations
                     context?.remove_class("animate-in")
+                    context?.remove_class("animate-out")
                     searchentry.grab_focus()
-                    setTimeout(() => context?.add_class("animate-in"), 100)
+                    // Trigger entrance animation
+                    setTimeout(() => context?.add_class("animate-in"), 10)
                 } else {
                     searchentry.set_text("")
                     setList([])
+                    context?.remove_class("animate-in")
                 }
             }}
         >

@@ -323,13 +323,18 @@
   transform: translateY(-300px);
   border-radius: 20px;
   padding: 24px;
-  transition: transform 200ms ease-out;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #launcher-content.animate-in {
   opacity: 1;
   transform: translateY(0);
-  /* Transform animations handled by GTK */
+}
+
+#launcher-content.animate-out {
+  opacity: 0;
+  transform: translateY(-200px) scale(0.95);
+  transition: all 250ms cubic-bezier(0.6, 0, 0.8, 1);
 }
 
 .searchbox {
@@ -381,6 +386,13 @@
   opacity: 1;
 }
 
+#launcher-content.animate-out .launcher button.app,
+#launcher-content.animate-out .launcher button.app.visible {
+  transform: translateY(-100px);
+  opacity: 0;
+  transition: all 150ms ease-in;
+}
+
 .launcher button.app:hover {
   background-color: rgba(129, 161, 193, 0.3);
   /* nord9 */
@@ -412,16 +424,22 @@
 
 #filefinder-content {
   background-color: transparent;
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0;
+  transform: translateY(-300px);
   border-radius: 20px;
   padding: 24px;
-  /* No animation transitions for better performance */
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #filefinder-content.animate-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+#filefinder-content.animate-out {
+  opacity: 0;
+  transform: translateY(-200px) scale(0.95);
+  transition: all 250ms cubic-bezier(0.6, 0, 0.8, 1);
 }
 
 .filefinder entry {
@@ -452,9 +470,21 @@
   padding: 12px;
   margin-bottom: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  /* No animation - always visible */
+  transform: translateY(-200px);
+  opacity: 0;
+  transition: all 200ms ease-in-out;
+}
+
+.filefinder button.file.visible {
   transform: translateY(0);
   opacity: 1;
+}
+
+#filefinder-content.animate-out .filefinder button.file,
+#filefinder-content.animate-out .filefinder button.file.visible {
+  transform: translateY(-100px);
+  opacity: 0;
+  transition: all 150ms ease-in;
 }
 
 /* Removed .filefinder button.file.visible rule - no longer needed */
@@ -493,6 +523,21 @@
 
 .shutdown-container {
   background: transparent;
+  opacity: 0;
+  transform: scale(0.8) translateY(-50px);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shutdown-container.animate-in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shutdown-container.animate-out {
+  opacity: 0;
+  transform: scale(0.9) translateY(-30px);
+  transition: all 250ms cubic-bezier(0.6, 0, 0.8, 1);
 }
 
 .shutdown-title {
@@ -512,9 +557,39 @@
   margin: 0 24px;
   padding: 16px;
   border-radius: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: rgba(67, 76, 94, 0.5);
   border: 2px solid transparent;
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shutdown-container.animate-in .shutdown-icon-container:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 100ms;
+}
+
+.shutdown-container.animate-in .shutdown-icon-container:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 200ms;
+}
+
+.shutdown-container.animate-in .shutdown-icon-container:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 300ms;
+}
+
+.shutdown-container.animate-out .shutdown-icon-container {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 200ms cubic-bezier(0.6, 0, 0.8, 1);
+  transition-delay: 0ms;
 }
 
 .shutdown-icon-container.selected {
@@ -622,6 +697,20 @@
   box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.3),
     0 0 20px rgba(94, 129, 172, 0.2);
+  opacity: 0;
+  transform: translateY(-300px) scale(0.8);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#calculator-content.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#calculator-content.animate-out {
+  opacity: 0;
+  transform: translateY(-200px) scale(0.9);
+  transition: all 250ms cubic-bezier(0.6, 0, 0.8, 1);
 }
 
 .calculator-title {
@@ -647,6 +736,20 @@
 
 .input-section {
   margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1) 100ms;
+}
+
+#calculator-content.animate-in .input-section {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#calculator-content.animate-out .input-section {
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: all 200ms cubic-bezier(0.6, 0, 0.8, 1) 0ms;
 }
 
 .calculator entry {
@@ -668,6 +771,20 @@
 
 .current-result {
   margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1) 200ms;
+}
+
+#calculator-content.animate-in .current-result {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#calculator-content.animate-out .current-result {
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: all 200ms cubic-bezier(0.6, 0, 0.8, 1) 50ms;
 }
 
 .result-label {
@@ -682,6 +799,33 @@
   border-radius: 8px;
   padding: 12px;
   border: 1px solid rgba(94, 129, 172, 0.3);
+  animation: fadeInScale 300ms ease-out;
+}
+
+#calculator-content.animate-out .result-box {
+  animation: fadeOutScale 200ms ease-in;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOutScale {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 }
 
 .result-value {
@@ -704,6 +848,20 @@
 
 .history-section {
   margin-top: 16px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1) 300ms;
+}
+
+#calculator-content.animate-in .history-section {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#calculator-content.animate-out .history-section {
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: all 200ms cubic-bezier(0.6, 0, 0.8, 1) 100ms;
 }
 
 .history-title {
@@ -720,6 +878,35 @@
   margin-bottom: 6px;
   border: 1px solid rgba(76, 86, 106, 0.3);
   transition: all 200ms ease-in-out;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInFromLeft 300ms ease-out forwards;
+}
+
+#calculator-content.animate-out .history-item {
+  animation: slideOutToLeft 200ms ease-in forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
 }
 
 .history-item:hover {
@@ -773,7 +960,7 @@
 }
 
 /* ================================
-   OPENCODE CHAT WIDGET STYLES
+   CALCULATOR STYLES
    ================================ */
 
 .opencode {

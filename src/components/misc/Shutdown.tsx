@@ -27,15 +27,29 @@ export default function ShutdownPopup({
     visible = false
 }: ComponentProps & { visible?: boolean } = {}) {
     let win: Astal.Window;
+    let containerBox: Gtk.Box;
     const [selectedIndex, setSelectedIndex] = createState(0);
     const [currentMonitor, setCurrentMonitor] = createState(monitor);
+
+    /**
+     * Handle closing with animation
+     */
+    function closeWithAnimation() {
+        const context = containerBox.get_style_context()
+        context?.add_class("animate-out")
+        
+        setTimeout(() => {
+            win.visible = false
+            context?.remove_class("animate-out")
+        }, 350) // Match animation duration + buffer for icon animations
+    }
 
     function handlePowerAction(optionIndex: number): void {
         const option = POWER_OPTIONS[optionIndex];
         if (option) {
+            closeWithAnimation()
             try {
                 execAsync(["bash", "-c", option.command]);
-                win.visible = false;
             } catch (error) {
                 console.error(`Error executing power command: ${option.command}`, error);
             }
@@ -49,7 +63,7 @@ export default function ShutdownPopup({
         _mod: number,
     ) {
         if (keyval === Gdk.KEY_Escape) {
-            win.visible = false;
+            closeWithAnimation();
             return;
         }
         else if (keyval === Gdk.KEY_Return) {
@@ -109,13 +123,28 @@ export default function ShutdownPopup({
             keymode={Astal.Keymode.EXCLUSIVE}
             class="shutdown-popup"
             onNotifyVisible={({ visible }) => {
+                const context = containerBox.get_style_context()
+
                 if (visible) {
+                    // Reset animations properly
+                    context?.remove_class("animate-in")
+                    context?.remove_class("animate-out")
                     setSelectedIndex(0);
+                    // Trigger entrance animation with proper delay
+                    setTimeout(() => {
+                        if (win.visible) { // Extra check to ensure window is still visible
+                            context?.add_class("animate-in")
+                        }
+                    }, 10)
+                } else {
+                    // Only clean up animate-in when hidden, like launcher
+                    context?.remove_class("animate-in")
                 }
             }}
         >
             <Gtk.EventControllerKey onKeyPressed={onKey} />
             <box
+                $={(ref) => (containerBox = ref)}
                 class="shutdown-container"
                 orientation={Gtk.Orientation.VERTICAL}
                 valign={Gtk.Align.CENTER}

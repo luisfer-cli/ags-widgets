@@ -45,6 +45,19 @@ export default function FileFinder({
     const [list, setList] = createState(new Array<FileSearchResult>())
     const [homeDir, setHomeDir] = createState("")
 
+    /**
+     * Handle closing with animation
+     */
+    function closeWithAnimation() {
+        const context = contentbox.get_style_context()
+        context?.add_class("animate-out")
+        
+        setTimeout(() => {
+            win.visible = false
+            context?.remove_class("animate-out")
+        }, 300) // Match animation duration
+    }
+
     // Initialize home directory on component mount
     if (!searchPath && homeDir(String).get() === "") {
         getUserHome().then(setHomeDir)
@@ -74,7 +87,7 @@ export default function FileFinder({
      * Search files using fd command for ultra-fast searching (files only, no directories)
      */
     async function search(text: string) {
-        if (text === "" || text.length < 2) {
+        if (text === "" || text.length < 1) {
             setList([])
             return
         }
@@ -84,7 +97,7 @@ export default function FileFinder({
             const userHome = await getUserHome()
             const searchDir = searchPath || userHome.replace(/\/$/, '') // Remove trailing slash
 
-            // Use file finder script
+            // Use file finder script with fd backend
             const searchType = searchPath?.includes('/.config') ? 'config' : 'home';
             const result = await executeScript("file-finder.sh", text, searchType);
             
@@ -97,30 +110,24 @@ export default function FileFinder({
             const files: FileSearchResult[] = []
 
             for (const path of lines) {
-                // Ensure it's in search directory
-                if (!path.startsWith(searchDir)) continue
-
+                // Since fd already handles the search intelligently, we trust its results
+                const absolutePath = path.startsWith('/') ? path : `${searchDir}/${path}`
                 const name = path.split('/').pop() || path
-                const score = fuzzyMatch(text, name)
 
-                if (score > 0 && files.length < maxResults * 2) {
+                // fd already returns relevant results, so we don't need complex scoring
+                if (files.length < maxResults) {
                     files.push({
                         name,
-                        path,
-                        type: 'file', // Always file since we only search files
+                        path: absolutePath,
+                        type: 'file', // Always file since fd searches files only
                         size: 0, // Could be enhanced with stat info
                         modified: new Date() // Could be enhanced with stat info
                     })
                 }
             }
 
-            files.sort((a, b) => {
-                const scoreA = fuzzyMatch(text, a.name)
-                const scoreB = fuzzyMatch(text, b.name)
-                return scoreB - scoreA
-            })
-
-            setList(files.slice(0, maxResults))
+            // fd returns results in relevance order, so we can use them directly
+            setList(files)
         } catch (error) {
             console.warn("Error en búsqueda de archivos:", error)
             setList([])
@@ -132,7 +139,7 @@ export default function FileFinder({
      */
     async function openFile(file?: FileSearchResult) {
         if (file) {
-            win.hide()
+            closeWithAnimation()
             try {
                 await executeScript("system-utils.sh", "open-file", file.path);
             } catch (error) {
@@ -151,7 +158,7 @@ export default function FileFinder({
         mod: number,
     ) {
         if (keyval === Gdk.KEY_Escape) {
-            win.visible = false
+            closeWithAnimation()
             return
         }
     }
@@ -164,7 +171,7 @@ export default function FileFinder({
         const position = new Graphene.Point({ x, y })
 
         if (!rect.contains_point(position)) {
-            win.visible = false
+            closeWithAnimation()
             return true
         }
     }
@@ -224,10 +231,19 @@ export default function FileFinder({
             visible={visible}
             monitor={monitor}
             onNotifyVisible={({ visible }) => {
+                const context = contentbox.get_style_context()
+
                 if (visible) {
+                    // Reset animations
+                    context?.remove_class("animate-in")
+                    context?.remove_class("animate-out")
                     searchentry.grab_focus()
+                    // Trigger entrance animation
+                    setTimeout(() => context?.add_class("animate-in"), 10)
                 } else {
+                    searchentry.set_text("")
                     setList([])
+                    context?.remove_class("animate-in")
                 }
             }}
         >
@@ -250,7 +266,7 @@ export default function FileFinder({
                         onNotifyText={({ text }) => search(text)}
                         onActivate={() => openFile(list.get()[0])}
                         hexpand
-                        placeholderText="Start typing to search files..."
+                        placeholderText="Fast file search powered by fd..."
                     />
                 </box>
                 <Gtk.Separator visible={list((l) => l.length > 0)} />
@@ -266,8 +282,8 @@ export default function FileFinder({
                                     class="file"
                                     $={(ref) => {
                                         button = ref
-                                        // No animation - add visible class immediately
-                                        button.get_style_context()?.add_class("visible")
+                                        // Add visible class with slight delay for animation
+                                        setTimeout(() => button.get_style_context()?.add_class("visible"), 10)
                                     }}
                                     onClicked={() => openFile(file)}
                                 >

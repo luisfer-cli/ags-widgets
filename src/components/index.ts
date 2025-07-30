@@ -27,7 +27,6 @@ export { default as Launcher } from './launcher/Launcher';
 export { default as AudioConfig } from './misc/AudioConfig';
 export { default as Botbar } from './misc/Botbar';
 export { default as Calculator } from './misc/Calculator';
-export { default as OpenCode } from './misc/OpenCode';
 export { default as Shutdown } from './misc/Shutdown';
 
 // Notification components

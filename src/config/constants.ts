@@ -136,6 +136,7 @@ export const SCRIPTS = {
     WEATHER: "checkDay.sh",
     LAUNCHER_TOGGLE: "launcher-toggle.sh",
     SHUTDOWN_TOGGLE: "shutdown-toggle.sh",
+    TASKMANAGER_TOGGLE: "taskmanager-toggle.sh",
 } as const;
 
 /**

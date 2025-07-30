@@ -21,6 +21,7 @@ import Dashboard from "./src/components/dashboard/Dashboard";
 import Botbar from "./src/components/misc/Botbar";
 import ShutdownPopup from "./src/components/misc/Shutdown";
 import Calculator from "./src/components/misc/Calculator";
+import TaskManagerMenu from "./src/components/misc/TaskManagerMenu";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
 import { Launcher, FileFinder } from "./src/components/launcher";
@@ -30,6 +31,7 @@ let launcherWindow: any;
 let fileFinderWindow: any;
 let calculatorWindow: any;
 let shutdownWindow: any;
+let taskManagerWindow: any;
 
 /**
  * Application startup configuration with request handler for launcher toggle
@@ -85,6 +87,15 @@ app.start({
           (globalThis as any).toggleShutdown();
         }
         return res("shutdown toggled");
+      case "toggle-taskmanager":
+        getFocusedMonitor().then((focusedMonitor) => {
+          const taskManagerWin = taskManagerWindow;
+          if (taskManagerWin) {
+            taskManagerWin.monitor = focusedMonitor;
+            taskManagerWin.set_visible(!taskManagerWin.visible);
+          }
+        });
+        return res("taskmanager toggled");
       default:
         return res("unknown command");
     }
@@ -130,6 +141,15 @@ app.start({
     shutdownWindow = ShutdownPopup({
       monitor: primaryMonitor,
       visible: false,
+    });
+
+    // Task manager menu (initially hidden)
+    taskManagerWindow = TaskManagerMenu({
+      monitor: primaryMonitor,
+      visible: false,
+      onTaskAction: (action) => {
+        console.log(`Task action: ${action}`);
+      }
     });
   },
 });

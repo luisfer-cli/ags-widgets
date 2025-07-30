@@ -4,3 +4,5 @@
 export { default as Botbar } from './Botbar';
 export { default as Shutdown } from './Shutdown';
 export { default as Calculator } from './Calculator';
+export { default as PopupMenu } from './PopupMenu';
+export { default as TaskManagerMenu } from './TaskManagerMenu';

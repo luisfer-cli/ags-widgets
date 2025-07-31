@@ -10,19 +10,38 @@ if ! command -v fd &> /dev/null; then
     exit 1
 fi
 
+# Auto-detect regex patterns
+is_regex() {
+    # Check for common regex patterns - escape special characters for bash
+    if [[ "$1" =~ \. ]] || [[ "$1" =~ \* ]] || [[ "$1" =~ \+ ]] || [[ "$1" =~ \? ]] || \
+       [[ "$1" =~ \^ ]] || [[ "$1" =~ \$ ]] || [[ "$1" =~ \[ ]] || [[ "$1" =~ \] ]] || \
+       [[ "$1" =~ \{ ]] || [[ "$1" =~ \} ]] || [[ "$1" =~ \( ]] || [[ "$1" =~ \) ]] || \
+       [[ "$1" =~ \| ]] || [[ "$1" =~ \\ ]]; then
+        return 0  # true - is regex
+    fi
+    return 1  # false - not regex
+}
+
+# Set fd options based on pattern type
+if is_regex "$search_term"; then
+    search_flags="--type f --regex --ignore-case"
+else
+    search_flags="--type f --ignore-case"
+fi
+
 case "$search_type" in
     "home")
         home_dir=$(echo $HOME)
-        # Use fd with type file, max results 50 for better performance
-        fd --type f --max-results 50 "$search_term" "$home_dir" 2>/dev/null
+        # Use fd with auto-detected regex support
+        fd $search_flags --max-results 50 "$search_term" "$home_dir" 2>/dev/null
         ;;
     "config")
         # Search in .config directory with hidden files included
-        fd --type f --hidden --max-results 30 "$search_term" "$HOME/.config" 2>/dev/null
+        fd $search_flags --hidden --max-results 30 "$search_term" "$HOME/.config" 2>/dev/null
         ;;
     "root")
         # Root search with sudo, limited results for performance
-        sudo fd --type f --max-results 20 "$search_term" "/" 2>/dev/null
+        sudo fd $search_flags --max-results 20 "$search_term" "/" 2>/dev/null
         ;;
     *)
         echo "Usage: $0 <search_term> [home|config|root]"

@@ -266,7 +266,7 @@ export default function FileFinder({
                         onNotifyText={({ text }) => search(text)}
                         onActivate={() => openFile(list.get()[0])}
                         hexpand
-                        placeholderText="Fast file search powered by fd..."
+                        placeholderText="Fast file search - supports regex patterns like \.js$ or ^config.*"
                     />
                 </box>
                 <Gtk.Separator visible={list((l) => l.length > 0)} />

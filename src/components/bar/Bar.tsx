@@ -58,23 +58,23 @@ export default function Bar({ monitor = 0 }: ComponentProps = {}) {
                 >
                     <label
                         label="1"
-                        class={`workspace${workspaceStatus?.id === 1 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 1 ? " current" : ""}`)}
                     />
                     <label
                         label="2"
-                        class={`workspace${workspaceStatus?.id === 2 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 2 ? " current" : ""}`)}
                     />
                     <label
                         label="3"
-                        class={`workspace${workspaceStatus?.id === 3 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 3 ? " current" : ""}`)}
                     />
                     <label
                         label="4"
-                        class={`workspace${workspaceStatus?.id === 4 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 4 ? " current" : ""}`)}
                     />
                     <label
                         label="5"
-                        class={`workspace${workspaceStatus?.id === 5 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 5 ? " current" : ""}`)}
                     />
                 </box>
 
@@ -99,23 +99,23 @@ export default function Bar({ monitor = 0 }: ComponentProps = {}) {
                 >
                     <label
                         label="6"
-                        class={`workspace${workspaceStatus?.id === 6 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 6 ? " current" : ""}`)}
                     />
                     <label
                         label="7"
-                        class={`workspace${workspaceStatus?.id === 7 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 7 ? " current" : ""}`)}
                     />
                     <label
                         label="8"
-                        class={`workspace${workspaceStatus?.id === 8 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 8 ? " current" : ""}`)}
                     />
                     <label
                         label="9"
-                        class={`workspace${workspaceStatus?.id === 9 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 9 ? " current" : ""}`)}
                     />
                     <label
                         label="0"
-                        class={`workspace${workspaceStatus?.id === 10 ? " current" : ""}`}
+                        class={workspaceStatus(ws => `workspace${ws.id === 10 ? " current" : ""}`)}
                     />
                 </box>
             </box>

@@ -9,11 +9,9 @@ import GLib from "gi://GLib";
  */
 export function getStatusIcon(status: string): string {
     const iconMap: Record<string, string> = {
-        pending: "󰒲   ",
+        pending: "⏳",
         done: "✅",
-        progress: "󰒲   ",
-        w: "   ",
-        b: "   ",
+        progress: "🔄",
         active: "🟢",
         inactive: "🔴",
         loading: "⏳",

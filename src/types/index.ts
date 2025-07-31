@@ -53,24 +53,6 @@ export interface HyprlandWindow {
 }
 
 // Dashboard component types
-export interface FlowmodoroStatus {
-    alt: TimerStatus;
-    current: string;
-    time: string;
-}
-
-export interface ChessStatus {
-    alt: TimerStatus;
-    current: string;
-    time: string;
-}
-
-export interface ChessStats {
-    rating: number;
-    games: number;
-    winRate: number;
-}
-
 export interface MonitoringData {
     cpu: number;
     memory: number;

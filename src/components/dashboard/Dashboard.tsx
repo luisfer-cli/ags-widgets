@@ -2,18 +2,15 @@
  * Main dashboard window component
  * 
  * Layout:
- * Row 1: Clock, WPM Counter, Zettelkasten widget
- * Row 2: Chess Tracking + Programming widgets, System Monitoring
+ * Row 1: Clock, WPM Counter
+ * Row 2: System Monitoring
  */
 import { Gtk } from "ags/gtk4";
 import { ComponentProps } from "../../types";
 import { WINDOW_DIMENSIONS } from "../../config/constants";
 import Clock from "./Clock";
 import WpmCounter from "./WpmCounter";
-import ChessTracking from "./ChessTracking";
-import Programming from "./Programming";
 import Monitoring from "./Monitoring";
-import Zk from "./Zk";
 
 /**
  * Dashboard component with grid layout of widgets
@@ -37,7 +34,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                 valign={Gtk.Align.CENTER}
                 class="dashboard-container"
             >
-                {/* Top row: Clock, WPM, Zettelkasten */}
+                {/* Top row: Clock, WPM Counter */}
                 <box 
                     orientation={Gtk.Orientation.HORIZONTAL} 
                     spacing={20}
@@ -49,29 +46,14 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     <box class="widget">
                         <WpmCounter />
                     </box>
-                    <box hexpand>
-                        <Zk />
-                    </box>
                 </box>
 
-                {/* Bottom row: Chess/Programming column, Monitoring */}
+                {/* Bottom row: System Monitoring */}
                 <box 
                     orientation={Gtk.Orientation.HORIZONTAL} 
                     spacing={20}
                     class="dashboard-row"
                 >
-                    <box 
-                        orientation={Gtk.Orientation.VERTICAL} 
-                        spacing={10}
-                        class="dashboard-column"
-                    >
-                        <box>
-                            <ChessTracking />
-                        </box>
-                        <box class="widget">
-                            <Programming />
-                        </box>
-                    </box>
                     <box class="widget">
                         <Monitoring />
                     </box>

@@ -55,11 +55,6 @@ export const ICONS = {
     WARNING: "⚠️",
     INFO: "ℹ️",
     
-    // Timer/Chess icons
-    CHESS_PENDING: "󰒲   ",
-    CHESS_ACTIVE: "   ",
-    CHESS_DONE: "✅",
-    
     // Media icons
     MUSIC: "󰝚",
     PLAY: "▶",
@@ -129,11 +124,8 @@ export const SCRIPTS = {
     FILE_FINDER: "file-finder.sh",
     
     // Dashboard scripts
-    FLOWMODORO: "flowmodoro.sh",
-    CHESS_TRACKING: "timewarriorchess.sh",
     WPM_COUNTER: "get_wpm.sh",
     MONITORING: "monitor.sh",
-    WEATHER: "checkDay.sh",
     LAUNCHER_TOGGLE: "launcher-toggle.sh",
     SHUTDOWN_TOGGLE: "shutdown-toggle.sh",
     TASKMANAGER_TOGGLE: "taskmanager-toggle.sh",

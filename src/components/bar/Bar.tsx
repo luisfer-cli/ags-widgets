@@ -28,7 +28,7 @@ export default function Bar({ monitor = 0 }: ComponentProps = {}) {
 
     // Poll for active window status every 500ms  
     const windowStatus = useJsonScript<HyprlandWindow>(
-        "hyprctl-window.sh", 
+        "hyprctl-window.sh",
         500,
         { class: "Luisfer" } as HyprlandWindow
     );
@@ -84,9 +84,9 @@ export default function Bar({ monitor = 0 }: ComponentProps = {}) {
                     hexpand
                     class="current-app"
                 >
-                    <label 
-                        label={windowStatus?.class || "Luisfer"} 
-                        class="bar-title-text" 
+                    <label
+                        label={windowStatus(ws => ws.class || "LuisFer")}
+                        class="bar-title-text"
                     />
                 </box>
 

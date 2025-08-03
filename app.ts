@@ -21,6 +21,7 @@ import Dashboard from "./src/components/dashboard/Dashboard";
 import Botbar from "./src/components/misc/Botbar";
 import ShutdownPopup from "./src/components/misc/Shutdown";
 import Calculator from "./src/components/misc/Calculator";
+import Calendar from "./src/components/misc/Calendar";
 import TaskManagerMenu from "./src/components/misc/TaskManagerMenu";
 import Osd from "./src/components/osd/Osd";
 import NotificationPopups from "./src/components/notifications/NotificationPopups";
@@ -30,6 +31,7 @@ import { Launcher, FileFinder } from "./src/components/launcher";
 let launcherWindow: any;
 let fileFinderWindow: any;
 let calculatorWindow: any;
+let calendarWindow: any;
 let shutdownWindow: any;
 let taskManagerWindow: any;
 
@@ -96,6 +98,15 @@ app.start({
           }
         });
         return res("taskmanager toggled");
+      case "calendar":
+        getFocusedMonitor().then((focusedMonitor) => {
+          const calendarWin = calendarWindow;
+          if (calendarWin) {
+            calendarWin.monitor = focusedMonitor;
+            calendarWin.set_visible(!calendarWin.visible);
+          }
+        });
+        return res("calendar toggled");
       default:
         return res("unknown command");
     }
@@ -148,8 +159,14 @@ app.start({
       monitor: primaryMonitor,
       visible: false,
       onTaskAction: (action) => {
-        console.log(`Task action: ${action}`);
+        console.log(`Task action: ${action}`)
       }
+    });
+
+    // Calendar widget (initially hidden)
+    calendarWindow = Calendar({
+      monitor: primaryMonitor,
+      visible: false,
     });
   },
 });

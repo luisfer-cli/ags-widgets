@@ -33,6 +33,10 @@ export const WINDOW_DIMENSIONS = {
         width: 300,
         height: 400,
     },
+    CALENDAR: {
+        width: 350,
+        height: 400,
+    },
 } as const;
 
 /**
@@ -127,6 +131,7 @@ export const SCRIPTS = {
     WPM_COUNTER: "get_wpm.sh",
     MONITORING: "monitor.sh",
     LAUNCHER_TOGGLE: "launcher-toggle.sh",
+    CALENDAR_TOGGLE: "calendar-toggle.sh",
     SHUTDOWN_TOGGLE: "shutdown-toggle.sh",
     TASKMANAGER_TOGGLE: "taskmanager-toggle.sh",
 } as const;

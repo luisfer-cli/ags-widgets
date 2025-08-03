@@ -31,10 +31,11 @@ function CompactProgressBar({ value, label, icon, color = "primary" }: {
             <box
                 class={`progress-bar-narrow progress-${color}`}
                 hexpand={true}
+                width-request={200}
             >
                 <box
                     class="progress-fill-narrow"
-                    width-request={Math.max(2, (percentage / 100) * 50)}
+                    width-request={Math.max(4, percentage * 2)}
                     height-request={3}
                 />
             </box>

@@ -25,7 +25,7 @@ export function useScript<T>(
                 const data = await executeScript(scriptName);
                 return data || fallback;
             } catch (error) {
-                // Silently return fallback to avoid console spam
+                // Return fallback silently
                 return fallback;
             }
         }
@@ -34,13 +34,13 @@ export function useScript<T>(
 
 /**
  * Hook for polling system commands with JSON parsing
- * @param scriptName - Name of the script to execute  
+ * @param command - Script name and arguments (e.g., "script.sh arg1 arg2")
  * @param interval - Polling interval in milliseconds
  * @param fallback - Fallback object when parsing fails
  * @returns Pollable value with parsed JSON output
  */
 export function useJsonScript<T extends object>(
-    scriptName: string,
+    command: string,
     interval: number = 1000,
     fallback: T = {} as T
 ) {
@@ -49,10 +49,13 @@ export function useJsonScript<T extends object>(
         interval,
         async (): Promise<T> => {
             try {
-                const result = await executeScript(scriptName);
-                return (typeof result === 'object' && result !== null) ? result : fallback;
+                const parts = command.split(' ');
+                const scriptName = parts[0];
+                const args = parts.slice(1);
+                const result = await executeScript(scriptName, ...args);
+                return (typeof result === 'object' && result !== null && !('text' in result)) ? result : fallback;
             } catch (error) {
-                // Silently return fallback to avoid console spam
+                // Return fallback silently
                 return fallback;
             }
         }
@@ -74,14 +77,14 @@ export function useMultipleScripts(
         interval,
         async (): Promise<any[]> => {
             try {
-                const results = await Promise.all(
-                    scripts.map(script => 
-                        executeScript(script).catch(() => null)
-                    )
+                const results = await Promise.allSettled(
+                    scripts.map(script => executeScript(script))
                 );
-                return results;
+                return results.map(result => 
+                    result.status === 'fulfilled' ? result.value : null
+                );
             } catch (error) {
-                // Silently return empty array to avoid console spam
+                // Return empty array silently
                 return [];
             }
         }

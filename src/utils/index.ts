@@ -49,7 +49,7 @@ export async function executeScript(scriptName: string, ...args: string[]): Prom
             return trimmed ? { text: trimmed } : null;
         }
     } catch (error) {
-        // Silently fail to avoid console spam
+        // Return null silently without logging
         return null;
     }
 }
@@ -62,7 +62,7 @@ export async function executeJsonScript<T = any>(scriptName: string, ...args: st
         const result = await executeScript(scriptName, ...args);
         return (typeof result === 'object' && result !== null && !('text' in result)) ? result : null;
     } catch (error) {
-        // Silently fail to avoid console spam
+        // Return null silently
         return null;
     }
 }
@@ -105,7 +105,7 @@ export async function getFocusedMonitor(): Promise<number> {
         }
         return 0;
     } catch (error) {
-        // Silently fail to avoid console spam
+        // Return 0 silently
         return 0;
     }
 }

@@ -44,16 +44,17 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
                         const hasTrack = media?.artist && media?.title && media?.status !== "Stopped";
                         const trackText = hasTrack 
                             ? `${media.artist} – ${media.title}` 
-                            : "";
+                            : "♪ No music playing";
 
-                        return trackText ? (
+                        return (
                             <box
                                 orientation={Gtk.Orientation.HORIZONTAL}
                                 spacing={6}
                                 valign={Gtk.Align.CENTER}
                                 halign={Gtk.Align.CENTER}
+                                class="media-info"
                             >
-                                {/* Music icon (Nerd Font) */}
+                                {/* Music icon */}
                                 <label
                                     label="󰝚" // nf-md-music
                                     class="botbar-icon"
@@ -62,18 +63,20 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
                                 {/* Track information */}
                                 <label
                                     label={trackText}
-                                    class="botbar-label"
+                                    class={hasTrack ? "botbar-label" : "botbar-label-empty"}
                                     xalign={0.5}
                                     hexpand
                                 />
                                 
                                 {/* Status indicator */}
-                                <label
-                                    label={media?.status === "Playing" ? "▶" : "⏸"}
-                                    class="botbar-status"
-                                />
+                                {hasTrack && (
+                                    <label
+                                        label={media?.status === "Playing" ? "▶" : "⏸"}
+                                        class="botbar-status"
+                                    />
+                                )}
                             </box>
-                        ) : null;
+                        );
                     }}
                 </With>
             </box>

@@ -132,6 +132,12 @@ export interface AudioState {
     defaultSource: string;
 }
 
+export interface AudioVisualizerData {
+    bars: number[];
+    max: number;
+    active: boolean;
+}
+
 // Notification types
 export interface NotificationData {
     id: string;

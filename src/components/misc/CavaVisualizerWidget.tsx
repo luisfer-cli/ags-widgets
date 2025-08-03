@@ -4,14 +4,15 @@
  */
 import { Gtk } from "ags/gtk4";
 import { ComponentProps } from "../../types";
-import { useJsonScript } from "../../utils/hooks";
+import { executeScript } from "../../utils";
+import { createState } from "ags";
 
 // Brutal characters for maximum visual impact
 const BRUTAL_CHARS = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
 
-// Smoothing state for fluid animation
+// Smoothing state for fluid animation - balanced for performance and visual quality
 let previousBars: number[] = [];
-let smoothingFactor = 0.7; // High responsiveness with minimal lag
+let smoothingFactor = 0.65; // Balanced smoothing - responsive but not jittery
 
 // Interface for cava script output
 interface CavaData {
@@ -27,17 +28,26 @@ interface CavaVisualizerProps extends ComponentProps {
 }
 
 /**
- * Apply exponential smoothing for fluid animation
+ * Apply minimal smoothing with high responsiveness
  */
-function smoothBars(newBars: number[], previousBars: number[]): number[] {
+function smoothBars(newBars: number[], previousBars: number[], isPlaying: boolean = false): number[] {
     if (previousBars.length === 0) {
         return newBars;
     }
     
+    // Use very light smoothing when music is playing for maximum responsiveness
+    const adaptiveFactor = isPlaying ? 0.85 : 0.3; // More responsive when playing
+    
     return newBars.map((newValue, index) => {
         const prevValue = previousBars[index] || 0;
-        // More responsive smoothing with faster adaptation to new values
-        const smoothed = smoothingFactor * newValue + (1 - smoothingFactor) * prevValue;
+        
+        // Skip smoothing for significant changes to maintain punch
+        const diff = Math.abs(newValue - prevValue);
+        if (diff > 3 && isPlaying) {
+            return newValue; // Direct response for big changes
+        }
+        
+        const smoothed = adaptiveFactor * newValue + (1 - adaptiveFactor) * prevValue;
         return Math.round(smoothed);
     });
 }
@@ -50,8 +60,9 @@ function createBrutalVisualization(cavaData: CavaData, position: 'left' | 'right
         return "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁"; // Full fallback for all positions
     }
     
-    // Apply smoothing for fluid animation
-    const smoothedBars = smoothBars(cavaData.bars, previousBars);
+    // Apply adaptive smoothing based on playback state
+    const isPlaying = cavaData.playing > 0;
+    const smoothedBars = smoothBars(cavaData.bars, previousBars, isPlaying);
     previousBars = [...smoothedBars];
     
     // All positions now show the complete visualization (all 15 bars)
@@ -69,17 +80,62 @@ function createBrutalVisualization(cavaData: CavaData, position: 'left' | 'right
 }
 
 /**
+ * Dynamic polling hook that adjusts frequency based on audio playback state
+ */
+function useDynamicCavaData(): any {
+    const [data, setData] = createState<CavaData>({ 
+        bars: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+        volume: 0, 
+        playing: 0, 
+        method: "fallback" 
+    });
+
+    let currentInterval = 200; // Start with higher frequency
+    let pollTimer: any = null;
+
+    const poll = async () => {
+        try {
+            const result = await executeScript("cava-astal.sh");
+            if (result) {
+                const newData = typeof result === 'object' && 'bars' in result ? result as CavaData : 
+                    { bars: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], volume: 0, playing: 0, method: "fallback" };
+                
+                setData(newData);
+                
+                // More aggressive dynamic interval for better responsiveness
+                const newInterval = newData.playing > 0 ? 100 : 350; // Very fast when playing, moderate when idle
+                
+                if (newInterval !== currentInterval) {
+                    currentInterval = newInterval;
+                    // Restart timer with new interval if needed
+                    if (pollTimer) {
+                        clearTimeout(pollTimer);
+                    }
+                    pollTimer = setTimeout(poll, currentInterval);
+                } else {
+                    pollTimer = setTimeout(poll, currentInterval);
+                }
+            } else {
+                pollTimer = setTimeout(poll, currentInterval);
+            }
+        } catch (error) {
+            pollTimer = setTimeout(poll, currentInterval);
+        }
+    };
+
+    // Start polling
+    poll();
+
+    return data;
+}
+/**
  * Brutal Cava Audio Visualizer Widget with Position Support
- * Uses correct AGS patterns for real-time state management
+ * Uses dynamic polling for optimal performance vs visual quality balance
  * Supports left, right, and center positioning
  */
 export default function CavaVisualizerWidget({ monitor = 0, position = 'center' }: CavaVisualizerProps = {}) {
-    // Use ultra-efficient daemon-based script with optimized polling
-    const cavaData = useJsonScript<CavaData>(
-        "cava-astal.sh",
-        100, // High frequency updates - 100ms = 10 FPS
-        { bars: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], volume: 0, playing: 0, method: "fallback" }
-    );
+    // Use dynamic polling instead of fixed interval
+    const cavaData = useDynamicCavaData();
 
     // Different styling based on position
     const getPositionClass = (pos: string, isPlaying: boolean) => {

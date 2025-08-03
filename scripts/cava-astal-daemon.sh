@@ -14,10 +14,10 @@ create_daemon_config() {
 bars = 15
 bar_width = 1
 bar_spacing = 0
-framerate = 15
-sleep_timer = 1
+framerate = 20
+sleep_timer = 0
 autosens = 0
-sensitivity = 800
+sensitivity = 1000
 
 [input]
 method = pulse
@@ -36,7 +36,7 @@ gradient_color_1 = '#ffffff'
 gradient_color_2 = '#000000'
 
 [smoothing]
-noise_reduction = 60
+noise_reduction = 30
 monstercat = 0
 waves = 0
 

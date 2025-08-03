@@ -19,7 +19,7 @@ export const POLL_INTERVALS = {
 export const WINDOW_DIMENSIONS = {
     DASHBOARD: {
         width: 480,
-        height: 280,
+        height: 320,
     },
     LAUNCHER: {
         width: 600,
@@ -68,6 +68,10 @@ export const ICONS = {
     // System icons
     CPU: "",
     MEMORY: "󰧑",
+    GPU: "󰢮",
+    DISK: "󰋊",
+    NETWORK: "󰖩",
+    UPTIME: "󰅐",
     TEMPERATURE: "🌡",
     KEYBOARD: "",
     
@@ -130,6 +134,7 @@ export const SCRIPTS = {
     // Dashboard scripts
     WPM_COUNTER: "get_wpm.sh",
     MONITORING: "monitor.sh",
+    WEATHER: "weather.sh",
     LAUNCHER_TOGGLE: "launcher-toggle.sh",
     CALENDAR_TOGGLE: "calendar-toggle.sh",
     SHUTDOWN_TOGGLE: "shutdown-toggle.sh",

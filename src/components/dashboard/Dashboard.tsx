@@ -1,9 +1,10 @@
 /**
- * Main dashboard window component
+ * Dashboard ultra minimalista con diseño tipo grid para monitores pequeños
  * 
  * Layout:
- * Row 1: Clock, WPM Counter
- * Row 2: System Monitoring
+ * - Grid 2x2 optimizado: Reloj, Clima, Monitoreo, WPM
+ * - Solo información esencial, sin títulos
+ * - Efectos modernos y transparencias
  */
 import { Gtk } from "ags/gtk4";
 import { ComponentProps } from "../../types";
@@ -11,10 +12,11 @@ import { WINDOW_DIMENSIONS } from "../../config/constants";
 import Clock from "./Clock";
 import WpmCounter from "./WpmCounter";
 import Monitoring from "./Monitoring";
+import Weather from "./Weather";
 
 /**
- * Dashboard component with grid layout of widgets
- * @param monitor - Monitor number to display on (default: 0)
+ * Dashboard ultra minimalista con layout tipo grid
+ * @param monitor - Número de monitor (default: 0)
  * @returns JSX window element
  */
 export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
@@ -23,39 +25,51 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
             name="dashboard"
             monitor={monitor}
             visible={true}
-            class="dashboard"
+            class="dashboard-window"
             width-request={WINDOW_DIMENSIONS.DASHBOARD.width}
             height-request={WINDOW_DIMENSIONS.DASHBOARD.height}
         >
             <box 
                 orientation={Gtk.Orientation.VERTICAL} 
-                spacing={20} 
-                halign={Gtk.Align.CENTER} 
-                valign={Gtk.Align.CENTER}
-                class="dashboard-container"
+                spacing={4} 
+                halign={Gtk.Align.FILL} 
+                valign={Gtk.Align.FILL}
+                class="dashboard-main"
             >
-                {/* Top row: Clock, WPM Counter */}
-                <box 
-                    orientation={Gtk.Orientation.HORIZONTAL} 
-                    spacing={20}
-                    class="dashboard-row"
+                {/* Fila Superior */}
+                <box
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    spacing={4}
+                    halign={Gtk.Align.FILL}
+                    class="dashboard-grid-row"
                 >
-                    <box class="widget clock">
+                    {/* Reloj */}
+                    <box class="dashboard-card clock-card" hexpand={true}>
                         <Clock />
                     </box>
-                    <box class="widget">
-                        <WpmCounter />
+
+                    {/* Clima */}
+                    <box class="dashboard-card weather-card" hexpand={true}>
+                        <Weather />
                     </box>
                 </box>
 
-                {/* Bottom row: System Monitoring */}
-                <box 
-                    orientation={Gtk.Orientation.HORIZONTAL} 
-                    spacing={20}
-                    class="dashboard-row"
+                {/* Fila Inferior */}
+                <box
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    spacing={4}
+                    halign={Gtk.Align.FILL}
+                    vexpand={true}
+                    class="dashboard-grid-row"
                 >
-                    <box class="widget">
+                    {/* Monitoreo */}
+                    <box class="dashboard-card monitoring-card" hexpand={true} vexpand={true}>
                         <Monitoring />
+                    </box>
+
+                    {/* Solo WPM */}
+                    <box class="dashboard-card wpm-card" hexpand={true} vexpand={true}>
+                        <WpmCounter />
                     </box>
                 </box>
             </box>

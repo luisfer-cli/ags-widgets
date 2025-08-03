@@ -1,23 +1,60 @@
 /**
- * System monitoring widget displaying resource usage
- * Shows RAM usage and CPU percentage
+ * Widget de monitoreo del sistema ultra compacto con barras de progreso
+ * Muestra CPU, RAM, GPU, disco y temperatura sin título
  */
 import { With } from "ags";
 import { Gtk } from "ags/gtk4";
 import { MonitoringData } from "../../types";
 import { useScript } from "../../utils/hooks";
+import { POLL_INTERVALS, SCRIPTS, ICONS } from "../../config/constants";
 
 /**
- * System resource monitoring widget
- * Displays current RAM and CPU usage
+ * Barra de progreso compacta
+ */
+function CompactProgressBar({ value, label, icon, color = "primary" }: {
+    value: number;
+    label: string;
+    icon: string;
+    color?: string;
+}) {
+    const percentage = Math.min(value, 100);
+    
+    return (
+        <box
+            orientation={Gtk.Orientation.HORIZONTAL}
+            spacing={6}
+            class="progress-container-compact"
+            halign={Gtk.Align.FILL}
+        >
+            <label label={icon} class="progress-icon-small" />
+            <label label={label} class="progress-label-small" />
+            <box
+                class={`progress-bar-small progress-${color}`}
+                hexpand={true}
+            >
+                <box
+                    class="progress-fill-small"
+                    width-request={Math.max(2, (percentage / 100) * 60)}
+                    height-request={4}
+                />
+            </box>
+            <label
+                label={`${value.toFixed(0)}%`}
+                class="progress-value-small"
+            />
+        </box>
+    );
+}
+
+/**
+ * Widget de monitoreo compacto sin título
  * @returns JSX box element
  */
 export default function Monitoring() {
-    // Poll for system data every 2 seconds
     const monitoringData = useScript<MonitoringData>(
-        "monitor.sh",
-        2000,
-        { cpu: 0, memory: 0, temperature: 0 }
+        SCRIPTS.MONITORING,
+        POLL_INTERVALS.NORMAL,
+        { cpu: 0, memory: 0 }
     );
 
     return (
@@ -25,65 +62,60 @@ export default function Monitoring() {
             {(data) => (
                 <box
                     orientation={Gtk.Orientation.VERTICAL}
-                    spacing={12}
-                    halign={Gtk.Align.CENTER}
-                    valign={Gtk.Align.CENTER}
+                    spacing={4}
+                    halign={Gtk.Align.FILL}
+                    class="monitoring-widget-compact"
                 >
-                    {/* RAM Usage Display */}
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        spacing={8}
-                        valign={Gtk.Align.CENTER}
-                    >
-                        <label
-                            label="󰧑"
-                            xalign={0}
-                            class="monitor-label"
-                        />
-                        <label
-                            label={data 
-                                ? `${(data.memory || data.ram_used_gb || 0).toFixed(1)} GB`
-                                : "0.0 GB"
-                            }
-                            class="monitor-value"
-                        />
-                    </box>
+                    {/* CPU */}
+                    <CompactProgressBar
+                        value={data?.cpu || 0}
+                        label="CPU"
+                        icon={ICONS.CPU}
+                        color="cpu"
+                    />
 
-                    {/* CPU Usage Display */}
-                    <box
-                        orientation={Gtk.Orientation.HORIZONTAL}
-                        spacing={8}
-                        valign={Gtk.Align.CENTER}
-                    >
-                        <label
-                            label=""
-                            xalign={0}
-                            class="monitor-label"
-                        />
-                        <label
-                            label={data 
-                                ? `${(data.cpu || data.cpu_usage_percent || 0).toFixed(1)}%`
-                                : "0.0%"
-                            }
-                            class="monitor-value"
-                        />
-                    </box>
+                    {/* RAM */}
+                    <CompactProgressBar
+                        value={data?.memory || 0}
+                        label="RAM"
+                        icon={ICONS.MEMORY}
+                        color="memory"
+                    />
 
-                    {/* Temperature Display (if available) */}
-                    {data?.temperature && (
+                    {/* GPU (solo si se detecta) */}
+                    {data?.gpu && data.gpu.detected && (
+                        <CompactProgressBar
+                            value={data.gpu.usage}
+                            label="GPU"
+                            icon={ICONS.GPU}
+                            color="gpu"
+                        />
+                    )}
+
+                    {/* Disco */}
+                    {data?.disk && (
+                        <CompactProgressBar
+                            value={data.disk.usage}
+                            label="SSD"
+                            icon={ICONS.DISK}
+                            color="disk"
+                        />
+                    )}
+
+                    {/* Temperatura del sistema */}
+                    {data?.temperature && data.temperature > 0 && (
                         <box
                             orientation={Gtk.Orientation.HORIZONTAL}
-                            spacing={8}
-                            valign={Gtk.Align.CENTER}
+                            spacing={6}
+                            class="temp-container-compact"
+                            halign={Gtk.Align.FILL}
                         >
+                            <label label="🌡" class="progress-icon-small" />
+                            <label label="TEMP" class="progress-label-small" />
+                            <box hexpand={true} />
                             <label
-                                label="🌡"
-                                xalign={0}
-                                class="monitor-label"
-                            />
-                            <label
-                                label={`${data.temperature.toFixed(1)}°C`}
-                                class="monitor-value"
+                                label={`${data.temperature.toFixed(0)}°C`}
+                                class="temp-value-small"
                             />
                         </box>
                     )}

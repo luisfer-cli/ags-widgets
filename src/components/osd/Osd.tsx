@@ -1,6 +1,7 @@
 /**
- * On-Screen Display (OSD) component for volume and system feedback
- * Shows temporary overlay notifications for volume changes
+ * On-Screen Display (OSD) component for volume feedback only
+ * Shows temporary overlay notifications for volume changes, mute/unmute
+ * Excludes media player changes
  */
 import { createState } from "ags";
 import { execAsync } from "ags/process";
@@ -15,6 +16,7 @@ interface VolumeInfo {
     volume: string;
     icon: string;
     value: number;
+    isMuted: boolean;
 }
 
 // OSD state interface
@@ -25,32 +27,33 @@ interface OsdState {
 }
 
 /**
- * Get appropriate volume icon based on volume level
+ * Get appropriate volume icon based on volume level and mute status
  */
-function getVolumeIcon(volumeLevel: number): string {
-    if (volumeLevel === 0) return "󰝟";   // mute
+function getVolumeIcon(volumeLevel: number, isMuted: boolean): string {
+    if (isMuted || volumeLevel === 0) return "󰝟";   // mute
     if (volumeLevel <= 40) return "󰕿";  // low
     if (volumeLevel <= 60) return "󰖀";  // medium
     return "󰕾";                        // high
 }
 
 /**
- * On-Screen Display component for volume feedback
+ * On-Screen Display component for volume feedback only
  * @returns JSX window element for OSD overlay
  */
 export default function Osd({}: ComponentProps = {}) {
     // OSD state management
     const [osdState, setOsdState] = createState<OsdState>({
         visible: false,
-        volumeInfo: { volume: "0%", icon: "󰝟", value: 0 },
+        volumeInfo: { volume: "0%", icon: "󰝟", value: 0, isMuted: false },
         monitor: 0
     });
 
     let hideTimeoutId: number | null = null;
-    let lastVolumeLevel: number = 0; // Track last volume to prevent unnecessary updates
+    let lastVolumeLevel: number = 0;
+    let lastMuteState: boolean = false;
 
     /**
-     * Get current volume and display OSD if changed
+     * Get current volume and mute status, display OSD if changed
      */
     async function updateVolumeDisplay(): Promise<void> {
         try {
@@ -60,14 +63,20 @@ export default function Osd({}: ComponentProps = {}) {
             const volumeString = volumeMatch ? volumeMatch[1] : "0";
             const volumeLevel = parseInt(volumeString);
 
-            // Skip update if volume hasn't changed
-            if (volumeLevel === lastVolumeLevel) {
+            // Get mute status
+            const muteOutput = await execAsync(["pactl", "get-sink-mute", "@DEFAULT_SINK@"]);
+            const isMuted = muteOutput.includes("yes");
+
+            // Skip update if both volume and mute state haven't changed
+            if (volumeLevel === lastVolumeLevel && isMuted === lastMuteState) {
                 return;
             }
+            
             lastVolumeLevel = volumeLevel;
+            lastMuteState = isMuted;
 
-            // Get appropriate icon for volume level
-            const icon = getVolumeIcon(volumeLevel);
+            // Get appropriate icon for volume level and mute state
+            const icon = getVolumeIcon(volumeLevel, isMuted);
 
             // Get focused monitor for display
             const focusedMonitor = await getFocusedMonitor();
@@ -78,7 +87,8 @@ export default function Osd({}: ComponentProps = {}) {
                 volumeInfo: { 
                     volume: `${volumeString}%`, 
                     icon, 
-                    value: clamp(volumeLevel, 0, 100) 
+                    value: clamp(volumeLevel, 0, 100),
+                    isMuted
                 },
                 monitor: focusedMonitor
             });
@@ -115,7 +125,7 @@ export default function Osd({}: ComponentProps = {}) {
     const reader = new Gio.DataInputStream({ base_stream: stdoutStream });
 
     /**
-     * Listen for PulseAudio events
+     * Listen for PulseAudio events - only volume related
      */
     function listenForVolumeEvents(): void {
         reader.read_line_async(GLib.PRIORITY_DEFAULT, null, (_: any, res: any) => {
@@ -128,9 +138,12 @@ export default function Osd({}: ComponentProps = {}) {
                 
                 const event = new TextDecoder().decode(line);
 
-                // Trigger volume check on sink events
-                if (event.includes("on sink")) {
-                    updateVolumeDisplay();
+                // Only trigger on sink volume/mute events, filter out source events and media changes
+                if (event.includes("on sink") && (event.includes("change") || event.includes("volume") || event.includes("mute"))) {
+                    // Avoid triggering on media player events by checking the event type more specifically
+                    if (!event.includes("source-output") && !event.includes("sink-input")) {
+                        updateVolumeDisplay();
+                    }
                 }
 
                 // Continue listening
@@ -155,27 +168,29 @@ export default function Osd({}: ComponentProps = {}) {
             margin_top={30}
             class="osd-window"
         >
-            <box orientation={Gtk.Orientation.HORIZONTAL} spacing={12}>
+            <box orientation={Gtk.Orientation.HORIZONTAL} spacing={12} class="osd-content">
                 {/* Volume icon */}
                 <label
                     class="osd-icon"
                     label={osdState(s => s.volumeInfo.icon)}
+                    valign={Gtk.Align.CENTER}
                 />
                 
-                {/* Volume level bar */}
-                <levelbar
-                    class="osd-bar"
-                    orientation={Gtk.Orientation.HORIZONTAL}
-                    value={osdState(s => s.volumeInfo.value)}
-                    mode={Gtk.LevelBarMode.DISCRETE}
-                    min-value={0}
-                    max-value={100}
-                />
+                {/* Custom volume level bar */}
+                <box orientation={Gtk.Orientation.VERTICAL} class="osd-bar-container" valign={Gtk.Align.CENTER}>
+                    <box orientation={Gtk.Orientation.HORIZONTAL} class="osd-bar-background">
+                        <box 
+                            class="osd-bar-fill"
+                            css={osdState(s => `min-width: ${Math.max(4, s.volumeInfo.value * 1.96)}px;`)}
+                        />
+                    </box>
+                </box>
                 
                 {/* Volume percentage */}
                 <label
                     class="osd-label"
                     label={osdState(s => s.volumeInfo.volume)}
+                    valign={Gtk.Align.CENTER}
                 />
             </box>
         </window>

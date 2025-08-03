@@ -1,44 +1,40 @@
 /**
- * WPM (Words Per Minute) counter widget
- * Displays typing speed from external monitoring
+ * Contador WPM ultra minimalista para pantalla de 7" - versión destacada sin título
  */
-import { With } from "ags";
 import { Gtk } from "ags/gtk4";
 import { WpmData } from "../../types";
 import { useScript } from "../../utils/hooks";
+import { POLL_INTERVALS, SCRIPTS } from "../../config/constants";
 
 /**
- * WPM counter widget showing current typing speed
- * Reads data from get_wpm.sh script
- * @returns JSX box element with WPM display
+ * Componente WPM ultra minimalista y destacado
+ * @returns JSX box element
  */
 export default function WpmCounter() {
-    // Poll for WPM data every 2 seconds for reasonable updates
     const wpmData = useScript<WpmData>(
-        "get_wpm.sh",
-        2000,
+        SCRIPTS.WPM_COUNTER,
+        POLL_INTERVALS.NORMAL,
         { wpm: 0, accuracy: 0, status: "idle" }
     );
 
-    // Keyboard icon for the widget
-    const icon = "";
-
     return (
-        <With value={wpmData}>
-            {(data) => (
-                <box
-                    class="wpm"
-                    orientation={Gtk.Orientation.VERTICAL}
-                    halign={Gtk.Align.CENTER}
-                    valign={Gtk.Align.CENTER}
-                    width_request={60}
-                >
-                    <label label={icon} />
-                    <label 
-                        label={data ? data.wpm?.toString() || "0" : "Err"} 
-                    />
-                </box>
-            )}
-        </With>
+        <box
+            orientation={Gtk.Orientation.VERTICAL}
+            spacing={2}
+            halign={Gtk.Align.CENTER}
+            valign={Gtk.Align.CENTER}
+            class="wpm-widget-featured"
+        >
+            <label
+                label={wpmData.as((data) => `${data?.wpm || 0}`)}
+                class="wpm-value-featured"
+                halign={Gtk.Align.CENTER}
+            />
+            <label 
+                label="WPM" 
+                halign={Gtk.Align.CENTER}
+                class="wpm-label-featured"
+            />
+        </box>
     );
 }

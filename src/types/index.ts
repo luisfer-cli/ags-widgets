@@ -56,13 +56,34 @@ export interface HyprlandWindow {
 export interface MonitoringData {
     cpu: number;
     memory: number;
-    temperature: number;
+    temperature?: number;
+    gpu?: {
+        usage: number;
+        memory: number;
+        temperature?: number;
+    };
+    disk?: {
+        usage: number;
+        total: number;
+        read_speed?: number;
+        write_speed?: number;
+    };
+    network?: {
+        download: number;
+        upload: number;
+    };
+    uptime?: number;
+    processes?: {
+        name: string;
+        cpu: number;
+        memory: number;
+    }[];
 }
 
 export interface WeatherData {
-    temperature: number;
+    temperature: string;
     condition: string;
-    location: string;
+    icon: string;
 }
 
 export interface WpmData {

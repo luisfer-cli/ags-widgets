@@ -243,23 +243,49 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.osd-content {
+  margin: 4px 0;
+}
+
 .osd-icon {
   font-size: 28px;
   color: var(--nord4);
   text-shadow: 0 0 4px rgba(136, 192, 208, 0.8);
   /* nord8 glow */
+  min-width: 32px;
 }
 
-.osd-bar {
-  border-radius: 8px;
+.osd-bar-container {
+  min-width: 200px;
 }
 
-.osd-bar levelbar__value {
+.osd-bar-background {
+  min-height: 16px;
+  min-width: 200px;
+  background-color: rgba(76, 86, 106, 0.6);
+  /* nord3 dimmed */
   border-radius: 8px;
+  border: 1px solid rgba(136, 192, 208, 0.3);
+  /* nord8 subtle border */
+}
+
+.osd-bar-fill {
+  min-height: 16px;
+  background: linear-gradient(90deg, 
+    var(--nord8) 0%,      /* frost ice blue */
+    var(--nord9) 40%,     /* frost blue */
+    var(--nord10) 80%,    /* frost bright blue */
+    var(--nord7) 100%     /* frost polar night blue */
+  );
+  border-radius: 8px;
+  transition: min-width 0.15s ease-out;
+  box-shadow: 0 0 12px rgba(136, 192, 208, 0.6);
+  /* enhanced glow effect */
 }
 
 .osd-label {
   text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+  min-width: 50px;
 }
 
 /* ================================
@@ -1761,4 +1787,693 @@
   padding: 8px;
   background-color: rgba(67, 76, 94, 0.3);
   border-radius: 8px;
+}
+
+/* ================================
+   DASHBOARD COMPACTO CON EFECTOS MODERNOS
+   ================================ */
+
+/* Dashboard Window */
+.dashboard-window {
+  background-color: transparent;
+}
+
+.dashboard-main {
+  background: rgba(46, 52, 64, 0.85);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(136, 192, 208, 0.15),
+    inset 0 1px 1px rgba(236, 239, 244, 0.1),
+    inset 0 0 20px rgba(136, 192, 208, 0.05);
+  border: 1px solid rgba(67, 76, 94, 0.6);
+}
+
+/* Grid Layout */
+.dashboard-grid-row {
+  min-height: 140px;
+}
+
+/* Dashboard Cards Compactas para 7" */
+.dashboard-card {
+  background: rgba(59, 66, 82, 0.7);
+  border-radius: 14px;
+  padding: 8px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(136, 192, 208, 0.08),
+    inset 0 1px 1px rgba(216, 222, 233, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 25px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(136, 192, 208, 0.2),
+    inset 0 1px 1px rgba(216, 222, 233, 0.15);
+  border-color: rgba(136, 192, 208, 0.5);
+  background: rgba(67, 76, 94, 0.8);
+}
+
+/* Separador */
+.separator {
+  min-height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(136, 192, 208, 0.3), 
+    transparent);
+  margin: 8px 4px;
+}
+
+/* Títulos para pantalla de 7 pulgadas - mucho más grandes */
+.card-title-small {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--nord8);
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.6);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* Clock Compacto */
+.clock-card {
+  background: rgba(94, 129, 172, 0.15);
+  border-color: rgba(94, 129, 172, 0.3);
+}
+
+.clock-time-compact {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--nord6);
+  text-shadow: 0 0 20px rgba(236, 239, 244, 0.4);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.clock-date-compact {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--nord4);
+  opacity: 0.9;
+  text-shadow: 0 0 8px rgba(216, 222, 233, 0.3);
+  letter-spacing: 0.5px;
+}
+
+/* Ultra compact styles for 7" dashboard */
+.clock-time-ultra-compact {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--nord6);
+  text-shadow: 0 0 18px rgba(236, 239, 244, 0.4);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  line-height: 1.1;
+}
+
+.clock-date-ultra-compact {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--nord4);
+  opacity: 0.9;
+  text-shadow: 0 0 8px rgba(216, 222, 233, 0.3);
+  letter-spacing: 0.5px;
+  margin-top: -2px;
+}
+
+/* System Card */
+.system-card {
+  background: rgba(163, 190, 140, 0.12);
+  border-color: rgba(163, 190, 140, 0.25);
+}
+
+.system-info-label-small {
+  font-size: 12px;
+  color: var(--nord4);
+  opacity: 0.9;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.system-info-value-small {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nord14);
+  text-shadow: 0 0 12px rgba(163, 190, 140, 0.4);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.temp-icon-small {
+  font-size: 12px;
+}
+
+.temp-value-small {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--nord12);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Monitoring Card */
+.monitoring-card {
+  background: rgba(191, 97, 106, 0.1);
+  border-color: rgba(191, 97, 106, 0.25);
+}
+
+.monitoring-widget-compact {
+  padding: 4px 0;
+}
+
+/* Progress Bars Compactas */
+.progress-container-compact {
+  margin: 3px 0;
+}
+
+.progress-icon-small {
+  font-size: 16px;
+  color: var(--nord8);
+  min-width: 20px;
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.5);
+}
+
+.progress-label-small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord5);
+  min-width: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-value-small {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--nord4);
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 36px;
+}
+
+.progress-label-small {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--nord5);
+  min-width: 32px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.progress-value-small {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--nord4);
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 28px;
+}
+
+.progress-bar-small {
+  min-height: 4px;
+  background: rgba(76, 86, 106, 0.4);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.progress-fill-small {
+  min-height: 4px;
+  border-radius: 2px;
+  transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Temperatura del sistema */
+.temp-container-compact {
+  padding: 2px 0;
+}
+
+.temp-value-small {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
+}
+
+/* Progress Colors */
+.progress-cpu .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(191, 97, 106, 0.8), 
+    rgba(191, 97, 106, 1));
+  box-shadow: 0 0 10px rgba(191, 97, 106, 0.5);
+}
+
+.progress-memory .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(208, 135, 112, 0.8), 
+    rgba(208, 135, 112, 1));
+  box-shadow: 0 0 10px rgba(208, 135, 112, 0.5);
+}
+
+.progress-gpu .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(163, 190, 140, 0.8), 
+    rgba(163, 190, 140, 1));
+  box-shadow: 0 0 10px rgba(163, 190, 140, 0.5);
+}
+
+.progress-disk .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(180, 142, 173, 0.8), 
+    rgba(180, 142, 173, 1));
+  box-shadow: 0 0 10px rgba(180, 142, 173, 0.5);
+}
+
+/* Stats Card */
+.stats-card {
+  background: rgba(235, 203, 139, 0.1);
+  border-color: rgba(235, 203, 139, 0.25);
+}
+
+/* WPM Compacto */
+.wpm-widget-compact {
+  padding: 2px 0;
+}
+
+/* Weather Widget Minimalista para 7" */
+.weather-widget-minimal {
+  padding: 8px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+}
+
+.weather-icon-large {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.weather-temp-large {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.5);
+}
+
+/* WPM Destacado para 7" - versión featured */
+.wpm-widget-featured {
+  padding: 16px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+}
+
+.wpm-label-featured {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--nord4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+.wpm-value-featured {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 25px rgba(136, 192, 208, 0.7);
+  line-height: 1;
+}
+
+/* WPM Minimalista para 7" */
+.wpm-widget-minimal {
+  padding: 8px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+}
+
+.wpm-label-minimal {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.wpm-value-minimal {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 20px rgba(136, 192, 208, 0.6);
+}
+
+.wpm-icon-small {
+  font-size: 14px;
+  color: var(--nord13);
+  text-shadow: 0 0 12px rgba(235, 203, 139, 0.5);
+}
+
+.wpm-value-small {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--nord6);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 15px rgba(236, 239, 244, 0.4);
+}
+
+.wpm-unit-small {
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--nord4);
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Quick Stats */
+/* Stats Minimalistas para 7" */
+.stats-widget-minimal {
+  padding: 8px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.stats-label-minimal {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.stats-value-minimal {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.5);
+}
+
+.stats-section-title-small {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--nord8);
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.network-arrow {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--nord7);
+  text-shadow: 0 0 8px rgba(143, 188, 187, 0.5);
+}
+
+.network-value-small {
+  font-size: 9px;
+  color: var(--nord5);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.process-name-small {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--nord6);
+  text-shadow: 0 0 8px rgba(236, 239, 244, 0.3);
+}
+
+.process-cpu-small {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--nord11);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 10px rgba(191, 97, 106, 0.4);
+}
+
+/* Hover Effects for Interactive Elements */
+.dashboard-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 25px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(136, 192, 208, 0.2),
+    inset 0 1px 1px rgba(216, 222, 233, 0.15);
+  border-color: rgba(136, 192, 208, 0.5);
+  background: rgba(67, 76, 94, 0.8);
+}
+
+.dashboard-main {
+  background-color: rgba(46, 52, 64, 0.98);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(136, 192, 208, 0.1),
+    inset 0 1px 1px rgba(236, 239, 244, 0.1);
+  border: 1px solid rgba(67, 76, 94, 0.8);
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background: linear-gradient(135deg, 
+    rgba(67, 76, 94, 0.8) 0%, 
+    rgba(59, 66, 82, 0.9) 100%);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(76, 86, 106, 0.6);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(216, 222, 233, 0.1);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(136, 192, 208, 0.15),
+    inset 0 1px 1px rgba(216, 222, 233, 0.15);
+  border-color: rgba(136, 192, 208, 0.4);
+}
+
+/* Card Titles */
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nord8);
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
+  margin-bottom: 8px;
+}
+
+/* Time Card */
+.time-card {
+  min-width: 180px;
+}
+
+.clock-time {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--nord6);
+  text-shadow: 0 0 15px rgba(236, 239, 244, 0.3);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.clock-date {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--nord4);
+  opacity: 0.8;
+  text-shadow: 0 0 5px rgba(216, 222, 233, 0.2);
+}
+
+/* System Info Card */
+.system-info-card {
+  min-width: 120px;
+}
+
+.system-info-label {
+  font-size: 12px;
+  color: var(--nord4);
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.system-info-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--nord8);
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.3);
+}
+
+/* Monitoring Card */
+.monitoring-card {
+  min-width: 280px;
+}
+
+.monitoring-widget {
+  padding: 8px 0;
+}
+
+/* Progress Bars */
+.progress-container {
+  margin: 8px 0;
+}
+
+.progress-icon {
+  font-size: 16px;
+  color: var(--nord8);
+  min-width: 20px;
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
+}
+
+.progress-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--nord5);
+}
+
+.progress-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord4);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.progress-bar {
+  min-height: 8px;
+  background-color: rgba(76, 86, 106, 0.6);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.progress-fill {
+  min-height: 8px;
+  border-radius: 4px;
+  transition: width 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
+}
+
+/* Progress Bar Colors */
+.progress-cpu .progress-fill {
+  background: linear-gradient(90deg, var(--nord11), var(--nord12));
+  box-shadow: 0 0 8px rgba(191, 97, 106, 0.4);
+}
+
+.progress-memory .progress-fill {
+  background: linear-gradient(90deg, var(--nord12), var(--nord13));
+  box-shadow: 0 0 8px rgba(208, 135, 112, 0.4);
+}
+
+.progress-gpu .progress-fill {
+  background: linear-gradient(90deg, var(--nord14), var(--nord15));
+  box-shadow: 0 0 8px rgba(163, 190, 140, 0.4);
+}
+
+.progress-disk .progress-fill {
+  background: linear-gradient(90deg, var(--nord15), var(--nord10));
+  box-shadow: 0 0 8px rgba(180, 142, 173, 0.4);
+}
+
+/* WPM Card */
+.wpm-card {
+  min-width: 140px;
+}
+
+.wpm-widget {
+  padding: 4px 0;
+}
+
+.wpm-icon {
+  font-size: 18px;
+  color: var(--nord13);
+  text-shadow: 0 0 8px rgba(235, 203, 139, 0.4);
+}
+
+.wpm-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nord6);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 10px rgba(236, 239, 244, 0.3);
+}
+
+.wpm-accuracy-label {
+  font-size: 11px;
+  color: var(--nord4);
+  opacity: 0.8;
+}
+
+.wpm-accuracy-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--nord14);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.wpm-status {
+  font-size: 10px;
+  color: var(--nord3);
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Stats Card */
+.quick-stats-card {
+  min-width: 140px;
+}
+
+.stats-section {
+  margin: 12px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(76, 86, 106, 0.3);
+}
+
+.stats-section:last-child {
+  border-bottom: none;
+}
+
+.stats-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord8);
+  text-shadow: 0 0 6px rgba(136, 192, 208, 0.3);
+  margin-bottom: 4px;
+}
+
+.stats-icon {
+  font-size: 14px;
+  color: var(--nord7);
+  min-width: 16px;
+}
+
+.stats-value {
+  font-size: 11px;
+  color: var(--nord5);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.stats-process-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--nord6);
+  min-width: 100px;
+}
+
+.stats-process-stat {
+  font-size: 10px;
+  color: var(--nord4);
+  font-family: 'JetBrains Mono', monospace;
+  opacity: 0.8;
+}
+
+/* Dashboard Sidebar */
+.dashboard-sidebar {
+  min-width: 160px;
 }

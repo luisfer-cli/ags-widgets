@@ -1,22 +1,40 @@
 /**
- * Weather widget placeholder
- * This component can be extended for weather information display
+ * Widget de clima ultra minimalista para pantalla de 7"
  */
 import { Gtk } from "ags/gtk4";
+import { WeatherData } from "../../types";
+import { useScript } from "../../utils/hooks";
+import { POLL_INTERVALS, SCRIPTS } from "../../config/constants";
 
 /**
- * Weather information widget (placeholder implementation)
+ * Componente de clima ultra minimalista
  * @returns JSX box element
  */
 export default function Weather() {
+    const weatherData = useScript<WeatherData>(
+        SCRIPTS.WEATHER,
+        POLL_INTERVALS.VERY_SLOW,
+        { temperature: "+--°C", condition: "--", icon: "🌤" }
+    );
+
     return (
-        <box 
-            class="weather-widget" 
-            orientation={Gtk.Orientation.VERTICAL} 
-            spacing={6}
+        <box
+            orientation={Gtk.Orientation.VERTICAL}
+            spacing={4}
+            halign={Gtk.Align.CENTER}
+            valign={Gtk.Align.CENTER}
+            class="weather-widget-minimal"
         >
-            <label label="🌤️ Weather" />
-            <label label="Not configured" class="placeholder-text" />
+            <label
+                label={weatherData.as((data) => data?.icon || "🌤")}
+                class="weather-icon-large"
+                halign={Gtk.Align.CENTER}
+            />
+            <label
+                label={weatherData.as((data) => data?.temperature || "+--°C")}
+                class="weather-temp-large"
+                halign={Gtk.Align.CENTER}
+            />
         </box>
     );
 }

@@ -4,7 +4,7 @@
 import { Gtk } from "ags/gtk4";
 import { WeatherData } from "../../types";
 import { useScript } from "../../utils/hooks";
-import { POLL_INTERVALS, SCRIPTS } from "../../config/constants";
+import { POLL_INTERVALS, SCRIPTS, ICONS } from "../../config/constants";
 
 /**
  * Componente de clima ultra minimalista
@@ -14,7 +14,7 @@ export default function Weather() {
     const weatherData = useScript<WeatherData>(
         SCRIPTS.WEATHER,
         POLL_INTERVALS.VERY_SLOW,
-        { temperature: "+--°C", condition: "--", icon: "🌤" }
+        { temperature: "+--°C", condition: "--", icon: ICONS.WEATHER }
     );
 
     return (
@@ -26,7 +26,7 @@ export default function Weather() {
             class="weather-widget-minimal"
         >
             <label
-                label={weatherData.as((data) => data?.icon || "🌤")}
+                label={weatherData.as((data) => data?.icon || ICONS.WEATHER)}
                 class="weather-icon-large"
                 halign={Gtk.Align.CENTER}
             />

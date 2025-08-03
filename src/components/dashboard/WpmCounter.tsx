@@ -4,7 +4,7 @@
 import { Gtk } from "ags/gtk4";
 import { WpmData } from "../../types";
 import { useScript } from "../../utils/hooks";
-import { POLL_INTERVALS, SCRIPTS } from "../../config/constants";
+import { POLL_INTERVALS, SCRIPTS, ICONS } from "../../config/constants";
 
 /**
  * Componente WPM ultra minimalista y destacado

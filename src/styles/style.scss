@@ -1817,14 +1817,14 @@
 
 /* Dashboard Cards Compactas para 7" */
 .dashboard-card {
-  background: rgba(59, 66, 82, 0.7);
+  background: rgba(59, 66, 82, 0.4);
   border-radius: 14px;
   padding: 8px;
-  border: 1px solid rgba(76, 86, 106, 0.4);
+  border: 1px solid rgba(76, 86, 106, 0.3);
   box-shadow: 
     0 6px 16px rgba(0, 0, 0, 0.3),
     0 0 25px rgba(136, 192, 208, 0.08),
-    inset 0 1px 1px rgba(216, 222, 233, 0.1);
+    inset 0 1px 1px rgba(216, 222, 233, 0.05);
   backdrop-filter: blur(10px);
 }
 
@@ -1833,9 +1833,9 @@
   box-shadow: 
     0 12px 25px rgba(0, 0, 0, 0.4),
     0 0 40px rgba(136, 192, 208, 0.2),
-    inset 0 1px 1px rgba(216, 222, 233, 0.15);
-  border-color: rgba(136, 192, 208, 0.5);
-  background: rgba(67, 76, 94, 0.8);
+    inset 0 1px 1px rgba(216, 222, 233, 0.1);
+  border-color: rgba(136, 192, 208, 0.4);
+  background: rgba(67, 76, 94, 0.5);
 }
 
 /* Separador */
@@ -1860,8 +1860,8 @@
 
 /* Clock Compacto */
 .clock-card {
-  background: rgba(94, 129, 172, 0.15);
-  border-color: rgba(94, 129, 172, 0.3);
+  background: rgba(94, 129, 172, 0.08);
+  border-color: rgba(94, 129, 172, 0.2);
 }
 
 .clock-time-compact {
@@ -1883,7 +1883,7 @@
 
 /* Ultra compact styles for 7" dashboard */
 .clock-time-ultra-compact {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 800;
   color: var(--nord6);
   text-shadow: 0 0 18px rgba(236, 239, 244, 0.4);
@@ -1892,13 +1892,27 @@
 }
 
 .clock-date-ultra-compact {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--nord4);
   opacity: 0.9;
   text-shadow: 0 0 8px rgba(216, 222, 233, 0.3);
   letter-spacing: 0.5px;
   margin-top: -2px;
+}
+
+.clock-icon {
+  font-size: 20px;
+  color: var(--nord8);
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.6);
+  margin-bottom: 4px;
+}
+
+/* Compact clock style */
+.clock-compact {
+  flex: 0 0 auto;
+  min-width: 120px;
+  max-width: 140px;
 }
 
 /* System Card */
@@ -1937,8 +1951,8 @@
 
 /* Monitoring Card */
 .monitoring-card {
-  background: rgba(191, 97, 106, 0.1);
-  border-color: rgba(191, 97, 106, 0.25);
+  background: rgba(191, 97, 106, 0.05);
+  border-color: rgba(191, 97, 106, 0.15);
 }
 
 .monitoring-widget-compact {
@@ -1951,27 +1965,27 @@
 }
 
 .progress-icon-small {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--nord8);
-  min-width: 20px;
+  min-width: 22px;
   text-shadow: 0 0 12px rgba(136, 192, 208, 0.5);
 }
 
 .progress-label-small {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--nord5);
-  min-width: 40px;
+  min-width: 42px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .progress-value-small {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   color: var(--nord4);
   font-family: 'JetBrains Mono', monospace;
-  min-width: 36px;
+  min-width: 40px;
 }
 
 .progress-label-small {
@@ -2004,14 +2018,28 @@
   transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Narrower progress bars */
+.progress-bar-narrow {
+  min-height: 3px;
+  background: rgba(76, 86, 106, 0.4);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.progress-fill-narrow {
+  min-height: 3px;
+  border-radius: 2px;
+  transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Temperatura del sistema */
 .temp-container-compact {
   padding: 2px 0;
 }
 
 .temp-value-small {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   color: var(--nord8);
   font-family: 'JetBrains Mono', monospace;
   text-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
@@ -2023,6 +2051,55 @@
     rgba(191, 97, 106, 0.8), 
     rgba(191, 97, 106, 1));
   box-shadow: 0 0 10px rgba(191, 97, 106, 0.5);
+}
+
+.progress-cpu .progress-fill-narrow {
+  background: linear-gradient(90deg, 
+    rgba(191, 97, 106, 0.8), 
+    rgba(191, 97, 106, 1));
+  box-shadow: 0 0 8px rgba(191, 97, 106, 0.5);
+}
+
+.progress-memory .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(235, 203, 139, 0.8), 
+    rgba(235, 203, 139, 1));
+  box-shadow: 0 0 10px rgba(235, 203, 139, 0.5);
+}
+
+.progress-memory .progress-fill-narrow {
+  background: linear-gradient(90deg, 
+    rgba(235, 203, 139, 0.8), 
+    rgba(235, 203, 139, 1));
+  box-shadow: 0 0 8px rgba(235, 203, 139, 0.5);
+}
+
+.progress-gpu .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(163, 190, 140, 0.8), 
+    rgba(163, 190, 140, 1));
+  box-shadow: 0 0 10px rgba(163, 190, 140, 0.5);
+}
+
+.progress-gpu .progress-fill-narrow {
+  background: linear-gradient(90deg, 
+    rgba(163, 190, 140, 0.8), 
+    rgba(163, 190, 140, 1));
+  box-shadow: 0 0 8px rgba(163, 190, 140, 0.5);
+}
+
+.progress-disk .progress-fill-small {
+  background: linear-gradient(90deg, 
+    rgba(180, 142, 173, 0.8), 
+    rgba(180, 142, 173, 1));
+  box-shadow: 0 0 10px rgba(180, 142, 173, 0.5);
+}
+
+.progress-disk .progress-fill-narrow {
+  background: linear-gradient(90deg, 
+    rgba(180, 142, 173, 0.8), 
+    rgba(180, 142, 173, 1));
+  box-shadow: 0 0 8px rgba(180, 142, 173, 0.5);
 }
 
 .progress-memory .progress-fill-small {
@@ -2060,9 +2137,9 @@
 /* Weather Widget Minimalista para 7" */
 .weather-widget-minimal {
   padding: 8px;
-  background-color: rgba(46, 52, 64, 0.6);
+  background-color: rgba(46, 52, 64, 0.3);
   border-radius: 12px;
-  border: 1px solid rgba(76, 86, 106, 0.4);
+  border: 1px solid rgba(76, 86, 106, 0.2);
 }
 
 .weather-icon-large {
@@ -2081,9 +2158,9 @@
 /* WPM Destacado para 7" - versión featured */
 .wpm-widget-featured {
   padding: 16px;
-  background-color: rgba(46, 52, 64, 0.6);
+  background-color: rgba(46, 52, 64, 0.3);
   border-radius: 16px;
-  border: 1px solid rgba(76, 86, 106, 0.4);
+  border: 1px solid rgba(76, 86, 106, 0.2);
 }
 
 .wpm-label-featured {
@@ -2102,6 +2179,13 @@
   font-family: 'JetBrains Mono', monospace;
   text-shadow: 0 0 25px rgba(136, 192, 208, 0.7);
   line-height: 1;
+}
+
+.wpm-icon {
+  font-size: 24px;
+  color: var(--nord8);
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.6);
+  margin-bottom: 4px;
 }
 
 /* WPM Minimalista para 7" */

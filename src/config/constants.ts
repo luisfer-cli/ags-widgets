@@ -49,40 +49,46 @@ export const RESULT_LIMITS = {
 } as const;
 
 /**
- * Icon mappings for consistent icons across components
+ * Icon mappings for consistent icons across components - All Nerd Fonts
  */
 export const ICONS = {
     // Status icons
-    LOADING: "⏳",
-    ERROR: "❌",
-    SUCCESS: "✅", 
-    WARNING: "⚠️",
-    INFO: "ℹ️",
+    LOADING: "󰇖",
+    ERROR: "󰅚",
+    SUCCESS: "󰄬", 
+    WARNING: "󰀪",
+    INFO: "󰋽",
     
     // Media icons
     MUSIC: "󰝚",
-    PLAY: "▶",
-    PAUSE: "⏸",
-    STOP: "⏹",
+    PLAY: "󰐊",
+    PAUSE: "󰏤",
+    STOP: "󰓛",
     
     // System icons
-    CPU: "",
+    CPU: "󰻠",
     MEMORY: "󰧑",
     GPU: "󰢮",
     DISK: "󰋊",
     NETWORK: "󰖩",
     UPTIME: "󰅐",
-    TEMPERATURE: "🌡",
-    KEYBOARD: "",
+    TEMPERATURE: "󰔏",
+    KEYBOARD: "󰌌",
+    
+    // Dashboard specific icons
+    CLOCK: "󰅐",
+    WEATHER: "󰖕",
+    WPM: "󰌌",
+    MONITORING: "󰊗",
     
     // File type icons
-    FILE_GENERIC: "text-x-generic",
-    FILE_PDF: "application-pdf",
-    FILE_IMAGE: "image-x-generic",
-    FILE_AUDIO: "audio-x-generic",
-    FILE_VIDEO: "video-x-generic",
-    FILE_ARCHIVE: "application-x-archive",
-    FILE_CODE: "text-x-script",
+    FILE_GENERIC: "󰈔",
+    FILE_PDF: "󰈦",
+    FILE_IMAGE: "󰈟",
+    FILE_AUDIO: "󰈣",
+    FILE_VIDEO: "󰈫",
+    FILE_ARCHIVE: "󰈥",
+    FILE_CODE: "󰈩",
 } as const;
 
 /**

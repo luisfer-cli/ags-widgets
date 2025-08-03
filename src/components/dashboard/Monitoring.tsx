@@ -29,13 +29,13 @@ function CompactProgressBar({ value, label, icon, color = "primary" }: {
             <label label={icon} class="progress-icon-small" />
             <label label={label} class="progress-label-small" />
             <box
-                class={`progress-bar-small progress-${color}`}
+                class={`progress-bar-narrow progress-${color}`}
                 hexpand={true}
             >
                 <box
-                    class="progress-fill-small"
-                    width-request={Math.max(2, (percentage / 100) * 60)}
-                    height-request={4}
+                    class="progress-fill-narrow"
+                    width-request={Math.max(2, (percentage / 100) * 50)}
+                    height-request={3}
                 />
             </box>
             <label
@@ -110,7 +110,7 @@ export default function Monitoring() {
                             class="temp-container-compact"
                             halign={Gtk.Align.FILL}
                         >
-                            <label label="🌡" class="progress-icon-small" />
+                            <label label={ICONS.TEMPERATURE} class="progress-icon-small" />
                             <label label="TEMP" class="progress-label-small" />
                             <box hexpand={true} />
                             <label

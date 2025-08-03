@@ -43,8 +43,8 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     halign={Gtk.Align.FILL}
                     class="dashboard-grid-row"
                 >
-                    {/* Reloj */}
-                    <box class="dashboard-card clock-card" hexpand={true}>
+                    {/* Reloj - más compacto */}
+                    <box class="dashboard-card clock-card clock-compact" hexpand={false}>
                         <Clock />
                     </box>
 

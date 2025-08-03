@@ -3,6 +3,7 @@
  */
 import { createPoll } from "ags/time";
 import { Gtk } from "ags/gtk4";
+import { ICONS } from "../../config/constants";
 
 /**
  * Componente de reloj ultra compacto para pantalla de 7"

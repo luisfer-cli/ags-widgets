@@ -51,7 +51,7 @@ export default function FileFinder({
     function closeWithAnimation() {
         const context = contentbox.get_style_context()
         context?.add_class("animate-out")
-        
+
         setTimeout(() => {
             win.visible = false
             context?.remove_class("animate-out")
@@ -100,13 +100,13 @@ export default function FileFinder({
             // Use file finder script with fd backend
             const searchType = searchPath?.includes('/.config') ? 'config' : 'home';
             const result = await executeScript("file-finder.sh", text, searchType);
-            
+
             if (!result?.text) {
                 setList([]);
                 return;
             }
 
-            const lines = result.text.split('\n').filter(line => line.trim() !== '')
+            const lines = result.text.split('\n').filter((line: string) => line.trim() !== '')
             const files: FileSearchResult[] = []
 
             for (const path of lines) {
@@ -266,7 +266,7 @@ export default function FileFinder({
                         onNotifyText={({ text }) => search(text)}
                         onActivate={() => openFile(list.get()[0])}
                         hexpand
-                        placeholderText="Fast file search - supports regex patterns like \.js$ or ^config.*"
+                        placeholderText="Buscador de archivos"
                     />
                 </box>
                 <Gtk.Separator visible={list((l) => l.length > 0)} />
@@ -294,13 +294,6 @@ export default function FileFinder({
                                                 label={file.name}
                                                 maxWidthChars={40}
                                                 wrap
-                                                halign={Gtk.Align.START}
-                                            />
-                                            <label
-                                                label={file.path}
-                                                maxWidthChars={50}
-                                                wrap
-                                                class="file-path"
                                                 halign={Gtk.Align.START}
                                             />
                                         </box>

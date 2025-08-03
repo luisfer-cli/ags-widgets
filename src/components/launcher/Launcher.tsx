@@ -36,7 +36,7 @@ export default function Launcher({
     function closeWithAnimation() {
         const context = contentbox.get_style_context()
         context?.add_class("animate-out")
-        
+
         setTimeout(() => {
             win.visible = false
             context?.remove_class("animate-out")
@@ -135,7 +135,7 @@ export default function Launcher({
                         onNotifyText={({ text }) => search(text)}
                         onActivate={() => launch(list.get()[0])}
                         hexpand
-                        placeholderText="Start typing to search applications..."
+                        placeholderText="Lanzador de aplicaciones"
                     />
                 </box>
                 <Gtk.Separator visible={list((l) => l.length > 0)} />

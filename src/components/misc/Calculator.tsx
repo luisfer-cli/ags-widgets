@@ -50,7 +50,7 @@ export default function Calculator({
     function closeWithAnimation() {
         const context = contentbox.get_style_context()
         context?.add_class("animate-out")
-        
+
         setTimeout(() => {
             win.visible = false
             context?.remove_class("animate-out")
@@ -64,7 +64,7 @@ export default function Calculator({
         if (!expression.trim()) return ""
 
         setIsCalculating(true)
-        
+
         try {
             let mathicsExpression = expression
 
@@ -157,7 +157,7 @@ export default function Calculator({
         mod: number,
     ) {
         const expression = searchentry.get_text()
-        
+
         if (keyval === Gdk.KEY_Escape) {
             closeWithAnimation()
             return
@@ -187,12 +187,6 @@ export default function Calculator({
                     calculate(expression, "simplify")
                     return
             }
-        }
-
-        // Enter key for regular evaluation
-        if (keyval === Gdk.KEY_Return || keyval === Gdk.KEY_ISO_Enter) {
-            calculate(expression, "evaluate")
-            return
         }
     }
 
@@ -264,44 +258,39 @@ export default function Calculator({
             >
                 {/* Input Section */}
                 <box class="input-section" orientation={Gtk.Orientation.VERTICAL}>
-                    <label 
-                        label="Mathematical Calculator - Powered by Mathics"
+                    <label
+                        label="Calculadora"
                         class="calculator-title"
                     />
-                    <box class="shortcuts-info">
-                        <label 
-                            label="Enter: Evaluate | Alt+D: Derivative | Alt+I: Integrate | Alt+E: Expand | Alt+F: Factor | Alt+S: Simplify"
-                            class="shortcuts-text"
-                        />
-                    </box>
                     <box class="searchbox">
                         <entry
                             $={(ref) => (searchentry = ref)}
                             hexpand
-                            placeholderText="Enter mathematical expression..."
+                            onActivate={() => calculate(searchentry.get_text(), "evaluate")}
+                            placeholderText="Digite expresión matemática"
                         />
                     </box>
                 </box>
 
                 {/* Current Result Section */}
-                <box 
+                <box
                     class="current-result"
                     visible={currentResult((r) => r !== "")}
                     orientation={Gtk.Orientation.VERTICAL}
                 >
                     <Gtk.Separator />
-                    <box class="result-box">
-                        <label 
-                            label={isCalculating((calc) => calc ? "Calculating..." : "Result:")}
-                            class="result-label"
-                        />
+                    <box
+                        class="result-box"
+                        orientation={Gtk.Orientation.HORIZONTAL}
+                        valign={Gtk.Align.CENTER}
+                    >
                         <button
                             class="result-value"
                             onClicked={() => copyToClipboard(currentResult.get())}
-                            tooltip_text="Click to copy result"
+                            tooltip_text="Click para copiar"
                         >
-                            <label 
-                                label={currentResult} 
+                            <label
+                                label={currentResult}
                                 selectable
                                 wrap
                                 maxWidthChars={60}
@@ -311,13 +300,13 @@ export default function Calculator({
                 </box>
 
                 {/* History Section */}
-                <box 
+                <box
                     class="history-section"
                     visible={history((h) => h.length > 0)}
                     orientation={Gtk.Orientation.VERTICAL}
                 >
                     <Gtk.Separator />
-                    <label label="History" class="history-title" />
+                    <label label="Historial" class="history-title" />
                     <scrolledwindow
                         max_content_height={300}
                         propagate_natural_height
@@ -328,7 +317,7 @@ export default function Calculator({
                                     <box class="history-item">
                                         <box orientation={Gtk.Orientation.VERTICAL} hexpand>
                                             <box>
-                                                <label 
+                                                <label
                                                     label={`${item.expression} ${getOperationName(item.operation)}`}
                                                     class="history-expression"
                                                     selectable
@@ -338,9 +327,9 @@ export default function Calculator({
                                                 <button
                                                     class="history-result"
                                                     onClicked={() => copyToClipboard(item.result)}
-                                                    tooltip_text="Click to copy"
+                                                    tooltip_text="Click para copiar"
                                                 >
-                                                    <label 
+                                                    <label
                                                         label={item.result}
                                                         class="history-result-text"
                                                         selectable

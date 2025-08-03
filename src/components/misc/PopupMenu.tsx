@@ -43,17 +43,11 @@ export default function PopupMenu({
     const [filteredOptions, setFilteredOptions] = createState(options)
 
     /**
-     * Handle closing with animation
+     * Handle closing without animation
      */
-    function closeWithAnimation() {
-        const context = contentbox.get_style_context()
-        context?.add_class("animate-out")
-        
-        setTimeout(() => {
-            win.visible = false
-            context?.remove_class("animate-out")
-            onClose?.()
-        }, 200)
+    function closeWindow() {
+        win.visible = false
+        onClose?.()
     }
 
     /**
@@ -61,7 +55,7 @@ export default function PopupMenu({
      */
     function executeOption(option: MenuOption) {
         if (!option.disabled) {
-            closeWithAnimation()
+            closeWindow()
             option.action()
         }
     }
@@ -80,7 +74,7 @@ export default function PopupMenu({
         
         switch (keyval) {
             case Gdk.KEY_Escape:
-                closeWithAnimation()
+                closeWindow()
                 break
                 
             case Gdk.KEY_Return:
@@ -128,7 +122,7 @@ export default function PopupMenu({
         const position = new Graphene.Point({ x, y })
 
         if (!rect.contains_point(position)) {
-            closeWithAnimation()
+            closeWindow()
             return true
         }
     }
@@ -144,19 +138,9 @@ export default function PopupMenu({
             visible={visible}
             monitor={monitor}
             onNotifyVisible={({ visible }) => {
-                const context = contentbox.get_style_context()
-
                 if (visible) {
-                    // Reset animations and state
-                    context?.remove_class("animate-in")
-                    context?.remove_class("animate-out")
                     setSelectedIndex(0)
                     setFilteredOptions(options)
-                    
-                    // Trigger entrance animation
-                    setTimeout(() => context?.add_class("animate-in"), 10)
-                } else {
-                    context?.remove_class("animate-in")
                 }
             }}
         >

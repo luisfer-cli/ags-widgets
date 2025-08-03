@@ -52,6 +52,7 @@ function getUrgencyClass(notification: AstalNotifd.Notification): string {
 interface NotificationProps {
     notification: AstalNotifd.Notification;
     onHoverLost: () => void;
+    onHoverEnter?: () => void;
 }
 
 /**
@@ -62,15 +63,22 @@ interface NotificationProps {
  */
 export default function Notification({
     notification: n,
-    onHoverLost
+    onHoverLost,
+    onHoverEnter
 }: NotificationProps) {
     let dismissed = false;
 
-    // Handle mouse leave events for auto-dismiss
+    // Handle mouse events for auto-dismiss
     const motionController = Gtk.EventControllerMotion.new();
     motionController.connect("leave", () => {
         if (!dismissed) {
             onHoverLost();
+        }
+    });
+    
+    motionController.connect("enter", () => {
+        if (!dismissed && onHoverEnter) {
+            onHoverEnter();
         }
     });
 

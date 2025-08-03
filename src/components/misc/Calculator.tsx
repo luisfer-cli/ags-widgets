@@ -45,16 +45,10 @@ export default function Calculator({
     const [isCalculating, setIsCalculating] = createState(false)
 
     /**
-     * Handle closing with animation
+     * Handle closing without animation
      */
-    function closeWithAnimation() {
-        const context = contentbox.get_style_context()
-        context?.add_class("animate-out")
-
-        setTimeout(() => {
-            win.visible = false
-            context?.remove_class("animate-out")
-        }, 300) // Match animation duration
+    function closeWindow() {
+        win.visible = false
     }
 
     /**
@@ -159,7 +153,7 @@ export default function Calculator({
         const expression = searchentry.get_text()
 
         if (keyval === Gdk.KEY_Escape) {
-            closeWithAnimation()
+            closeWindow()
             return
         }
 
@@ -198,7 +192,7 @@ export default function Calculator({
         const position = new Graphene.Point({ x, y })
 
         if (!rect.contains_point(position)) {
-            closeWithAnimation()
+            closeWindow()
             return true
         }
     }
@@ -229,19 +223,11 @@ export default function Calculator({
             visible={visible}
             monitor={monitor}
             onNotifyVisible={({ visible }) => {
-                const context = contentbox.get_style_context()
-
                 if (visible) {
-                    // Reset animations
-                    context?.remove_class("animate-in")
-                    context?.remove_class("animate-out")
                     searchentry.grab_focus()
-                    // Trigger entrance animation
-                    setTimeout(() => context?.add_class("animate-in"), 10)
                 } else {
                     searchentry.set_text("")
                     setCurrentResult("")
-                    context?.remove_class("animate-in")
                 }
             }}
         >

@@ -23,7 +23,7 @@ export default function WpmCounter() {
             spacing={0}
             halign={Gtk.Align.FILL}
             valign={Gtk.Align.FILL}
-            class="wpm-widget-centered"
+            class=""
         >
             {/* Contenedor interno para centrado perfecto */}
             <box
@@ -41,8 +41,8 @@ export default function WpmCounter() {
                     halign={Gtk.Align.CENTER}
                     valign={Gtk.Align.CENTER}
                 />
-                <label 
-                    label="WPM" 
+                <label
+                    label="WPM"
                     halign={Gtk.Align.CENTER}
                     valign={Gtk.Align.CENTER}
                     class="wpm-label-centered"

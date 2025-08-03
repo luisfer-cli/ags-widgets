@@ -29,10 +29,10 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
             width-request={WINDOW_DIMENSIONS.DASHBOARD.width}
             height-request={WINDOW_DIMENSIONS.DASHBOARD.height}
         >
-            <box 
-                orientation={Gtk.Orientation.VERTICAL} 
-                spacing={4} 
-                halign={Gtk.Align.FILL} 
+            <box
+                orientation={Gtk.Orientation.VERTICAL}
+                spacing={4}
+                halign={Gtk.Align.FILL}
                 valign={Gtk.Align.FILL}
                 class="dashboard-main"
             >
@@ -44,7 +44,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     class="dashboard-grid-row"
                 >
                     {/* Reloj - más compacto */}
-                    <box class="dashboard-card clock-card clock-compact" hexpand={false}>
+                    <box class="dashboard-card" hexpand={false}>
                         <Clock />
                     </box>
 
@@ -63,7 +63,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     class="dashboard-grid-row"
                 >
                     {/* Monitoreo */}
-                    <box class="dashboard-card monitoring-card" hexpand={true} vexpand={true}>
+                    <box class="dashboard-card" hexpand={true} vexpand={true}>
                         <Monitoring />
                     </box>
 

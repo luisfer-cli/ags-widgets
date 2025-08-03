@@ -43,6 +43,9 @@ export default function NotificationPopups() {
         GLib.Source.remove(monitorUpdateInterval);
     });
 
+    // Auto-dismiss timers map
+    const dismissTimers = new Map<number, number>();
+
     /**
      * Handle new notifications
      * Manages notification replacement and auto-dismiss timers
@@ -58,14 +61,22 @@ export default function NotificationPopups() {
         } else {
             // Add new notification to the beginning of the list
             setNotifications((ns) => [notification, ...ns]);
+        }
 
-            // Auto-dismiss after 5 seconds (except critical notifications)
-            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
-                setNotifications((ns) =>
-                    ns.filter((n) => n.id !== notification.id)
-                );
+        // Set auto-dismiss timer for non-critical notifications
+        if (notification.urgency !== AstalNotifd.Urgency.CRITICAL) {
+            // Clear existing timer if any
+            if (dismissTimers.has(id)) {
+                GLib.Source.remove(dismissTimers.get(id)!);
+            }
+
+            // Set new timer (5 seconds for normal/low priority)
+            const timerId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
+                dismissTimers.delete(id);
+                notification.dismiss();
                 return GLib.SOURCE_REMOVE;
             });
+            dismissTimers.set(id, timerId);
         }
     });
 
@@ -73,14 +84,25 @@ export default function NotificationPopups() {
      * Handle notification resolution/dismissal
      */
     const resolvedHandler = notifd.connect("resolved", (_, id) => {
+        // Clear any existing timer
+        if (dismissTimers.has(id)) {
+            GLib.Source.remove(dismissTimers.get(id)!);
+            dismissTimers.delete(id);
+        }
         setNotifications((ns) => ns.filter((n) => n.id !== id));
     });
 
-    // Cleanup event handlers on component unmount
+    // Cleanup event handlers and timers on component unmount
     onCleanup(() => {
         notifd.disconnect(notifiedHandler);
         notifd.disconnect(resolvedHandler);
         GLib.Source.remove(monitorUpdateInterval);
+        
+        // Clear all dismiss timers
+        dismissTimers.forEach((timerId) => {
+            GLib.Source.remove(timerId);
+        });
+        dismissTimers.clear();
     });
 
     return (
@@ -98,7 +120,14 @@ export default function NotificationPopups() {
                             onHoverLost: () =>
                                 setNotifications((ns) =>
                                     ns.filter((n) => n.id !== notification.id)
-                                )
+                                ),
+                            onHoverEnter: () => {
+                                // Pause auto-dismiss timer when hovering
+                                if (dismissTimers.has(notification.id)) {
+                                    GLib.Source.remove(dismissTimers.get(notification.id)!);
+                                    dismissTimers.delete(notification.id);
+                                }
+                            }
                         })
                     }
                 </For>

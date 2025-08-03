@@ -48,9 +48,9 @@ export default function Osd({}: ComponentProps = {}) {
         monitor: 0
     });
 
-    let hideTimeoutId: number | null = null;
     let lastVolumeLevel: number = 0;
     let lastMuteState: boolean = false;
+    let hideTimeoutId: number | null = null;
 
     /**
      * Get current volume and mute status, display OSD if changed
@@ -93,14 +93,14 @@ export default function Osd({}: ComponentProps = {}) {
                 monitor: focusedMonitor
             });
 
-            // Reset hide timer
-            if (hideTimeoutId !== null) {
+            // Clear existing hide timeout
+            if (hideTimeoutId) {
                 GLib.Source.remove(hideTimeoutId);
             }
-            
-            // Auto-hide after 1.5 seconds
-            hideTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1500, () => {
-                setOsdState((prev) => ({ ...prev, visible: false }));
+
+            // Set auto-hide timeout (2 seconds)
+            hideTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 2000, () => {
+                setOsdState(prev => ({ ...prev, visible: false }));
                 hideTimeoutId = null;
                 return GLib.SOURCE_REMOVE;
             });

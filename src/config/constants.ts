@@ -80,6 +80,7 @@ export const ICONS = {
     WEATHER: "󰖕",
     WPM: "󰌌",
     MONITORING: "󰊗",
+    TASKS: "󰄬",
     
     // File type icons
     FILE_GENERIC: "󰈔",
@@ -141,6 +142,7 @@ export const SCRIPTS = {
     WPM_COUNTER: "get_wpm.sh",
     MONITORING: "monitor.sh",
     WEATHER: "weather.sh",
+    TASKWARRIOR: "taskwarrior.sh",
     LAUNCHER_TOGGLE: "launcher-toggle.sh",
     CALENDAR_TOGGLE: "calendar-toggle.sh",
     SHUTDOWN_TOGGLE: "shutdown-toggle.sh",

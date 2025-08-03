@@ -2,7 +2,7 @@
  * Dashboard ultra minimalista con diseño tipo grid para monitores pequeños
  * 
  * Layout:
- * - Grid 2x2 optimizado: Reloj, Clima, Monitoreo, WPM
+ * - Grid 2x2 optimizado: Reloj, Tareas, Monitoreo, WPM
  * - Solo información esencial, sin títulos
  * - Efectos modernos y transparencias
  */
@@ -12,7 +12,7 @@ import { WINDOW_DIMENSIONS } from "../../config/constants";
 import Clock from "./Clock";
 import WpmCounter from "./WpmCounter";
 import Monitoring from "./Monitoring";
-import Weather from "./Weather";
+import Taskwarrior from "./Weather";
 
 /**
  * Dashboard ultra minimalista con layout tipo grid
@@ -48,9 +48,9 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         <Clock />
                     </box>
 
-                    {/* Clima */}
-                    <box class="dashboard-card weather-card" hexpand={true}>
-                        <Weather />
+                    {/* Tareas */}
+                    <box class="dashboard-card taskwarrior-card" hexpand={true}>
+                        <Taskwarrior />
                     </box>
                 </box>
 

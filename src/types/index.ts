@@ -92,6 +92,23 @@ export interface WpmData {
     status: string;
 }
 
+export interface TaskwarriorTask {
+    id: number;
+    description: string;
+    urgency: number;
+    priority: string;
+    project: string;
+    status: "pending" | "completed";
+}
+
+export interface TaskwarriorData {
+    pending: TaskwarriorTask[];
+    completed: TaskwarriorTask[];
+    pendingCount: number;
+    completedToday: number;
+    error?: string;
+}
+
 // Media types
 export interface MediaPlayerStatus {
     artist: string;

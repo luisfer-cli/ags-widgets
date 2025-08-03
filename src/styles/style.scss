@@ -1825,7 +1825,6 @@
     0 6px 16px rgba(0, 0, 0, 0.3),
     0 0 25px rgba(136, 192, 208, 0.08),
     inset 0 1px 1px rgba(216, 222, 233, 0.05);
-  backdrop-filter: blur(10px);
 }
 
 .dashboard-card:hover {
@@ -1910,9 +1909,7 @@
 
 /* Compact clock style */
 .clock-compact {
-  flex: 0 0 auto;
   min-width: 120px;
-  max-width: 140px;
 }
 
 /* System Card */
@@ -2155,7 +2152,7 @@
   text-shadow: 0 0 12px rgba(136, 192, 208, 0.5);
 }
 
-/* WPM Destacado para 7" - versión featured */
+/* WPM Destacado para 7" - versión featured (legacy support) */
 .wpm-widget-featured {
   padding: 16px;
   background-color: rgba(46, 52, 64, 0.3);
@@ -2243,7 +2240,6 @@
   background-color: rgba(46, 52, 64, 0.6);
   border-radius: 12px;
   border: 1px solid rgba(76, 86, 106, 0.4);
-  backdrop-filter: blur(8px);
 }
 
 .stats-label-minimal {
@@ -2464,9 +2460,179 @@
   box-shadow: 0 0 8px rgba(180, 142, 173, 0.4);
 }
 
-/* WPM Card */
+/* WPM Card - Optimizado para centrado perfecto */
 .wpm-card {
   min-width: 140px;
+  min-height: 80px;
+}
+
+.wpm-widget-centered {
+  padding: 8px;
+  background-color: rgba(46, 52, 64, 0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(76, 86, 106, 0.2);
+}
+
+.wpm-inner-container {
+  /* Container styles without width/height */
+}
+
+.wpm-value-centered {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 20px rgba(136, 192, 208, 0.7);
+  line-height: 1;
+}
+
+.wpm-label-centered {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nord4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* Taskwarrior Card - Diseño horizontal optimizado */
+.taskwarrior-card {
+  min-width: 140px;
+  min-height: 80px;
+}
+
+.taskwarrior-widget-horizontal {
+  padding: 6px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+}
+
+/* Panel izquierdo: Número grande + símbolo */
+.taskwarrior-left-panel {
+  min-width: 45px;
+  padding: 2px 4px;
+}
+
+.taskwarrior-big-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--nord6);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 15px rgba(236, 239, 244, 0.4);
+  line-height: 0.9;
+}
+
+.taskwarrior-status-symbol {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nord14);
+  text-shadow: 0 0 8px rgba(163, 190, 140, 0.5);
+  margin-top: 2px;
+}
+
+/* Panel derecho: Lista de tareas */
+.taskwarrior-right-panel {
+  padding: 2px 4px;
+}
+
+.taskwarrior-task-item {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 1px 0;
+  padding: 1px 0;
+}
+
+.taskwarrior-task-item.pending {
+  color: var(--nord4);
+  opacity: 0.9;
+}
+
+.taskwarrior-task-item.completed {
+  color: var(--nord14);
+  opacity: 0.7;
+}
+
+.wpm-widget-centered {
+  padding: 8px;
+  background-color: rgba(46, 52, 64, 0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(76, 86, 106, 0.2);
+  
+  
+}
+
+.wpm-inner-container {
+  
+  
+}
+
+.wpm-value-centered {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 20px rgba(136, 192, 208, 0.7);
+  line-height: 1;
+}
+
+.wpm-label-centered {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--nord4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* Taskwarrior Card - Optimizado para mejor uso del espacio */
+.taskwarrior-card {
+  min-width: 140px;
+  min-height: 80px;
+}
+
+.taskwarrior-widget-optimized {
+  padding: 6px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+  
+  
+}
+
+.taskwarrior-header {
+  margin-bottom: 3px;
+}
+
+.taskwarrior-icon {
+  font-size: 20px;
+  color: var(--nord14);
+  text-shadow: 0 0 10px rgba(163, 190, 140, 0.5);
+}
+
+.taskwarrior-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--nord6);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 8px rgba(236, 239, 244, 0.3);
+}
+
+.taskwarrior-tasks-container {
+  
+}
+
+.taskwarrior-task {
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--nord4);
+  opacity: 0.85;
+  line-height: 1.1;
+  margin: 1px 0;
+  padding: 1px 2px;
 }
 
 .wpm-widget {

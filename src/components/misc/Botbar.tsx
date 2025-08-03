@@ -1,26 +1,19 @@
 /**
- * Bottom bar component displaying currently playing media
- * Shows artist and track information from media players
+ * Bottom bar component with split cava visualization and center media info
+ * Layout: [Cava Left] [Media Info] [Cava Right]
  */
 import { Astal, Gtk } from "ags/gtk4";
-import { With } from "ags";
-import { ComponentProps, MediaPlayerStatus } from "../../types";
-import { useScript } from "../../utils/hooks";
+import { ComponentProps } from "../../types";
+import CavaVisualizerWidget from "./CavaVisualizerWidget";
+import MediaInfoWidget from "./MediaInfoWidget";
 
 /**
- * Bottom bar component for media display
+ * Bottom bar component with three-section layout
  * @param monitor - Monitor number to display on (default: 0)
  * @returns JSX window element
  */
 export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
     const { BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor;
-
-    // Poll for current track information every 2 seconds
-    const mediaStatus = useScript<MediaPlayerStatus>(
-        "media-player.sh",
-        2000,
-        { artist: "", title: "", status: "Stopped" }
-    );
 
     return (
         <window
@@ -35,50 +28,49 @@ export default function Botbar({ monitor = 0 }: ComponentProps = {}) {
                 orientation={Gtk.Orientation.HORIZONTAL}
                 hexpand
                 valign={Gtk.Align.CENTER}
-                halign={Gtk.Align.CENTER}
+                halign={Gtk.Align.FILL}
                 class="botbar-box"
-                spacing={8}
+                spacing={16}
             >
-                <With value={mediaStatus}>
-                    {(media) => {
-                        const hasTrack = media?.artist && media?.title && media?.status !== "Stopped";
-                        const trackText = hasTrack 
-                            ? `${media.artist} – ${media.title}` 
-                            : "♪ No music playing";
-
-                        return (
-                            <box
-                                orientation={Gtk.Orientation.HORIZONTAL}
-                                spacing={6}
-                                valign={Gtk.Align.CENTER}
-                                halign={Gtk.Align.CENTER}
-                                class="media-info"
-                            >
-                                {/* Music icon */}
-                                <label
-                                    label="󰝚" // nf-md-music
-                                    class="botbar-icon"
-                                />
-
-                                {/* Track information */}
-                                <label
-                                    label={trackText}
-                                    class={hasTrack ? "botbar-label" : "botbar-label-empty"}
-                                    xalign={0.5}
-                                    hexpand
-                                />
-                                
-                                {/* Status indicator */}
-                                {hasTrack && (
-                                    <label
-                                        label={media?.status === "Playing" ? "▶" : "⏸"}
-                                        class="botbar-status"
-                                    />
-                                )}
-                            </box>
-                        );
-                    }}
-                </With>
+                {/* Left Cava Visualizer */}
+                <box
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    halign={Gtk.Align.START}
+                    class="botbar-section left"
+                >
+                    <CavaVisualizerWidget monitor={monitor} position="left" />
+                </box>
+                
+                {/* Left Separator */}
+                <label
+                    label="│"
+                    class="botbar-separator"
+                />
+                
+                {/* Center Media Information */}
+                <box
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    halign={Gtk.Align.CENTER}
+                    hexpand
+                    class="botbar-section center"
+                >
+                    <MediaInfoWidget monitor={monitor} />
+                </box>
+                
+                {/* Right Separator */}
+                <label
+                    label="│"
+                    class="botbar-separator"
+                />
+                
+                {/* Right Cava Visualizer */}
+                <box
+                    orientation={Gtk.Orientation.HORIZONTAL}
+                    halign={Gtk.Align.END}
+                    class="botbar-section right"
+                >
+                    <CavaVisualizerWidget monitor={monitor} position="right" />
+                </box>
             </box>
         </window>
     );

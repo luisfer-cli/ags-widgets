@@ -58,186 +58,6 @@
 }
 
 /* ================================
-   BRUTAL CAVA VISUALIZER STYLES
-   ================================ */
-
-.cava-visualizer {
-  padding: 4px 8px;
-  margin: 0 8px;
-  
-  &.brutal-cava {
-    background: linear-gradient(45deg, 
-      rgba(94, 129, 172, 0.1),    /* nord10 - frost blue */
-      rgba(129, 161, 193, 0.1),   /* nord9 - light blue */
-      rgba(136, 192, 208, 0.1));  /* nord8 - bright blue */
-    border: 1px solid rgba(94, 129, 172, 0.3);
-    border-radius: 6px;
-    box-shadow: 
-      inset 0 0 8px rgba(94, 129, 172, 0.2),
-      0 0 12px rgba(136, 192, 208, 0.15);
-    transition: all 0.3s ease;
-    
-    // Active state when audio is playing
-    &.cava-active {
-      background: linear-gradient(45deg, 
-        rgba(94, 129, 172, 0.2),   /* nord10 */
-        rgba(129, 161, 193, 0.2),  /* nord9 */
-        rgba(136, 192, 208, 0.2)); /* nord8 */
-      border-color: rgba(94, 129, 172, 0.5);
-      box-shadow: 
-        inset 0 0 12px rgba(94, 129, 172, 0.3),
-        0 0 20px rgba(136, 192, 208, 0.25);
-    }
-    
-    // Idle state when no audio is playing
-    &.cava-idle {
-      opacity: 0.7;
-    }
-    
-    .cava-icon {
-      color: var(--nord8);  /* bright blue */
-  font-size: 16px;      font-weight: bold;
-      text-shadow: 0 0 4px rgba(136, 192, 208, 0.6);
-      transition: all 0.3s ease;
-      
-      &.playing {
-        animation: pulse-cold 2s ease-in-out infinite alternate;
-        color: var(--nord7);  /* teal/cyan */
-        text-shadow: 0 0 8px rgba(143, 188, 187, 0.8);
-      }
-      
-      &.idle {
-        animation: pulse-subtle 4s ease-in-out infinite alternate;
-        opacity: 0.6;
-      }
-    }
-    
-    .cava-bars {
-      font-family: "JetBrains Mono Nerd Font", monospace;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      color: var(--nord8);  /* bright blue */
-      text-shadow: 
-        0 0 3px rgba(136, 192, 208, 0.8),
-        0 0 6px rgba(143, 188, 187, 0.4);  /* teal glow */
-      animation: 
-        flicker-cold 0.1s linear infinite,
-        wave-cold 2s ease-in-out infinite;
-      min-width: 200px;
-      transition: all 0.3s ease;
-    }
-  }   
-   // Position-specific styles for complete visualizations
-   &.cava-left {
-     margin-right: 4px;
-     .cava-bars {
-       min-width: 180px;  /* Full width for complete visualization */
-     }
-   }
-   
-   &.cava-right {
-     margin-left: 4px;
-     .cava-bars {
-       min-width: 180px;  /* Full width for complete visualization */
-     }
-   }
-   
-   &.cava-center {
-     .cava-bars {
-       min-width: 200px;
-     }
-   }  
-   
-   // Error state
-   &.cava-error {
-     background: rgba(94, 129, 172, 0.2);  /* cold blue error */
-     border: 1px solid var(--nord10);
-     
-     .cava-error-label {
-       color: var(--nord10);
-      font-weight: bold;
-      text-shadow: 0 0 4px rgba(94, 129, 172, 0.8);
-    }
-  }
-}
-
-@keyframes pulse-cold {
-  0% { 
-    color: var(--nord10);  /* frost blue */
-    text-shadow: 0 0 4px rgba(94, 129, 172, 0.6);
-  }
-  50% { 
-    color: var(--nord8);   /* bright blue */
-    text-shadow: 0 0 8px rgba(136, 192, 208, 0.8);
-  }
-  100% { 
-    color: var(--nord7);   /* teal */
-    text-shadow: 0 0 6px rgba(143, 188, 187, 0.7);
-  }
-}
-
-@keyframes pulse-subtle {
-  0% { 
-    opacity: 0.4;
-    text-shadow: 0 0 2px rgba(94, 129, 172, 0.3);  /* cold blue */
-  }
-  100% { 
-    opacity: 0.7;
-    text-shadow: 0 0 4px rgba(94, 129, 172, 0.5);
-  }
-}
-
-@keyframes flicker-cold {
-  0%, 90%, 100% { 
-    opacity: 1;
-    text-shadow: 
-      0 0 3px rgba(136, 192, 208, 0.8),  /* bright blue */
-      0 0 6px rgba(143, 188, 187, 0.4);  /* teal */
-  }
-  5%, 15% { 
-    opacity: 0.8;
-    text-shadow: 
-      0 0 5px rgba(136, 192, 208, 0.9),
-      0 0 8px rgba(143, 188, 187, 0.6);
-  }
-}
-
-@keyframes wave-cold {
-  0% { 
-    transform: scaleY(1);
-    color: var(--nord8);   /* bright blue */
-  }
-  25% { 
-    transform: scaleY(1.1);
-    color: var(--nord7);   /* teal */
-  }
-  50% { 
-    transform: scaleY(0.9);
-    color: var(--nord10);  /* frost blue */
-  }
-  75% { 
-    transform: scaleY(1.2);
-    color: var(--nord8);
-  }
-  100% { 
-    transform: scaleY(1);
-    color: var(--nord8);
-  }
-}
-
-/* ================================
-   BOTBAR ENHANCEMENTS
-   ================================ */
-
-.botbar-separator {
-  color: var(--nord3);
-  font-size: 16px;
-  margin: 0 4px;
-  opacity: 0.6;
-}
-
-/* ================================
    BASE WIDGET COMPONENT
    ================================ */
 
@@ -360,87 +180,11 @@
   color: var(--nord6);
 }
 
-.botbar-box {
-  min-height: 36px;
-}
-
-.botbar-section {
-  min-width: 120px;
-}
-
-.botbar-section.left {
-  halign: start;
-}
-
-.botbar-section.center {
-  halign: center;
-  hexpand: true;
-}
-
-.botbar-section.right {
-  halign: end;
-}
-
 .botbar-label {
   color: var(--nord5);
   font-weight: 300;
   font-size: 16px;
   letter-spacing: 0.5px;
-}
-
-/* Media Info Widget Styles */
-.media-info-widget {
-  padding: 4px 12px;
-  background: rgba(67, 76, 94, 0.2);
-  border-radius: 12px;
-  border: 1px solid rgba(136, 192, 208, 0.15);
-  min-height: 28px;
-  transition: all 0.3s ease-in-out;
-}
-
-.media-icon {
-  font-size: 16px;
-  transition: all 0.3s ease-in-out;
-}
-
-.media-icon.active {
-  color: var(--nord8);
-  text-shadow: 0 0 8px rgba(136, 192, 208, 0.5);
-}
-
-.media-icon.inactive {
-  color: var(--nord3);
-  opacity: 0.6;
-}
-
-.media-label {
-  color: var(--nord4);
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-}
-
-.media-label-empty {
-  color: var(--nord3);
-  font-weight: 300;
-  font-size: 14px;
-  font-style: italic;
-  opacity: 0.7;
-}
-
-.media-status {
-  font-size: 12px;
-  transition: all 0.3s ease-in-out;
-}
-
-.media-status.playing {
-  color: var(--nord14);
-  text-shadow: 0 0 6px rgba(163, 190, 140, 0.4);
-}
-
-.media-status.paused {
-  color: var(--nord12);
-  text-shadow: 0 0 6px rgba(208, 135, 112, 0.4);
 }
 
 /* ================================
@@ -934,73 +678,71 @@ input:focus {
    ================================ */
 
 .osd-window {
-  background: rgba(46, 52, 64, 0.85);
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(136, 192, 208, 0.4);
+  background-color: rgba(46, 52, 64, 0.9);
+  /* nord0 */
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: 2px solid var(--nord9);
+  /* frost blue */
   color: var(--nord4);
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(136, 192, 208, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-family: "Poppins", monospace, sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .osd-content {
-  margin: 0;
+  margin: 4px 0;
 }
 
 .osd-icon {
-  font-size: 20px;
-  color: var(--nord8);
-  text-shadow: 0 0 8px rgba(136, 192, 208, 0.7);
-  min-width: 24px;
+  font-size: 28px;
+  color: var(--nord4);
+  text-shadow: 0 0 4px rgba(136, 192, 208, 0.8);
+  /* nord8 glow */
+  min-width: 32px;
 }
 
 .osd-bar-container {
-  min-width: 120px;
+  min-width: 200px;
 }
 
 .osd-bar-background {
-  min-height: 6px;
-  min-width: 120px;
-  background: rgba(76, 86, 106, 0.4);
-  border-radius: 12px;
-  border: none;
+  min-height: 16px;
+  min-width: 200px;
+  background-color: rgba(76, 86, 106, 0.6);
+  /* nord3 dimmed */
+  border-radius: 8px;
+  border: 1px solid rgba(136, 192, 208, 0.3);
+  /* nord8 subtle border */
 }
 
 .osd-bar-fill {
-  min-height: 6px;
+  min-height: 16px;
   background: linear-gradient(90deg, 
-    var(--nord8) 0%,
-    var(--nord9) 50%,
-    var(--nord10) 100%
+    var(--nord8) 0%,      /* frost ice blue */
+    var(--nord9) 40%,     /* frost blue */
+    var(--nord10) 80%,    /* frost bright blue */
+    var(--nord7) 100%     /* frost polar night blue */
   );
-  border-radius: 12px;
-  transition: min-width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    0 0 8px rgba(136, 192, 208, 0.5),
-    0 2px 4px rgba(136, 192, 208, 0.3);
+  border-radius: 8px;
+  transition: min-width 0.15s ease-out;
+  box-shadow: 0 0 12px rgba(136, 192, 208, 0.6);
+  /* enhanced glow effect */
 }
 
 .osd-bar {
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .osd-bar levelbar__value {
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .osd-label {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-  min-width: 36px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--nord6);
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+  min-width: 50px;
 }
 
 /* ================================
@@ -2773,7 +2515,7 @@ input:focus {
 .temp-value-small {
   font-size: 10px;
   font-weight: 600;
-  color: var(--nord8);
+  color: var(--nord12);
   font-family: 'JetBrains Mono', monospace;
 }
 
@@ -3092,81 +2834,81 @@ input:focus {
   transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Progress Bar Colors for System Resources - Cold Theme */
+/* Progress Bar Colors for System Resources */
 .progress-cpu .progress-fill {
-  background: linear-gradient(90deg, var(--nord10), var(--nord9));
-  box-shadow: 0 0 8px rgba(94, 129, 172, 0.4);
+  background: linear-gradient(90deg, var(--nord11), var(--nord12));
+  box-shadow: 0 0 8px rgba(191, 97, 106, 0.4);
 }
 
 .progress-cpu .progress-fill-small {
   background: linear-gradient(90deg, 
-    rgba(94, 129, 172, 0.8), 
-    rgba(94, 129, 172, 1));
-  box-shadow: 0 0 10px rgba(94, 129, 172, 0.5);
+    rgba(191, 97, 106, 0.8), 
+    rgba(191, 97, 106, 1));
+  box-shadow: 0 0 10px rgba(191, 97, 106, 0.5);
 }
 
 .progress-cpu .progress-fill-narrow {
   background: linear-gradient(90deg, 
-    rgba(94, 129, 172, 0.8), 
-    rgba(94, 129, 172, 1));
-  box-shadow: 0 0 8px rgba(94, 129, 172, 0.5);
+    rgba(191, 97, 106, 0.8), 
+    rgba(191, 97, 106, 1));
+  box-shadow: 0 0 8px rgba(191, 97, 106, 0.5);
 }
 
 .progress-memory .progress-fill {
-  background: linear-gradient(90deg, var(--nord9), var(--nord8));
-  box-shadow: 0 0 8px rgba(129, 161, 193, 0.4);
+  background: linear-gradient(90deg, var(--nord12), var(--nord13));
+  box-shadow: 0 0 8px rgba(208, 135, 112, 0.4);
 }
 
 .progress-memory .progress-fill-small {
   background: linear-gradient(90deg, 
-    rgba(129, 161, 193, 0.8), 
-    rgba(129, 161, 193, 1));
-  box-shadow: 0 0 10px rgba(129, 161, 193, 0.5);
+    rgba(235, 203, 139, 0.8), 
+    rgba(235, 203, 139, 1));
+  box-shadow: 0 0 10px rgba(235, 203, 139, 0.5);
 }
 
 .progress-memory .progress-fill-narrow {
   background: linear-gradient(90deg, 
-    rgba(129, 161, 193, 0.8), 
-    rgba(129, 161, 193, 1));
-  box-shadow: 0 0 8px rgba(129, 161, 193, 0.5);
+    rgba(235, 203, 139, 0.8), 
+    rgba(235, 203, 139, 1));
+  box-shadow: 0 0 8px rgba(235, 203, 139, 0.5);
 }
 
 .progress-gpu .progress-fill {
-  background: linear-gradient(90deg, var(--nord8), var(--nord7));
-  box-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
+  background: linear-gradient(90deg, var(--nord14), var(--nord15));
+  box-shadow: 0 0 8px rgba(163, 190, 140, 0.4);
 }
 
 .progress-gpu .progress-fill-small {
   background: linear-gradient(90deg, 
-    rgba(136, 192, 208, 0.8), 
-    rgba(136, 192, 208, 1));
-  box-shadow: 0 0 10px rgba(136, 192, 208, 0.5);
+    rgba(163, 190, 140, 0.8), 
+    rgba(163, 190, 140, 1));
+  box-shadow: 0 0 10px rgba(163, 190, 140, 0.5);
 }
 
 .progress-gpu .progress-fill-narrow {
   background: linear-gradient(90deg, 
-    rgba(136, 192, 208, 0.8), 
-    rgba(136, 192, 208, 1));
-  box-shadow: 0 0 8px rgba(136, 192, 208, 0.5);
+    rgba(163, 190, 140, 0.8), 
+    rgba(163, 190, 140, 1));
+  box-shadow: 0 0 8px rgba(163, 190, 140, 0.5);
 }
 
 .progress-disk .progress-fill {
-  background: linear-gradient(90deg, var(--nord7), var(--nord8));
-  box-shadow: 0 0 8px rgba(143, 188, 187, 0.4);
+  background: linear-gradient(90deg, var(--nord15), var(--nord10));
+  box-shadow: 0 0 8px rgba(180, 142, 173, 0.4);
 }
 
 .progress-disk .progress-fill-small {
   background: linear-gradient(90deg, 
-    rgba(143, 188, 187, 0.8), 
-    rgba(143, 188, 187, 1));
-  box-shadow: 0 0 10px rgba(143, 188, 187, 0.5);
+    rgba(180, 142, 173, 0.8), 
+    rgba(180, 142, 173, 1));
+  box-shadow: 0 0 10px rgba(180, 142, 173, 0.5);
 }
 
 .progress-disk .progress-fill-narrow {
   background: linear-gradient(90deg, 
-    rgba(143, 188, 187, 0.8), 
-    rgba(143, 188, 187, 1));
-  box-shadow: 0 0 8px rgba(143, 188, 187, 0.5);
+    rgba(180, 142, 173, 0.8), 
+    rgba(180, 142, 173, 1));
+  box-shadow: 0 0 8px rgba(180, 142, 173, 0.5);
 }
 
 /* Additional Monitoring Components */

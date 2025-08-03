@@ -168,7 +168,7 @@ export default function Osd({}: ComponentProps = {}) {
             margin_top={30}
             class="osd-window"
         >
-            <box orientation={Gtk.Orientation.HORIZONTAL} spacing={12} class="osd-content">
+            <box orientation={Gtk.Orientation.HORIZONTAL} spacing={10} class="osd-content">
                 {/* Volume icon */}
                 <label
                     class="osd-icon"
@@ -181,7 +181,7 @@ export default function Osd({}: ComponentProps = {}) {
                     <box orientation={Gtk.Orientation.HORIZONTAL} class="osd-bar-background">
                         <box 
                             class="osd-bar-fill"
-                            css={osdState(s => `min-width: ${Math.max(4, s.volumeInfo.value * 1.96)}px;`)}
+                            css={osdState(s => `min-width: ${Math.max(3, s.volumeInfo.value * 1.2)}px;`)}
                         />
                     </box>
                 </box>

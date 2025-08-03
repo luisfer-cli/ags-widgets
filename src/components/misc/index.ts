@@ -7,3 +7,5 @@ export { default as Calculator } from './Calculator';
 export { default as Calendar } from './Calendar';
 export { default as PopupMenu } from './PopupMenu';
 export { default as TaskManagerMenu } from './TaskManagerMenu';
+export { default as CavaVisualizerWidget } from './CavaVisualizerWidget';
+export { default as MediaInfoWidget } from './MediaInfoWidget';

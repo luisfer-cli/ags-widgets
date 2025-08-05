@@ -84,7 +84,7 @@
 }
 
 .playing {
-  color: var(--nord14);
+  color: var(--nord8);
 }
 
 .idle {
@@ -93,7 +93,7 @@
 }
 
 .loading {
-  color: var(--nord13);
+  color: var(--nord9);
 }
 
 /* ================================
@@ -392,7 +392,7 @@ input:focus {
 }
 
 .Notification.low {
-  border-left: 4px solid var(--nord14);
+  border-left: 4px solid var(--nord8);
 }
 
 .Notification.normal {
@@ -1231,20 +1231,108 @@ input:focus {
    DASHBOARD STYLES
    ================================ */
 
+/* Dashboard Window */
+.dashboard-window {
+  background-color: transparent;
+}
 
+/* Dashboard Grid Layout */
+.dashboard-main {
+  background: linear-gradient(135deg,
+      rgba(46, 52, 64, 0.85) 0%,
+      rgba(59, 66, 82, 0.85) 100%);
+  border-radius: 24px;
+  padding: 16px;
+  border: 2px solid rgba(67, 76, 94, 0.8);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(94, 129, 172, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
 
+.dashboard-grid {
+  /* Main grid container */
+}
+
+.dashboard-row {
+  /* Grid row styling */
+}
+
+.dashboard-row-top {
+  /* Top row specific styling */
+}
+
+.dashboard-row-bottom {
+  /* Bottom row specific styling */
+}
+
+/* Dashboard Cell (Grid Item) */
+.dashboard-cell {
+  background: linear-gradient(135deg,
+      rgba(67, 76, 94, 0.85) 0%,
+      rgba(76, 86, 106, 0.85) 100%);
+  border-radius: 16px;
+  border: 2px solid rgba(136, 192, 208, 0.2);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.2),
+    0 0 10px rgba(136, 192, 208, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-cell:hover {
+  border-color: rgba(136, 192, 208, 0.5);
+  background: linear-gradient(135deg,
+      rgba(76, 86, 106, 0.9) 0%,
+      rgba(94, 129, 172, 0.3) 100%);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(136, 192, 208, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
 
 /* Dashboard Cards */
 .dashboard-card {
-  background: rgba(59, 66, 82, 0.8);
-  border-radius: 14px;
-  padding: 8px;
-  border: 1px solid rgba(76, 86, 106, 0.3);
+  background: transparent;
+  border: none;
+  padding: 12px;
 }
 
-.dashboard-card:hover {
-  border-color: rgba(136, 192, 208, 0.4);
-  background: rgba(67, 76, 94, 0.5);
+/* Specific Card Styles - COLD COLORS ONLY */
+.clock-card {
+  background: linear-gradient(135deg,
+      rgba(94, 129, 172, 0.15) 0%,
+      rgba(129, 161, 193, 0.1) 100%);
+  border-color: rgba(94, 129, 172, 0.4);
+}
+
+.taskwarrior-card {
+  background: linear-gradient(135deg,
+      rgba(136, 192, 208, 0.12) 0%,
+      rgba(143, 188, 187, 0.1) 100%);
+  border-color: rgba(136, 192, 208, 0.35);
+}
+
+.timewarrior-card {
+  background: linear-gradient(135deg,
+      rgba(143, 188, 187, 0.12) 0%,
+      rgba(129, 161, 193, 0.1) 100%);
+  border-color: rgba(143, 188, 187, 0.35);
+}
+
+.monitoring-card {
+  background: linear-gradient(135deg,
+      rgba(129, 161, 193, 0.12) 0%,
+      rgba(94, 129, 172, 0.1) 100%);
+  border-color: rgba(129, 161, 193, 0.35);
+}
+
+.wmp-card {
+  background: linear-gradient(135deg,
+      rgba(94, 129, 172, 0.12) 0%,
+      rgba(136, 192, 208, 0.1) 100%);
+  border-color: rgba(94, 129, 172, 0.35);
 }
 
 /* Card Titles */
@@ -1737,14 +1825,14 @@ input:focus {
 
 .wpm-icon {
   font-size: 18px;
-  color: var(--nord13);
-  text-shadow: 0 0 8px rgba(235, 203, 139, 0.4);
+  color: var(--nord8);
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.4);
 }
 
-.wpm-icon-small {
+.wmp-icon-small {
   font-size: 14px;
-  color: var(--nord13);
-  text-shadow: 0 0 12px rgba(235, 203, 139, 0.5);
+  color: var(--nord8);
+  text-shadow: 0 0 12px rgba(136, 192, 208, 0.5);
 }
 
 .wpm-value {
@@ -1781,7 +1869,7 @@ input:focus {
 .wpm-accuracy-value {
   font-size: 11px;
   font-weight: 600;
-  color: var(--nord14);
+  color: var(--nord8);
   font-family: 'JetBrains Mono', monospace;
 }
 
@@ -1994,8 +2082,8 @@ input:focus {
 .taskwarrior-status-symbol {
   font-size: 25px;
   font-weight: 700;
-  color: var(--nord14);
-  text-shadow: 0 0 8px rgba(163, 190, 140, 0.5);
+  color: var(--nord8);
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.5);
   margin-top: 2px;
 }
 
@@ -2017,7 +2105,7 @@ input:focus {
 }
 
 .taskwarrior-task-item.completed {
-  color: var(--nord14);
+  color: var(--nord8);
   opacity: 0.7;
 }
 
@@ -2035,8 +2123,8 @@ input:focus {
 
 .taskwarrior-icon {
   font-size: 20px;
-  color: var(--nord14);
-  text-shadow: 0 0 10px rgba(163, 190, 140, 0.5);
+  color: var(--nord8);
+  text-shadow: 0 0 10px rgba(136, 192, 208, 0.5);
 }
 
 .taskwarrior-count {
@@ -2055,6 +2143,80 @@ input:focus {
   line-height: 1.1;
   margin: 1px 0;
   padding: 1px 2px;
+}
+
+/* ================================
+   13. Timewarrior Widget Styles
+   ================================ */
+
+/* Timewarrior Card - Horizontal Layout */
+.timewarrior-card {
+  min-width: 140px;
+  min-height: 80px;
+}
+
+.timewarrior-widget-horizontal {
+  padding: 6px;
+  background-color: rgba(46, 52, 64, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(76, 86, 106, 0.4);
+}
+
+.timewarrior-left-panel {
+  min-width: 55px;
+  padding: 2px 4px;
+}
+
+.timewarrior-time-display {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--nord7);
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 15px rgba(143, 188, 187, 0.5);
+  line-height: 0.9;
+}
+
+.timewarrior-status-symbol {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--nord8);
+  text-shadow: 0 0 8px rgba(136, 192, 208, 0.5);
+  margin-top: 2px;
+}
+
+.timewarrior-right-panel {
+  padding: 2px 4px;
+}
+
+.timewarrior-current-task {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord7);
+  line-height: 1.2;
+  margin: 1px 0;
+  padding: 1px 0;
+  opacity: 0.95;
+}
+
+.timewarrior-week-time {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--nord4);
+  line-height: 1.1;
+  margin: 1px 0;
+  padding: 1px 0;
+  opacity: 0.8;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.timewarrior-recent-task {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--nord9);
+  line-height: 1.1;
+  margin: 1px 0;
+  padding: 1px 0;
+  opacity: 0.7;
 }
 
 

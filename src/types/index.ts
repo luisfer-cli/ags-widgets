@@ -109,6 +109,25 @@ export interface TaskwarriorData {
     error?: string;
 }
 
+export interface TimewarriorTask {
+    tags: string[];
+    start: string;
+    end?: string;
+    duration?: number;
+}
+
+export interface TimewarriorData {
+    currentTask: {
+        description: string;
+        startTime: string;
+    } | null;
+    todayTime: number;
+    weekTime: number;
+    recentTasks: TimewarriorTask[];
+    isTracking: boolean;
+    error?: string;
+}
+
 // Media types
 export interface MediaPlayerStatus {
     artist: string;

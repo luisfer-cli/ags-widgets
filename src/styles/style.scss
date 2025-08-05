@@ -272,17 +272,13 @@
    INTERACTIVE EFFECTS
    ================================ */
 
-button {}
 
 button:hover {
   filter: brightness(1.1);
 }
 
-button:active {}
 
-.menu-option:active {}
 
-.workspace-bar label:active {}
 
 entry:focus,
 input:focus {
@@ -300,36 +296,20 @@ input:focus {
   transform: translateY(0) scale(1);
 }
 
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
 
-.menu-option:nth-child(1) {}
 
-.menu-option:nth-child(2) {}
 
-.menu-option:nth-child(3) {}
 
-.menu-option:nth-child(4) {}
 
-.menu-option:nth-child(5) {}
 
-.menu-option:nth-child(6) {}
 
-.menu-option:nth-child(7) {}
 
-.menu-option:nth-child(8) {}
 
-.menu-option:nth-child(9) {}
 
 .bounce-in {
   transform: scale(1);
 }
 
-.bounce-in.active {
-  transform: scale(1);
-}
 
 /* ================================
    OSD (ON-SCREEN DISPLAY) STYLES
@@ -525,44 +505,12 @@ input:focus {
   box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
 }
 
-.launcher entry {
-  background-color: rgba(59, 66, 82, 0.6);
-  color: var(--nord6);
-  border-radius: 7px;
-  padding: 10px 14px;
-  font-size: 16px;
-  border: none;
-
-}
-
-.launcher entry:focus {
-  border: 2px solid var(--nord9);
-  box-shadow: 0 0 8px rgba(129, 161, 193, 0.3);
-}
 
 .launcher separator {
   margin: 12px 0;
   background-color: rgba(67, 76, 94, 0.5);
 }
 
-.launcher button.app {
-  background-color: rgba(67, 76, 94, 0.8);
-  color: var(--nord4);
-  border: none;
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-}
-
-.launcher button.app:hover {
-  background-color: rgba(129, 161, 193, 0.3);
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(129, 161, 193, 0.2);
-
-}
 
 .launcher button.app label {
   font-size: 14px;
@@ -624,41 +572,12 @@ input:focus {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-.filefinder entry {
-  background-color: rgba(59, 66, 82, 0.6);
-  color: var(--nord6);
-  border-radius: 7px;
-  padding: 10px 14px;
-  font-size: 16px;
-  border: none;
-
-}
-
-.filefinder entry:focus {
-  border: 2px solid var(--nord10);
-  box-shadow: 0 0 8px rgba(94, 129, 172, 0.3);
-}
 
 .filefinder separator {
   margin: 12px 0;
   background-color: rgba(67, 76, 94, 0.5);
 }
 
-.filefinder button.file {
-  background-color: rgba(67, 76, 94, 0.8);
-  color: var(--nord4);
-  border: none;
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-}
-
-.filefinder button.file:hover {
-  background-color: rgba(94, 129, 172, 0.3);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-}
 
 .filefinder button.file label {
   font-size: 14px;

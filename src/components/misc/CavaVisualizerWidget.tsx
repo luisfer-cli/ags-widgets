@@ -34,19 +34,19 @@ function smoothBars(newBars: number[], previousBars: number[], isPlaying: boolea
     if (previousBars.length === 0) {
         return newBars;
     }
-    
+
     // Use very light smoothing when music is playing for maximum responsiveness
     const adaptiveFactor = isPlaying ? 0.85 : 0.3; // More responsive when playing
-    
+
     return newBars.map((newValue, index) => {
         const prevValue = previousBars[index] || 0;
-        
+
         // Skip smoothing for significant changes to maintain punch
         const diff = Math.abs(newValue - prevValue);
         if (diff > 3 && isPlaying) {
             return newValue; // Direct response for big changes
         }
-        
+
         const smoothed = adaptiveFactor * newValue + (1 - adaptiveFactor) * prevValue;
         return Math.round(smoothed);
     });
@@ -59,15 +59,15 @@ function createBrutalVisualization(cavaData: CavaData, position: 'left' | 'right
     if (!cavaData || !cavaData.bars || cavaData.bars.length === 0) {
         return "▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁"; // Full fallback for all positions
     }
-    
+
     // Apply adaptive smoothing based on playback state
     const isPlaying = cavaData.playing > 0;
     const smoothedBars = smoothBars(cavaData.bars, previousBars, isPlaying);
     previousBars = [...smoothedBars];
-    
+
     // All positions now show the complete visualization (all 15 bars)
     const barSlice = smoothedBars.slice(0, 15);
-    
+
     return barSlice
         .map((value: number) => {
             // Normalize value (cava script outputs 0-8 now)
@@ -83,11 +83,11 @@ function createBrutalVisualization(cavaData: CavaData, position: 'left' | 'right
  * Dynamic polling hook that adjusts frequency based on audio playback state
  */
 function useDynamicCavaData(): any {
-    const [data, setData] = createState<CavaData>({ 
-        bars: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
-        volume: 0, 
-        playing: 0, 
-        method: "fallback" 
+    const [data, setData] = createState<CavaData>({
+        bars: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        volume: 0,
+        playing: 0,
+        method: "fallback"
     });
 
     let currentInterval = 200; // Start with higher frequency
@@ -97,14 +97,14 @@ function useDynamicCavaData(): any {
         try {
             const result = await executeScript("cava-astal.sh");
             if (result) {
-                const newData = typeof result === 'object' && 'bars' in result ? result as CavaData : 
-                    { bars: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], volume: 0, playing: 0, method: "fallback" };
-                
+                const newData = typeof result === 'object' && 'bars' in result ? result as CavaData :
+                    { bars: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], volume: 0, playing: 0, method: "fallback" };
+
                 setData(newData);
-                
+
                 // More aggressive dynamic interval for better responsiveness
                 const newInterval = newData.playing > 0 ? 100 : 350; // Very fast when playing, moderate when idle
-                
+
                 if (newInterval !== currentInterval) {
                     currentInterval = newInterval;
                     // Restart timer with new interval if needed
@@ -147,7 +147,7 @@ export default function CavaVisualizerWidget({ monitor = 0, position = 'center' 
     return (
         <box
             orientation={Gtk.Orientation.HORIZONTAL}
-            class={cavaData((data) => {
+            class={cavaData((data: any) => {
                 const isPlaying = data.playing && data.playing > 0;
                 return getPositionClass(position, isPlaying);
             })}
@@ -155,73 +155,14 @@ export default function CavaVisualizerWidget({ monitor = 0, position = 'center' 
             valign={Gtk.Align.CENTER}
             halign={position === 'left' ? Gtk.Align.END : position === 'right' ? Gtk.Align.START : Gtk.Align.CENTER}
         >
-            {position !== 'right' && (
-                <label 
-                    label="♪" 
-                    class={cavaData((data) => {
-                        const isPlaying = data.playing && data.playing > 0;
-                        return `cava-icon brutal-icon ${isPlaying ? 'playing' : 'idle'}`;
-                    })}
-                />
-            )}
             <label
-                label={cavaData((data) => createBrutalVisualization(data, position))}
+                label={cavaData((data: any) => createBrutalVisualization(data, position))}
                 class="cava-bars brutal-bars"
                 halign={position === 'left' ? Gtk.Align.END : position === 'right' ? Gtk.Align.START : Gtk.Align.CENTER}
-                tooltip_text={cavaData((data) => 
+                tooltip_text={cavaData((data: any) =>
                     `Position: ${position} | Method: ${data.method} | Volume: ${data.volume}% | Playing: ${data.playing > 0 ? 'Yes' : 'No'}`
                 )}
             />
-            {position !== 'left' && (
-                <label 
-                    label="♪" 
-                    class={cavaData((data) => {
-                        const isPlaying = data.playing && data.playing > 0;
-                        return `cava-icon brutal-icon ${isPlaying ? 'playing' : 'idle'}`;
-                    })}
-                />
-            )}
         </box>
     );
 }
-
-/**
- * Real Astal Cava Implementation (comment out simulation above when using this)
- * 
- * import AstalCava from 'gi://AstalCava?version=0.1';
- * 
- * export function createRealCavaWidget() {
- *     const cavaService = AstalCava.get_default();
- *     
- *     if (!cavaService) {
- *         return <label label="CAVA NOT AVAILABLE" class="cava-error" />;
- *     }
- *     
- *     // Configure Cava service
- *     cavaService.set_bars(20);
- *     cavaService.set_framerate(60);
- *     cavaService.set_autosens(true);
- *     cavaService.set_low_cutoff(20);
- *     cavaService.set_high_cutoff(20000);
- *     cavaService.set_source('auto');
- *     
- *     const visualBinding = Variable.derive(
- *         [bind(cavaService, 'values')],
- *         (values) => {
- *             return values
- *                 .map((v: number) => {
- *                     const index = Math.floor(v * BRUTAL_CHARS.length);
- *                     return BRUTAL_CHARS[Math.min(index, BRUTAL_CHARS.length - 1)];
- *                 })
- *                 .join('');
- *         }
- *     );
- *     
- *     return (
- *         <label
- *             label={visualBinding()}
- *             class="cava-bars brutal-bars"
- *         />
- *     );
- * }
- */

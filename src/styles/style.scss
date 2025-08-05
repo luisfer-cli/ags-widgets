@@ -1992,7 +1992,7 @@ input:focus {
 }
 
 .taskwarrior-status-symbol {
-  font-size: 18px;
+  font-size: 25px;
   font-weight: 700;
   color: var(--nord14);
   text-shadow: 0 0 8px rgba(163, 190, 140, 0.5);
@@ -2153,14 +2153,6 @@ input:focus {
   font-family: 'JetBrains Mono', monospace;
   text-shadow: 0 0 15px rgba(236, 239, 244, 0.4);
   line-height: 0.9;
-}
-
-.taskwarrior-status-symbol {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--nord14);
-  text-shadow: 0 0 8px rgba(163, 190, 140, 0.5);
-  margin-top: 2px;
 }
 
 .pending {

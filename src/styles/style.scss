@@ -2453,3 +2453,48 @@ input:focus {
   padding: 12px;
   border: 1px solid rgba(76, 86, 106, 0.4);
 }
+
+/* ================================
+   FLOWMODORO WIDGET STYLES
+   ================================ */
+
+.flowmodoro-card {
+  background: linear-gradient(135deg,
+      rgba(143, 188, 187, 0.12) 0%,
+      rgba(129, 161, 193, 0.1) 100%);
+  border-color: rgba(143, 188, 187, 0.35);
+}
+
+.flowmodoro-widget {
+  padding: 8px;
+}
+
+.flowmodoro-icon-main {
+  font-size: 16px;
+  color: var(--nord7);
+}
+
+.flowmodoro-status-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--nord8);
+  text-transform: uppercase;
+}
+
+.flowmodoro-time-display {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nord8);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.flowmodoro-time-label {
+  font-size: 10px;
+  color: var(--nord4);
+  text-transform: uppercase;
+}
+
+.flowmodoro-ready-message {
+  font-size: 11px;
+  color: var(--nord4);
+}

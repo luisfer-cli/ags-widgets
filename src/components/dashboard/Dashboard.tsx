@@ -6,6 +6,8 @@
  * │  Clock │ Taskwar.   │ Timew.  │
  * ├────────┼────────────┼─────────┤
  * │   Monitoring       │   WPM   │
+ * ├────────────────────┼─────────┤
+ * │                    │ Flowmd. │
  * └────────────────────┴─────────┘
  */
 import { Gtk } from "ags/gtk4";
@@ -13,6 +15,7 @@ import { ComponentProps } from "../../types";
 import { WINDOW_DIMENSIONS } from "../../config/constants";
 import Clock from "./Clock";
 import WpmCounter from "./WpmCounter";
+import Flowmodoro from "./Flowmodoro";
 import Monitoring from "./Monitoring";
 import Taskwarrior from "./Weather";
 import Timewarrior from "./Timewarrior";
@@ -90,20 +93,39 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         hexpand={true} 
                         vexpand={true}
                         width-request={380}
-                        height-request={180}
+                        height-request={160}
                     >
                         <Monitoring />
                     </box>
 
-                    {/* Columna 3: WPM (más pequeño) */}
-                    <box 
-                        class="dashboard-cell dashboard-card wmp-card" 
-                        hexpand={false} 
+                    {/* Columna 3: WPM + Flowmodoro (stack vertical) */}
+                    <box
+                        orientation={Gtk.Orientation.VERTICAL}
+                        spacing={8}
+                        hexpand={false}
                         vexpand={true}
                         width-request={220}
-                        height-request={180}
+                        class="productivity-column"
                     >
-                        <WpmCounter />
+                        {/* WPM (más pequeño) */}
+                        <box 
+                            class="dashboard-cell dashboard-card wmp-card" 
+                            hexpand={false} 
+                            vexpand={true}
+                            height-request={85}
+                        >
+                            <WpmCounter />
+                        </box>
+
+                        {/* Flowmodoro */}
+                        <box 
+                            class="dashboard-cell dashboard-card flowmodoro-card" 
+                            hexpand={false} 
+                            vexpand={true}
+                            height-request={85}
+                        >
+                            <Flowmodoro />
+                        </box>
                     </box>
                 </box>
             </box>

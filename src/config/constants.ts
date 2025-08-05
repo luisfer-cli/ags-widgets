@@ -81,6 +81,7 @@ export const ICONS = {
   WPM: "󰌌",
   MONITORING: "󰊗",
   TASKS: "󰄬",
+  FLOWMODORO: "󰄉",
 
   // File type icons
   FILE_GENERIC: "󰈔",
@@ -140,6 +141,7 @@ export const SCRIPTS = {
 
   // Dashboard scripts
   WPM_COUNTER: "get_wpm.sh",
+  FLOWMODORO: "flowmodoro.sh",
   MONITORING: "monitor.sh",
   WEATHER: "weather.sh",
   TASKWARRIOR: "taskwarrior.sh",

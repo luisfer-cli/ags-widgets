@@ -92,6 +92,16 @@ export interface WpmData {
     status: string;
 }
 
+export interface FlowmodoroData {
+    mode: 'work' | 'break' | 'none' | 'error';
+    status: string;
+    worked_seconds?: number;
+    worked_hms?: string;
+    remaining_seconds?: number;
+    remaining_hms?: string;
+    message?: string;
+}
+
 export interface TaskwarriorTask {
     id: number;
     description: string;

@@ -38,9 +38,9 @@ export default function Flowmodoro() {
                         halign={Gtk.Align.CENTER}
                         class="flowmodoro-header"
                     >
-                        <label 
-                            label={ICONS.FLOWMODORO} 
-                            class="flowmodoro-icon-main" 
+                        <label
+                            label={ICONS.FLOWMODORO}
+                            class="flowmodoro-icon-main"
                         />
                         <label
                             label={data?.mode?.toUpperCase() || "READY"}
@@ -69,7 +69,7 @@ export default function Flowmodoro() {
                                 />
                             </>
                         )}
-                        
+
                         {data?.mode === "break" && (
                             <>
                                 <label
@@ -84,10 +84,10 @@ export default function Flowmodoro() {
                                 />
                             </>
                         )}
-                        
+
                         {data?.mode === "none" && (
                             <label
-                                label="Start a work session"
+                                label="Sin sesión de trabajo iniciada"
                                 class="flowmodoro-ready-message"
                                 halign={Gtk.Align.CENTER}
                             />

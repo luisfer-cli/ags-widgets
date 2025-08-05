@@ -1,14 +1,14 @@
 /**
- * Dashboard con diseño tipo grid 3x2 para monitores medianos
+ * Dashboard con diseño de 2 columnas principales para alineación perfecta
  * 
  * Layout:
  * ┌────────┬────────────┬─────────┐
  * │  Clock │ Taskwar.   │ Timew.  │
- * ├────────┼────────────┼─────────┤
- * │   Monitoring       │   WPM   │
- * ├────────────────────┼─────────┤
- * │                    │ Flowmd. │
- * └────────────────────┴─────────┘
+ * ├────────┴────────────┼─────────┤
+ * │   Monitoring        │   WPM   │
+ * │                     ├─────────┤
+ * │                     │ Flowmd. │
+ * └─────────────────────┴─────────┘
  */
 import { Gtk } from "ags/gtk4";
 import { ComponentProps } from "../../types";
@@ -36,96 +36,101 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
             height-request={WINDOW_DIMENSIONS.DASHBOARD.height}
         >
             <box
-                orientation={Gtk.Orientation.VERTICAL}
+                orientation={Gtk.Orientation.HORIZONTAL}
                 spacing={8}
                 halign={Gtk.Align.FILL}
                 valign={Gtk.Align.FILL}
                 class="dashboard-main dashboard-grid"
             >
-                {/* FILA SUPERIOR - 3 columnas */}
+                {/* COLUMNA IZQUIERDA: Clock + Taskwarrior arriba, Monitoring abajo */}
                 <box
-                    orientation={Gtk.Orientation.HORIZONTAL}
+                    orientation={Gtk.Orientation.VERTICAL}
                     spacing={8}
-                    halign={Gtk.Align.FILL}
-                    valign={Gtk.Align.START}
-                    class="dashboard-row dashboard-row-top"
-                >
-                    {/* Columna 1: Reloj */}
-                    <box 
-                        class="dashboard-cell dashboard-card clock-card" 
-                        hexpand={false}
-                        width-request={160}
-                        height-request={100}
-                    >
-                        <Clock />
-                    </box>
-
-                    {/* Columna 2: Taskwarrior */}
-                    <box 
-                        class="dashboard-cell dashboard-card taskwarrior-card" 
-                        hexpand={true}
-                        height-request={100}
-                    >
-                        <Taskwarrior />
-                    </box>
-
-                    {/* Columna 3: Timewarrior */}
-                    <box 
-                        class="dashboard-cell dashboard-card timewarrior-card" 
-                        hexpand={true}
-                        height-request={100}
-                    >
-                        <Timewarrior />
-                    </box>
-                </box>
-
-                {/* FILA INFERIOR - 2 columnas (MÁS PEQUEÑA) */}
-                <box
-                    orientation={Gtk.Orientation.HORIZONTAL}
-                    spacing={8}
-                    halign={Gtk.Align.FILL}
+                    hexpand={false}
                     vexpand={true}
-                    class="dashboard-row dashboard-row-bottom"
+                        width-request={380}                    class="dashboard-left-column"
                 >
-                    {/* Columna 1-2: Monitoreo (span 2, más compacto) */}
+                    {/* Fila superior: Clock + Taskwarrior */}
+                    <box
+                        orientation={Gtk.Orientation.HORIZONTAL}
+                        spacing={8}
+                        halign={Gtk.Align.FILL}
+                        valign={Gtk.Align.START}
+                        height-request={100}
+                        class="dashboard-row dashboard-row-top"
+                    >
+                        {/* Clock */}
+                        <box 
+                            class="dashboard-cell dashboard-card clock-card" 
+                            hexpand={false}
+                            width-request={160}
+                            height-request={100}
+                        >
+                            <Clock />
+                        </box>
+
+                        {/* Taskwarrior */}
+                        <box 
+                            class="dashboard-cell dashboard-card taskwarrior-card" 
+                            hexpand={false}
+                    width-request={240}                            height-request={100}
+                        >
+                            <Taskwarrior />
+                        </box>
+                    </box>
+
+                    {/* Fila inferior: Monitoring */}
                     <box 
                         class="dashboard-cell dashboard-card monitoring-card" 
-                        hexpand={true} 
+                        hexpand={false} 
                         vexpand={true}
-                        width-request={380}
-                        height-request={160}
+                    width-request={380}                        height-request={160}
                     >
                         <Monitoring />
                     </box>
+                </box>
 
-                    {/* Columna 3: WPM + Flowmodoro (stack vertical) */}
-                    <box
-                        orientation={Gtk.Orientation.VERTICAL}
-                        spacing={8}
+                {/* COLUMNA DERECHA: Timewarrior, WPM, Flowmodoro */}
+                <box
+                    orientation={Gtk.Orientation.VERTICAL}
+                    spacing={8}
+                    hexpand={false}
+                    vexpand={true}
+                    width-request={230}
+                    class="dashboard-right-column"
+                >
+                    {/* Timewarrior */}
+                    <box 
+                        class="dashboard-cell dashboard-card timewarrior-card" 
                         hexpand={false}
-                        vexpand={true}
-                        width-request={220}
-                        class="productivity-column"
+                        vexpand={false}
+                        height-request={110}
+                        width-request={230}
+                        valign={Gtk.Align.START}
                     >
-                        {/* WPM (más pequeño) */}
-                        <box 
-                            class="dashboard-cell dashboard-card wmp-card" 
-                            hexpand={false} 
-                            vexpand={true}
-                            height-request={85}
-                        >
-                            <WpmCounter />
-                        </box>
+                        <Timewarrior />
+                    </box>
 
-                        {/* Flowmodoro */}
-                        <box 
-                            class="dashboard-cell dashboard-card flowmodoro-card" 
-                            hexpand={false} 
-                            vexpand={true}
-                            height-request={85}
-                        >
-                            <Flowmodoro />
-                        </box>
+                    {/* WPM */}
+                    <box 
+                        class="dashboard-cell dashboard-card wmp-card" 
+                        hexpand={false} 
+                        vexpand={true}
+                        height-request={76}
+                        width-request={230}
+                    >
+                        <WpmCounter />
+                    </box>
+
+                    {/* Flowmodoro */}
+                    <box 
+                        class="dashboard-cell dashboard-card flowmodoro-card" 
+                        hexpand={false} 
+                        vexpand={true}
+                        height-request={76}
+                        width-request={230}
+                    >
+                        <Flowmodoro />
                     </box>
                 </box>
             </box>

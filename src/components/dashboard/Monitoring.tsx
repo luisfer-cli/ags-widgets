@@ -31,17 +31,19 @@ function CompactProgressBar({ value, label, icon, color = "primary" }: {
             <box
                 class={`progress-bar-narrow progress-${color}`}
                 hexpand={true}
-                width-request={200}
+                width-request={340}
             >
                 <box
                     class="progress-fill-narrow"
-                    width-request={Math.max(4, percentage * 2)}
+                    width-request={Math.max(4, (percentage / 100) * 340)}
                     height-request={3}
                 />
             </box>
             <label
                 label={`${value.toFixed(0)}%`}
                 class="progress-value-small"
+                width-request={42}
+                halign={Gtk.Align.END}
             />
         </box>
     );

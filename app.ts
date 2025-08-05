@@ -11,7 +11,7 @@
  * - File finder
  */
 import app from "ags/gtk4/app";
-import style from "./src/styles/style.scss";
+import style from "./src/styles/style.css";
 import GLib from "gi://GLib";
 import { getFocusedMonitor } from "./src/utils";
 
@@ -159,8 +159,8 @@ app.start({
       monitor: primaryMonitor,
       visible: false,
       onTaskAction: (action) => {
-        console.log(`Task action: ${action}`)
-      }
+        console.log(`Task action: ${action}`);
+      },
     });
 
     // Calendar widget (initially hidden)

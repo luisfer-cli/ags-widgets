@@ -512,12 +512,16 @@ input:focus {
   margin-bottom: var(--space-8);
 }
 
-.image {
+.notification-image {
   margin-bottom: var(--space-8);
+  margin-right: var(--space-8);
+  border-radius: var(--radius-base);
 }
 
-.icon-image {
+.notification-icon-image {
   margin-right: var(--space-8);
+  min-width: var(--size-lg);
+  min-height: var(--size-lg);
 }
 
 .summary {

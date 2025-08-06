@@ -25,6 +25,15 @@ function fileExists(path: string): boolean {
 }
 
 /**
+ * Check if file exists at given path and is an image
+ */
+function isImageFile(path: string): boolean {
+    if (!fileExists(path)) return false;
+    const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp', '.svg'];
+    return imageExtensions.some(ext => path.toLowerCase().endsWith(ext));
+}
+
+/**
  * Format timestamp for display
  */
 function formatTime(timestamp: number, format = "%H:%M"): string {
@@ -136,25 +145,26 @@ export default function Notification({
 
                 {/* Notification content */}
                 <box class="content">
-                    {/* Image handling - file or icon */}
-                    {n.image && fileExists(n.image) && (
+                {/* Image handling - file or icon */}
+                {n.image && isImageFile(n.image) && (
+                    <image
+                        valign={Gtk.Align.START}
+                        class="notification-image"
+                        file={n.image}
+                        widthRequest={64}
+                        heightRequest={64}
+                    />
+                )}
+
+                {n.image && !isImageFile(n.image) && isIcon(n.image) && (
+                    <box valign={Gtk.Align.START} class="notification-icon-image">
                         <image
-                            valign={Gtk.Align.START}
-                            class="image"
-                            file={n.image}
+                            iconName={n.image}
+                            halign={Gtk.Align.CENTER}
+                            valign={Gtk.Align.CENTER}
                         />
-                    )}
-
-                    {n.image && isIcon(n.image) && (
-                        <box valign={Gtk.Align.START} class="icon-image">
-                            <image
-                                iconName={n.image}
-                                halign={Gtk.Align.CENTER}
-                                valign={Gtk.Align.CENTER}
-                            />
-                        </box>
-                    )}
-
+                    </box>
+                )}
                     {/* Text content */}
                     <box orientation={Gtk.Orientation.VERTICAL}>
                         {/* Summary/title */}

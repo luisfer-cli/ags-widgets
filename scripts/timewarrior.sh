@@ -26,45 +26,47 @@ get_current_tracking() {
 
 # Función para obtener tiempo total de hoy
 get_today_time() {
-    local today_seconds=$(timew summary today 2>/dev/null | grep "Total" | awk '{print $2}' | sed 's/://g' | head -1 || echo "000000")
-    if [ -z "$today_seconds" ] || [ "$today_seconds" = "000000" ]; then
+    local today_time=$(timew summary today 2>/dev/null | grep -E "^[[:space:]]*[0-9]+:[0-9]+:[0-9]+[[:space:]]*$" | awk '{print $1}' || echo "0:00:00")
+    if [ -z "$today_time" ] || [ "$today_time" = "0:00:00" ]; then
         echo "0"
     else
-        # Convertir HHMMSS a segundos
-        local hours=${today_seconds:0:2}
-        local minutes=${today_seconds:2:2}  
-        local seconds=${today_seconds:4:2}
-        echo $((10#$hours * 3600 + 10#$minutes * 60 + 10#$seconds))
+        # Convertir H:MM:SS a segundos
+        IFS=':' read -ra TIME_PARTS <<< "$today_time"
+        local hours=${TIME_PARTS[0]:-0}
+        local minutes=${TIME_PARTS[1]:-0}
+        local seconds=${TIME_PARTS[2]:-0}
+        echo $((hours * 3600 + minutes * 60 + seconds))
     fi
 }
 
 # Función para obtener tiempo total de la semana
 get_week_time() {
-    local week_seconds=$(timew summary week 2>/dev/null | grep "Total" | awk '{print $2}' | sed 's/://g' | head -1 || echo "000000")
-    if [ -z "$week_seconds" ] || [ "$week_seconds" = "000000" ]; then
+    local week_time=$(timew summary week 2>/dev/null | grep -E "^[[:space:]]*[0-9]+:[0-9]+:[0-9]+[[:space:]]*$" | awk '{print $1}' || echo "0:00:00")
+    if [ -z "$week_time" ] || [ "$week_time" = "0:00:00" ]; then
         echo "0"
     else
-        # Convertir HHMMSS a segundos
-        local hours=${week_seconds:0:2}
-        local minutes=${week_seconds:2:2}
-        local seconds=${week_seconds:4:2}
-        echo $((10#$hours * 3600 + 10#$minutes * 60 + 10#$seconds))
+        # Convertir H:MM:SS a segundos
+        IFS=':' read -ra TIME_PARTS <<< "$week_time"
+        local hours=${TIME_PARTS[0]:-0}
+        local minutes=${TIME_PARTS[1]:-0}
+        local seconds=${TIME_PARTS[2]:-0}
+        echo $((hours * 3600 + minutes * 60 + seconds))
     fi
 }
 
 # Función para obtener tareas recientes (últimas 3)
 get_recent_tasks() {
-    local recent=$(timew export today 2>/dev/null | jq '[.[] | {
+    local recent=$(timew export today 2>/dev/null | jq '[.[] | select(.end != null) | {
         tags: (.tags // []),
         start: .start,
-        end: (.end // null),
-        duration: (if .end then (.end | strptime("%Y%m%dT%H%M%SZ") | mktime) - (.start | strptime("%Y%m%dT%H%M%SZ") | mktime) else null end)
-    }] | sort_by(.start) | reverse | limit(3; .[])')
+        end: .end,
+        duration: ((.end | strptime("%Y%m%dT%H%M%SZ") | mktime) - (.start | strptime("%Y%m%dT%H%M%SZ") | mktime))
+    }] | sort_by(.start) | reverse | limit(3; .) | map(select(.tags | length > 0))')
     
     if [ -z "$recent" ] || [ "$recent" = "null" ]; then
         echo "[]"
     else
-        echo "[$recent]" | jq 'map(select(.tags | length > 0))'
+        echo "$recent"
     fi
 }
 

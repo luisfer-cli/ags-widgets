@@ -133,7 +133,6 @@ export default function Timewarrior() {
                     class="timewarrior-recent-task"
                     halign={Gtk.Align.CENTER}
                     valign={Gtk.Align.CENTER}
-                    wrap={false}
                 />
             </box>
         </box>

@@ -884,11 +884,11 @@ input:focus {
 }
 
 .dashboard-main {
-  background: var(--gradient-primary);
+  background: transparent;
   border-radius: var(--radius-6xl);
   padding: var(--space-16);
-  border: var(--border-dashboard);
-  box-shadow: var(--shadow-multi-dashboard);
+  border: none;
+  box-shadow: none;
 }
 
 .dashboard-grid {
@@ -896,20 +896,29 @@ input:focus {
 }
 
 .dashboard-cell {
-  background: var(--gradient-secondary);
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
   border-radius: var(--radius-4xl);
-  border: var(--border-cell);
-  box-shadow: var(--shadow-multi-cell);
+  border: 2px solid rgba(136, 192, 208, var(--alpha-40));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 20px rgba(136, 192, 208, var(--alpha-20)),
+    inset 0 1px 0 rgba(255, 255, 255, var(--alpha-10));
   transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
 }
 
 .dashboard-cell:hover {
-  border-color: var(--border-cell-hover);
+  border-color: rgba(136, 192, 208, var(--alpha-70));
   background: linear-gradient(135deg,
-      rgba(76, 86, 106, var(--alpha-90)) 0%,
-      rgba(94, 129, 172, var(--alpha-30)) 100%);
-  box-shadow: var(--shadow-multi-cell-hover);
-  transform: translateY(-2px);
+      rgba(46, 52, 64, var(--alpha-95)) 0%,
+      rgba(67, 76, 94, var(--alpha-90)) 100%);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, var(--alpha-70)),
+    0 0 30px rgba(136, 192, 208, var(--alpha-30)),
+    inset 0 1px 0 rgba(255, 255, 255, var(--alpha-15));
+  transform: translateY(-3px);
 }
 
 .dashboard-card {
@@ -919,33 +928,63 @@ input:focus {
 }
 
 .clock-card {
-  background: var(--gradient-clock);
-  border-color: rgba(94, 129, 172, var(--alpha-40));
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
+  border-color: rgba(94, 129, 172, var(--alpha-50));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 15px rgba(94, 129, 172, var(--alpha-25));
 }
 
 .taskwarrior-card {
-  background: var(--gradient-taskwarrior);
-  border-color: rgba(136, 192, 208, var(--alpha-35));
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
+  border-color: rgba(136, 192, 208, var(--alpha-50));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 15px rgba(136, 192, 208, var(--alpha-25));
 }
 
 .timewarrior-card {
-  background: var(--gradient-timewarrior);
-  border-color: rgba(143, 188, 187, var(--alpha-35));
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
+  border-color: rgba(143, 188, 187, var(--alpha-50));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 15px rgba(143, 188, 187, var(--alpha-25));
 }
 
 .monitoring-card {
-  background: var(--gradient-monitoring);
-  border-color: rgba(129, 161, 193, var(--alpha-35));
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
+  border-color: rgba(129, 161, 193, var(--alpha-50));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 15px rgba(129, 161, 193, var(--alpha-25));
 }
 
 .wmp-card {
-  background: var(--gradient-wmp);
-  border-color: rgba(94, 129, 172, var(--alpha-35));
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
+  border-color: rgba(94, 129, 172, var(--alpha-50));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 15px rgba(94, 129, 172, var(--alpha-25));
 }
 
 .flowmodoro-card {
-  background: var(--gradient-flowmodoro);
-  border-color: rgba(143, 188, 187, var(--alpha-35));
+  background: linear-gradient(135deg, 
+      rgba(46, 52, 64, var(--alpha-95)) 0%, 
+      rgba(59, 66, 82, var(--alpha-90)) 100%);
+  border-color: rgba(143, 188, 187, var(--alpha-50));
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+    0 0 15px rgba(143, 188, 187, var(--alpha-25));
 }
 
 /* Clock Styles */

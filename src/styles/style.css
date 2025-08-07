@@ -937,7 +937,13 @@ input:focus {
 }
 
 .taskwarrior-card {
+    background: linear-gradient(135deg,
+            rgba(46, 52, 64, var(--alpha-95)) 0%,
+            rgba(59, 66, 82, var(--alpha-90)) 100%);
     border-color: rgba(136, 192, 208, var(--alpha-50));
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
+        0 0 15px rgba(136, 192, 208, var(--alpha-25));
 }
 
 .timewarrior-card {
@@ -1082,9 +1088,6 @@ input:focus {
 
 .taskwarrior-widget-horizontal {
     padding: var(--space-6);
-    background-color: rgba(46, 52, 64, var(--alpha-60));
-    border-radius: var(--radius-2xl);
-    border: 1px solid rgba(76, 86, 106, var(--alpha-40));
 }
 
 .taskwarrior-left-panel {
@@ -1159,9 +1162,6 @@ input:focus {
 
 .timewarrior-widget-horizontal {
     padding: var(--space-6);
-    background-color: rgba(46, 52, 64, var(--alpha-60));
-    border-radius: var(--radius-2xl);
-    border: 1px solid rgba(76, 86, 106, var(--alpha-40));
 }
 
 .timewarrior-left-panel {

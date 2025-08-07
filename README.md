@@ -15,14 +15,14 @@ A comprehensive, productivity-focused desktop shell built with [AGS (Aylur's GTK
 - **🍅 Flowmodoro Timer** - Advanced Pomodoro technique implementation with customizable intervals
 - **💻 TimeWarrior Integration** - Professional time tracking for projects and tasks
 - **📊 System Monitoring** - Live CPU, memory, temperature, and system statistics
-- **📋 TaskWarrior Integration** - Task management with weather information display
+- **📋 TaskWarrior Integration** - Task management with pending and completed task tracking
 - **🎯 Jira Integration** - Direct workspace integration for issue tracking and project management
 
 ### 🚀 **Launchers & Tools**
 
 - **Application Launcher** - Fuzzy search for instant application access
 - **🔍 File Finder** - Ultra-fast file search using `fd` with instant results
-- **🧮 Calculator** - Built-in calculator with keyboard shortcuts
+- **🧮 Calculator** - Built-in mathematical calculator using Mathics backend with advanced operations
 - **📅 Calendar** - Quick date reference and scheduling
 - **🔧 Task Manager** - System process monitoring and management
 - **🔌 Shutdown Menu** - Power management with multiple options
@@ -53,7 +53,7 @@ src/
 │   │   ├── Flowmodoro.tsx  # Pomodoro timer
 │   │   ├── Monitoring.tsx  # System resources
 │   │   ├── Timewarrior.tsx # Time tracking
-│   │   ├── Weather.tsx     # TaskWarrior + weather
+│   │   ├── Weather.tsx     # TaskWarrior widget (task management)
 │   │   ├── JiraWidget.tsx  # Project management
 
 │   ├── launcher/           # Application launcher & file finder
@@ -81,23 +81,137 @@ scripts/                  # External shell scripts
 
 ## 🚀 Quick Start
 
-### System Dependencies
+### 📦 Dependencies
+
+#### Core Dependencies (Required)
 
 - **Linux Desktop** (Hyprland recommended, X11/Wayland compatible)
 - **AGS** - Install from [GitHub](https://github.com/Aylur/ags)
 - **Node.js & npm** - For dependency management
-- **fd** - Ultra-fast file searching (`sudo pacman -S fd` or `sudo apt install fd-find`)
 
-### Optional Dependencies
+#### System Tools (Required for specific features)
 
-- **TimeWarrior** - Time tracking functionality (`sudo pacman -S timew`)
-- **TaskWarrior** - Task management integration (`sudo pacman -S task`)
-- **Flowmodoro CLI** - Advanced Pomodoro timer (see External Repositories)
-- **Live WPM Tracker** - Keystroke monitoring (see External Repositories)
-- **CAVA** - Audio visualization (`sudo pacman -S cava`)
-- **Hyprland** - Enhanced window manager integration
+- **fd** - Ultra-fast file searching
+  ```bash
+  # Arch Linux
+  sudo pacman -S fd
+  # Ubuntu/Debian
+  sudo apt install fd-find
+  # Fedora
+  sudo dnf install fd-find
+  ```
 
-### External Repositories
+#### Audio & Media Dependencies
+
+- **playerctl** - Media player control
+  ```bash
+  # Arch Linux
+  sudo pacman -S playerctl
+  # Ubuntu/Debian
+  sudo apt install playerctl
+  # Fedora
+  sudo dnf install playerctl
+  ```
+
+- **CAVA** - Audio visualization
+  ```bash
+  # Arch Linux
+  sudo pacman -S cava
+  # Ubuntu/Debian
+  sudo apt install cava
+  # Fedora
+  sudo dnf install cava
+  ```
+
+- **pamixer** - Volume control
+  ```bash
+  # Arch Linux
+  sudo pacman -S pamixer
+  # Ubuntu/Debian
+  sudo apt install pamixer
+  # Fedora
+  sudo dnf install pamixer
+  ```
+
+#### Clipboard Support
+
+- **wl-copy** (Wayland) or **xclip** (X11) - Clipboard operations
+  ```bash
+  # Wayland (Arch)
+  sudo pacman -S wl-clipboard
+  # Wayland (Ubuntu/Debian)
+  sudo apt install wl-clipboard
+  
+  # X11 (Arch)
+  sudo pacman -S xclip
+  # X11 (Ubuntu/Debian)
+  sudo apt install xclip
+  ```
+
+#### Mathematical Calculator
+
+- **Mathics** - Advanced mathematical computations
+  ```bash
+  # Using pip (recommended)
+  pip install mathics-core
+  
+  # Arch Linux (AUR)
+  yay -S mathics
+  ```
+
+#### Productivity Tools (Optional)
+
+- **TimeWarrior** - Time tracking functionality
+  ```bash
+  # Arch Linux
+  sudo pacman -S timew
+  # Ubuntu/Debian
+  sudo apt install timewarrior
+  # Fedora
+  sudo dnf install timewarrior
+  ```
+
+- **TaskWarrior** - Task management integration
+  ```bash
+  # Arch Linux
+  sudo pacman -S task
+  # Ubuntu/Debian
+  sudo apt install taskwarrior
+  # Fedora
+  sudo dnf install taskwarrior
+  ```
+
+#### System Monitoring (Optional)
+
+- **lm-sensors** - Temperature monitoring
+  ```bash
+  # Arch Linux
+  sudo pacman -S lm_sensors
+  # Ubuntu/Debian
+  sudo apt install lm-sensors
+  # Fedora
+  sudo dnf install lm_sensors
+  ```
+
+- **radeontop** - AMD GPU monitoring (for AMD users)
+  ```bash
+  # Arch Linux
+  sudo pacman -S radeontop
+  # Ubuntu/Debian
+  sudo apt install radeontop
+  ```
+
+#### Window Manager Integration
+
+- **Hyprland** - Enhanced window manager integration (recommended)
+  ```bash
+  # Arch Linux
+  sudo pacman -S hyprland
+  # Ubuntu/Debian (recent versions)
+  sudo apt install hyprland
+  ```
+
+### External Repositories (Optional Advanced Features)
 
 Some advanced features require external tools:
 
@@ -108,7 +222,7 @@ Powers the adaptive Pomodoro timer with flexible work/break intervals:
 ```bash
 git clone https://github.com/LuisFerRodVar/flowmodoro-cli.git
 cd flowmodoro-cli
-# Follow installation instructions
+# Follow installation instructions in the repository
 ```
 
 #### **[Live WPM Tracker](https://github.com/LuisFerRodVar/live_wpm_tracker)**
@@ -118,7 +232,7 @@ Enables real-time typing speed monitoring and analytics:
 ```bash
 git clone https://github.com/LuisFerRodVar/live_wpm_tracker.git
 cd live_wpm_tracker
-# Follow installation instructions
+# Follow installation instructions in the repository
 ```
 
 ### Installation
@@ -228,12 +342,14 @@ All backend functionality is handled by shell scripts in `/scripts/`:
 - `get_wpm.sh` - Real-time WPM calculation
 - `jira.sh` - Jira API integration for project management
 
-- `monitor.sh` - System resource monitoring
+- `get_wpm.sh` - Real-time WPM calculation (requires live_wpm_tracker)
+- `jira.sh` - Jira API integration for project management
+- `monitor.sh` - System resource monitoring (CPU, GPU, memory, disk, network)
 - `timewarrior.sh` - Time tracking integration
 - `taskwarrior.sh` - Task management
 - `hyprctl-*.sh` - Hyprland window manager integration
-- `cava-astal.sh` - Audio visualization
-- `media-player.sh` - Media control backend
+- `cava-astal.sh` - Audio visualization (requires CAVA)
+- `media-player.sh` - Media control backend (requires playerctl)
 
 Edit script constants and endpoints to match your environment.
 
@@ -322,12 +438,12 @@ The shell automatically adapts to:
 - **Processes**: Active process count and system uptime
 - **Network**: Connection status and activity
 
-### 📋 TaskWarrior + Weather
+### 📋 TaskWarrior
 
-- **Tasks**: Active task display with priorities
-- **Weather**: Current conditions and forecast
-- **Integration**: TaskWarrior database sync
-- **Display**: Combined view for space efficiency
+- **Tasks**: Active task display with priorities and status tracking
+- **Progress**: Shows pending tasks count with color-coded status indicators
+- **Completed**: Displays recently completed tasks
+- **Integration**: TaskWarrior database sync with real-time updates
 
 ### 🎯 Jira Integration
 
@@ -362,10 +478,17 @@ The shell automatically adapts to:
 
 #### 🧮 Calculator
 
-- **Built-in Math**: Quick calculations without external apps
-- **Keyboard Friendly**: Standard calculator key bindings
-- **Expression Support**: Complex mathematical operations
-- **History**: Previous calculation recall
+- **Mathematical Engine**: Powered by Mathics for advanced mathematical computations
+- **Advanced Operations**: Supports derivatives (Alt+D), integration (Alt+I), factoring (Alt+F)
+- **Expression Support**: Complex mathematical expressions with symbolic computation
+- **History**: Previous calculation recall and result copying
+- **Keyboard Shortcuts**: 
+  - Enter: Evaluate expression
+  - Alt+D: Derivative calculation
+  - Alt+I: Integration
+  - Alt+E: Expand expressions
+  - Alt+F: Factor expressions
+  - Alt+S: Simplify expressions
 
 #### 📅 Calendar
 
@@ -529,6 +652,40 @@ chmod +x scripts/*.sh
 timew --version
 task --version
 fd --version
+playerctl --version
+mathics --version
+```
+
+**Calculator not working:**
+
+```bash
+# Check Mathics installation
+mathics --version
+pip install mathics-core
+
+# Test basic calculation
+echo "2+2" | mathics
+```
+
+**Audio visualization issues:**
+
+```bash
+# Check CAVA installation
+cava --version
+
+# Test audio detection
+pactl list short sink-inputs
+```
+
+**Media controls not working:**
+
+```bash
+# Check playerctl
+playerctl status
+playerctl metadata
+
+# Check audio players
+pactl list short sink-inputs
 ```
 
 **Hyprland integration issues:**

@@ -153,22 +153,22 @@ Control the interface with these commands (bind to your window manager):
 
 ```bash
 # Application launcher
-ags -r "toggle-launcher"
+ags request "toggle-launcher"
 
 # File finder
-ags -r "toggle-filefinder"
+ags request "toggle-filefinder"
 
 # Calculator
-ags -r "toggle-calculator"
+ags request "toggle-calculator"
 
 # Calendar
-ags -r "calendar"
+ags request "calendar"
 
 # Task manager
-ags -r "toggle-taskmanager"
+ags request "toggle-taskmanager"
 
 # Shutdown menu
-ags -r "toggle-shutdown"
+ags request "toggle-shutdown"
 ```
 
 ### First Run Setup
@@ -200,10 +200,10 @@ Add these bindings to your Hyprland config:
 
 ```bash
 # ~/.config/hypr/hyprland.conf
-bind = SUPER, SPACE, exec, ags -r "toggle-launcher"
-bind = SUPER, F, exec, ags -r "toggle-filefinder"
-bind = SUPER, C, exec, ags -r "toggle-calculator"
-bind = SUPER, ESC, exec, ags -r "toggle-shutdown"
+bind = SUPER, SPACE, exec, ags request "toggle-launcher"
+bind = SUPER, F, exec, ags request "toggle-filefinder"
+bind = SUPER, C, exec, ags request "toggle-calculator"
+bind = SUPER, ESC, exec, ags request "toggle-shutdown"
 ```
 
 ### Time Tracking Setup
@@ -247,7 +247,7 @@ Edit `src/styles/style.css` for custom styling:
 /* Dashboard grid layout */
 .dashboard-window {
   background: rgba(0, 0, 0, 0.9);
-  border-radius: 12px;
+  borderrequestadius: 12px;
 }
 
 .dashboard-card {
@@ -371,7 +371,7 @@ The shell automatically adapts to:
 
 - **Date Reference**: Quick date lookup and navigation
 - **Month View**: Clean calendar display
-- **Scheduling**: Integration-ready for calendar apps
+- **Scheduling**: Integration ready for calendar apps
 - **Hotkey Access**: Instant calendar toggle
 
 #### 🔧 Task Manager
@@ -492,7 +492,7 @@ Follow the patterns defined in `AGENTS.md`:
 
 1. **Type Safety**: All components must be fully typed
 2. **Documentation**: Clear JSDoc comments for public interfaces
-3. **Performance**: Efficient polling and minimal re-renders
+3. **Performance**: Efficient polling and minimal renders
 4. **Accessibility**: Proper GTK accessibility attributes
 5. **Testing**: Manual testing across different system states
 
@@ -565,4 +565,3 @@ This AGS configuration is open source and available under the MIT License. Feel 
 **Transform your desktop into a productivity powerhouse with this advanced AGS configuration!**
 
 ⭐ Star this repository if you find it useful, and feel free to contribute improvements and new widgets.
-

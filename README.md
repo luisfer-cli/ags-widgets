@@ -104,6 +104,7 @@ scripts/                  # External shell scripts
 #### Audio & Media Dependencies
 
 - **playerctl** - Media player control
+
   ```bash
   # Arch Linux
   sudo pacman -S playerctl
@@ -114,6 +115,7 @@ scripts/                  # External shell scripts
   ```
 
 - **CAVA** - Audio visualization
+
   ```bash
   # Arch Linux
   sudo pacman -S cava
@@ -136,12 +138,13 @@ scripts/                  # External shell scripts
 #### Clipboard Support
 
 - **wl-copy** (Wayland) or **xclip** (X11) - Clipboard operations
+
   ```bash
   # Wayland (Arch)
   sudo pacman -S wl-clipboard
   # Wayland (Ubuntu/Debian)
   sudo apt install wl-clipboard
-  
+
   # X11 (Arch)
   sudo pacman -S xclip
   # X11 (Ubuntu/Debian)
@@ -151,10 +154,11 @@ scripts/                  # External shell scripts
 #### Mathematical Calculator
 
 - **Mathics** - Advanced mathematical computations
+
   ```bash
   # Using pip (recommended)
   pip install mathics-core
-  
+
   # Arch Linux (AUR)
   yay -S mathics
   ```
@@ -162,6 +166,7 @@ scripts/                  # External shell scripts
 #### Productivity Tools (Optional)
 
 - **TimeWarrior** - Time tracking functionality
+
   ```bash
   # Arch Linux
   sudo pacman -S timew
@@ -184,6 +189,7 @@ scripts/                  # External shell scripts
 #### System Monitoring (Optional)
 
 - **lm-sensors** - Temperature monitoring
+
   ```bash
   # Arch Linux
   sudo pacman -S lm_sensors
@@ -240,7 +246,7 @@ cd live_wpm_tracker
 1. **Clone to AGS config directory**
 
    ```bash
-   git clone https://github.com/yourusername/ags-config ~/.config/ags
+   git clone https://github.com/luisfer-cli/ags-widgets ~/.config/ags
    cd ~/.config/ags
    ```
 
@@ -482,7 +488,7 @@ The shell automatically adapts to:
 - **Advanced Operations**: Supports derivatives (Alt+D), integration (Alt+I), factoring (Alt+F)
 - **Expression Support**: Complex mathematical expressions with symbolic computation
 - **History**: Previous calculation recall and result copying
-- **Keyboard Shortcuts**: 
+- **Keyboard Shortcuts**:
   - Enter: Evaluate expression
   - Alt+D: Derivative calculation
   - Alt+I: Integration

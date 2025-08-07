@@ -90,13 +90,13 @@ export default function JiraWidget() {
                             halign={Gtk.Align.START}
                         />
                         <label
-                            label={`${data.total}`}
+                            label={`${data?.total}`}
                             class="jira-count-compact"
                         />
                     </box>
 
                     {/* Issues list or status message */}
-                    {data.status === "success" && data.issues.length > 0 ? (
+                    {data?.status === "success" && data?.issues.length > 0 ? (
                         <scrolledwindow
                             vexpand={true}
                             hscrollbar-policy={Gtk.PolicyType.NEVER}
@@ -110,7 +110,6 @@ export default function JiraWidget() {
                             >
                                 {data.issues.slice(0, 3).map(issue => (
                                     <box
-                                        key={issue.key}
                                         orientation={Gtk.Orientation.HORIZONTAL}
                                         spacing={4}
                                         halign={Gtk.Align.FILL}
@@ -132,8 +131,8 @@ export default function JiraWidget() {
                                                 halign={Gtk.Align.START}
                                             />
                                             <label
-                                                label={issue.summary.length > 25 ? 
-                                                    issue.summary.substring(0, 25) + "..." : 
+                                                label={issue.summary.length > 25 ?
+                                                    issue.summary.substring(0, 25) + "..." :
                                                     issue.summary}
                                                 class="jira-summary-compact"
                                                 halign={Gtk.Align.START}
@@ -155,12 +154,12 @@ export default function JiraWidget() {
                             class="jira-status-compact"
                         >
                             <label
-                                label={data.status === "error" ? ICONS.ERROR : 
-                                       data.status === "success" ? "󰄬" : "󰗠"}
+                                label={data?.status === "error" ? ICONS.ERROR :
+                                    data?.status === "success" ? "󰄬" : "󰗠"}
                                 class="jira-status-icon-compact"
                             />
                             <label
-                                label={data.message}
+                                label={data?.message}
                                 class="jira-status-message-compact"
                                 halign={Gtk.Align.CENTER}
                             />

@@ -937,13 +937,7 @@ input:focus {
 }
 
 .taskwarrior-card {
-    background: linear-gradient(135deg,
-            rgba(46, 52, 64, var(--alpha-95)) 0%,
-            rgba(59, 66, 82, var(--alpha-90)) 100%);
     border-color: rgba(136, 192, 208, var(--alpha-50));
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, var(--alpha-60)),
-        0 0 15px rgba(136, 192, 208, var(--alpha-25));
 }
 
 .timewarrior-card {
@@ -1098,7 +1092,7 @@ input:focus {
     padding: var(--space-2) var(--space-4);
 }
 
-.taskwarrior-big-number {
+.taskwarrior-number-normal {
     font-size: var(--font-size-6xl);
     font-weight: var(--font-weight-extrabold);
     color: var(--text-primary);
@@ -1107,12 +1101,34 @@ input:focus {
     line-height: var(--line-height-tight);
 }
 
-.taskwarrior-status-symbol {
-    font-size: var(--font-size-4xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--accent-primary);
-    text-shadow: var(--glow-accent);
-    margin-top: var(--space-2);
+.taskwarrior-number-success {
+    font-size: var(--font-size-6xl);
+    font-weight: var(--font-weight-extrabold);
+    color: rgba(136, 192, 208, 1);
+    /* Azul claro Nord8 */
+    font-family: var(--font-code);
+    text-shadow: 0 0 var(--space-16) rgba(136, 192, 208, var(--alpha-60));
+    line-height: var(--line-height-tight);
+}
+
+.taskwarrior-number-productive {
+    font-size: var(--font-size-6xl);
+    font-weight: var(--font-weight-extrabold);
+    color: rgba(143, 188, 187, 1);
+    /* Verde azulado Nord14 */
+    font-family: var(--font-code);
+    text-shadow: 0 0 var(--space-16) rgba(143, 188, 187, var(--alpha-60));
+    line-height: var(--line-height-tight);
+}
+
+.taskwarrior-number-warning {
+    font-size: var(--font-size-6xl);
+    font-weight: var(--font-weight-extrabold);
+    color: rgba(129, 161, 193, 1);
+    /* Azul grisáceo Nord9 */
+    font-family: var(--font-code);
+    text-shadow: 0 0 var(--space-16) rgba(129, 161, 193, var(--alpha-60));
+    line-height: var(--line-height-tight);
 }
 
 .taskwarrior-right-panel {
@@ -1275,7 +1291,7 @@ input:focus {
 }
 
 .temp-value-small {
-    font-size: var(--font-size-xs);
+    font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     color: var(--accent-primary);
     font-family: var(--font-code);

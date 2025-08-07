@@ -25,30 +25,25 @@ export default function Taskwarrior() {
             valign={Gtk.Align.FILL}
             class="taskwarrior-widget-horizontal"
         >
-            {/* Lado izquierdo: Número grande + Símbolo */}
+            {/* Lado izquierdo: Número fusionado con estado por color */}
             <box
                 orientation={Gtk.Orientation.HORIZONTAL}
-                spacing={10}
+                spacing={0}
                 halign={Gtk.Align.CENTER}
                 valign={Gtk.Align.CENTER}
                 class="taskwarrior-left-panel"
             >
                 <label
                     label={taskData.as((data) => `${data?.pendingCount || 0}`)}
-                    class="taskwarrior-big-number"
-                    halign={Gtk.Align.CENTER}
-                />
-                <label
-                    label={taskData.as((data) => {
+                    class={taskData.as((data) => {
                         const pending = data?.pendingCount || 0;
                         const completed = data?.completedToday || 0;
 
-                        if (pending === 0) return "✓"; // Sin pendientes
-                        if (completed > pending) return "+"; // Más completadas que pendientes
-                        if (pending > 5) return "⚠"; // Muchas pendientes
-                        return "±"; // Situación normal
+                        if (pending === 0) return "taskwarrior-number-success"; // Sin pendientes - verde
+                        if (completed > pending) return "taskwarrior-number-productive"; // Más completadas que pendientes - azul
+                        if (pending > 5) return "taskwarrior-number-warning"; // Muchas pendientes - naranja/rojo
+                        return "taskwarrior-number-normal"; // Situación normal - blanco
                     })}
-                    class="taskwarrior-status-symbol"
                     halign={Gtk.Align.CENTER}
                 />
             </box>

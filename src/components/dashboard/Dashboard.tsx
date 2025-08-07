@@ -49,7 +49,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     spacing={8}
                     hexpand={false}
                     vexpand={true}
-                        width-request={380}                    class="dashboard-left-column"
+                    width-request={380} class="dashboard-left-column"
                 >
                     {/* Fila superior: Clock + Taskwarrior */}
                     <box
@@ -61,8 +61,8 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         class="dashboard-row dashboard-row-top"
                     >
                         {/* Clock */}
-                        <box 
-                            class="dashboard-cell dashboard-card clock-card" 
+                        <box
+                            class="dashboard-cell dashboard-card clock-card"
                             hexpand={false}
                             width-request={160}
                             height-request={80}
@@ -71,29 +71,29 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         </box>
 
                         {/* Taskwarrior */}
-                        <box 
-                            class="dashboard-cell dashboard-card taskwarrior-card" 
+                        <box
+                            class="dashboard-cell dashboard-card taskwarrior-card"
                             hexpand={false}
-                    width-request={240}                            height-request={80}
+                            width-request={240} height-request={80}
                         >
                             <Taskwarrior />
                         </box>
                     </box>
 
                     {/* Fila inferior: Monitoring */}
-                    <box 
-                        class="dashboard-cell dashboard-card monitoring-card" 
-                        hexpand={false} 
+                    <box
+                        class="dashboard-cell dashboard-card monitoring-card"
+                        hexpand={false}
                         vexpand={false}
-                    width-request={380}                        height-request={120}
+                        width-request={380} height-request={120}
                     >
                         <Monitoring />
                     </box>
 
                     {/* Jira Widget */}
-                    <box 
-                        class="dashboard-cell dashboard-card jira-card" 
-                        hexpand={false} 
+                    <box
+                        class="dashboard-cell dashboard-card jira-card"
+                        hexpand={false}
                         vexpand={true}
                         width-request={380}
                         height-request={72}
@@ -112,8 +112,8 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     class="dashboard-right-column"
                 >
                     {/* Timewarrior */}
-                    <box 
-                        class="dashboard-cell dashboard-card timewarrior-card" 
+                    <box
+                        class="dashboard-cell dashboard-card timewarrior-card"
                         hexpand={false}
                         vexpand={false}
                         height-request={90}
@@ -124,9 +124,9 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     </box>
 
                     {/* WPM */}
-                    <box 
-                        class="dashboard-cell dashboard-card wmp-card" 
-                        hexpand={false} 
+                    <box
+                        class="dashboard-cell dashboard-card wmp-card"
+                        hexpand={false}
                         vexpand={true}
                         height-request={64}
                         width-request={230}
@@ -135,9 +135,9 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     </box>
 
                     {/* Flowmodoro */}
-                    <box 
-                        class="dashboard-cell dashboard-card flowmodoro-card" 
-                        hexpand={false} 
+                    <box
+                        class="dashboard-cell dashboard-card flowmodoro-card"
+                        hexpand={false}
                         vexpand={true}
                         height-request={64}
                         width-request={230}

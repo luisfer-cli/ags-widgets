@@ -19,7 +19,7 @@ export const POLL_INTERVALS = {
 export const WINDOW_DIMENSIONS = {
   DASHBOARD: {
     width: 640,
-    height: 460,
+    height: 380,
   },
   LAUNCHER: {
     width: 600,
@@ -146,6 +146,7 @@ export const SCRIPTS = {
   WEATHER: "weather.sh",
   TASKWARRIOR: "taskwarrior.sh",
   TIMEWARRIOR: "timewarrior.sh",
+  JIRA: "jira.sh",
   LAUNCHER_TOGGLE: "launcher-toggle.sh",
   CALENDAR_TOGGLE: "calendar-toggle.sh",
   SHUTDOWN_TOGGLE: "shutdown-toggle.sh",

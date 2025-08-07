@@ -19,6 +19,7 @@ import Flowmodoro from "./Flowmodoro";
 import Monitoring from "./Monitoring";
 import Taskwarrior from "./Weather";
 import Timewarrior from "./Timewarrior";
+import JiraWidget from "./JiraWidget";
 
 /**
  * Dashboard con layout tipo grid 3x2 simulado
@@ -56,7 +57,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         spacing={8}
                         halign={Gtk.Align.FILL}
                         valign={Gtk.Align.START}
-                        height-request={100}
+                        height-request={80}
                         class="dashboard-row dashboard-row-top"
                     >
                         {/* Clock */}
@@ -64,7 +65,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                             class="dashboard-cell dashboard-card clock-card" 
                             hexpand={false}
                             width-request={160}
-                            height-request={100}
+                            height-request={80}
                         >
                             <Clock />
                         </box>
@@ -73,7 +74,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         <box 
                             class="dashboard-cell dashboard-card taskwarrior-card" 
                             hexpand={false}
-                    width-request={240}                            height-request={100}
+                    width-request={240}                            height-request={80}
                         >
                             <Taskwarrior />
                         </box>
@@ -83,10 +84,21 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                     <box 
                         class="dashboard-cell dashboard-card monitoring-card" 
                         hexpand={false} 
-                        vexpand={true}
-                    width-request={380}                        height-request={160}
+                        vexpand={false}
+                    width-request={380}                        height-request={120}
                     >
                         <Monitoring />
+                    </box>
+
+                    {/* Jira Widget */}
+                    <box 
+                        class="dashboard-cell dashboard-card jira-card" 
+                        hexpand={false} 
+                        vexpand={true}
+                        width-request={380}
+                        height-request={72}
+                    >
+                        <JiraWidget />
                     </box>
                 </box>
 
@@ -104,7 +116,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         class="dashboard-cell dashboard-card timewarrior-card" 
                         hexpand={false}
                         vexpand={false}
-                        height-request={110}
+                        height-request={90}
                         width-request={230}
                         valign={Gtk.Align.START}
                     >
@@ -116,7 +128,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         class="dashboard-cell dashboard-card wmp-card" 
                         hexpand={false} 
                         vexpand={true}
-                        height-request={76}
+                        height-request={64}
                         width-request={230}
                     >
                         <WpmCounter />
@@ -127,7 +139,7 @@ export default function Dashboard({ monitor = 0 }: ComponentProps = {}) {
                         class="dashboard-cell dashboard-card flowmodoro-card" 
                         hexpand={false} 
                         vexpand={true}
-                        height-request={76}
+                        height-request={64}
                         width-request={230}
                     >
                         <Flowmodoro />

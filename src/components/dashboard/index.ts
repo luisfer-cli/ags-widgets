@@ -6,3 +6,4 @@ export { default as Clock } from './Clock';
 export { default as WpmCounter } from './WpmCounter';
 export { default as Monitoring } from './Monitoring';
 export { default as Weather } from './Weather';
+export { default as JiraWidget } from './JiraWidget';
